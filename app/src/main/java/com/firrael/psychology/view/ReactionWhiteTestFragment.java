@@ -7,15 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firrael.psychology.R;
 import com.firrael.psychology.presenter.ReactionWhiteTestPresenter;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import nucleus.factory.RequiresPresenter;
+
+import java.util.Date;
 
 /**
  * Created by Railag on 07.11.2016.
@@ -28,6 +32,8 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
 
     @BindView(R.id.whiteTestBackground)
     View background;
+
+    private long time;
 
     public static ReactionWhiteTestFragment newInstance() {
 
@@ -52,10 +58,12 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Handler handler = new Handler();
+        int startTime = new Random().nextInt(5000);
+
         handler.postDelayed(() -> {
             stopLoading();
             action();
-        }, new Random().nextInt(5000));
+        }, startTime);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -63,6 +71,11 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
     public void click() {
 
         if (text.getVisibility() == View.GONE) {
+            long currTime = System.nanoTime();
+            long diff = currTime - time;
+            String diffInSeconds = new DecimalFormat("#.##").format(diff / 1000000000.0);
+            String result = diffInSeconds + " секунд";
+            Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
             toNextTest();
         }
 
@@ -75,6 +88,7 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
     private void action() {
         text.setVisibility(View.GONE);
         background.setBackgroundColor(getResources().getColor(android.R.color.white));
+        time = System.nanoTime();
     }
 
    /* public void onSuccess(UserResult result) {
