@@ -19,13 +19,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import nucleus.factory.RequiresPresenter;
 
-import java.util.Date;
-
 /**
  * Created by Railag on 07.11.2016.
  */
 @RequiresPresenter(ReactionWhiteTestPresenter.class)
 public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPresenter> {
+
+    private final static double MILLIS = 1000000000;
 
     @BindView(R.id.whiteTestText)
     TextView text;
@@ -73,7 +73,7 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
         if (text.getVisibility() == View.GONE) {
             long currTime = System.nanoTime();
             long diff = currTime - time;
-            String diffInSeconds = new DecimalFormat("#.##").format(diff / 1000000000.0);
+            String diffInSeconds = new DecimalFormat("#.##").format(diff / MILLIS);
             String result = diffInSeconds + " секунд";
             Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
             toNextTest();

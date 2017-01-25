@@ -5,6 +5,8 @@ import android.widget.EditText;
 
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
+import com.firrael.psychology.model.User;
+import com.firrael.psychology.model.UserResult;
 import com.firrael.psychology.presenter.NamePresenter;
 import com.firrael.psychology.presenter.TimePresenter;
 
@@ -43,14 +45,14 @@ public class TimeFragment extends BaseFragment<TimePresenter> {
     @OnClick(R.id.nextButton)
     public void login() {
         Utils.hideKeyboard(getActivity());
-        //startLoading();
-        //getPresenter().request(nameField.getText().toString(), passwordField.getText().toString());
         getPresenter().save(timeField.getText().toString());
-        getMainActivity().toUserLandingScreen();
-        // TODO on success save
+
+        startLoading();
+        User user = User.get(getActivity());
+        getPresenter().request(user.getLogin(), user.getPassword(), user.getAge(), user.getTime());
     }
 
-   /* public void onSuccess(UserResult result) {
+    public void onSuccess(UserResult result) {
         stopLoading();
         if (result == null) {
             onError(new IllegalArgumentException());
@@ -60,9 +62,9 @@ public class TimeFragment extends BaseFragment<TimePresenter> {
             toast(result.error);
             return;
         }
-        toast("success login");
+        toast("success account creation");
         User.save(result, getActivity());
-        getMainActivity().updateNavigationMenu();
+        //getMainActivity().updateNavigationMenu();
         getMainActivity().toUserLandingScreen();
     }
 
@@ -70,5 +72,5 @@ public class TimeFragment extends BaseFragment<TimePresenter> {
         error.printStackTrace();
         stopLoading();
         toast(error.getMessage());
-    }*/
+    }
 }

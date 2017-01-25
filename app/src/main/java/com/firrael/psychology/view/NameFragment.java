@@ -20,6 +20,9 @@ public class NameFragment extends BaseFragment<NamePresenter> {
     @BindView(R.id.nameField)
     EditText nameField;
 
+    @BindView(R.id.passwordField)
+    EditText passwordField;
+
     public static NameFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -42,32 +45,7 @@ public class NameFragment extends BaseFragment<NamePresenter> {
     @OnClick(R.id.nextButton)
     public void login() {
         Utils.hideKeyboard(getActivity());
-        //startLoading();
-        //getPresenter().request(nameField.getText().toString(), passwordField.getText().toString());
-        getPresenter().save(nameField.getText().toString());
+        getPresenter().save(nameField.getText().toString(), passwordField.getText().toString());
         getMainActivity().toAgeScreen();
-        // TODO on success save
     }
-
-   /* public void onSuccess(UserResult result) {
-        stopLoading();
-        if (result == null) {
-            onError(new IllegalArgumentException());
-            return;
-        }
-        if (result.invalid()) {
-            toast(result.error);
-            return;
-        }
-        toast("success login");
-        User.save(result, getActivity());
-        getMainActivity().updateNavigationMenu();
-        getMainActivity().toUserLandingScreen();
-    }
-
-    public void onError(Throwable error) {
-        error.printStackTrace();
-        stopLoading();
-        toast(error.getMessage());
-    }*/
 }

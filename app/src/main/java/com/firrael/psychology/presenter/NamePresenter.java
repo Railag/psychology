@@ -1,6 +1,7 @@
 package com.firrael.psychology.presenter;
 
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
 
 import com.firrael.psychology.App;
 import com.firrael.psychology.RConnectorService;
@@ -18,23 +19,12 @@ public class NamePresenter extends BasePresenter<NameFragment> {
     @State
     String name;
 
-    @Override
-    protected void onCreate(Bundle savedState) {
-        super.onCreate(savedState);
+    @State
+    String password;
 
-        RConnectorService service = App.restService();
-
-        /*restartableLatestCache(REQUEST_LOGIN,
-                () -> service.login(login, password)
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread()),
-                LoginFragment::onSuccess,
-                LoginFragment::onError);*/
-    }
-
-    public void save(String name) {
+    public void save(String name, String password) {
         this.name = name;
-        User.get(App.getMainActivity()).setName(name);
-        //    start(REQUEST_LOGIN);
+        User.get(App.getMainActivity()).setLogin(name);
+        User.get(App.getMainActivity()).setPassword(password);
     }
 }

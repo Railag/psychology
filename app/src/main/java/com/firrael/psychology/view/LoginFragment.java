@@ -5,6 +5,8 @@ import android.widget.EditText;
 
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
+import com.firrael.psychology.model.User;
+import com.firrael.psychology.model.UserResult;
 import com.firrael.psychology.presenter.LoginPresenter;
 
 import butterknife.BindView;
@@ -53,7 +55,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> {
         getMainActivity().toNameScreen();
     }
 
-   /* public void onSuccess(UserResult result) {
+    public void onSuccess(UserResult result) {
         stopLoading();
         if (result == null) {
             onError(new IllegalArgumentException());
@@ -65,7 +67,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> {
         }
         toast("success login");
         User.save(result, getActivity());
-        getMainActivity().updateNavigationMenu();
+    //    getMainActivity().updateNavigationMenu();
         getMainActivity().toUserLandingScreen();
     }
 
@@ -73,5 +75,5 @@ public class LoginFragment extends BaseFragment<LoginPresenter> {
         error.printStackTrace();
         stopLoading();
         toast(error.getMessage());
-    }*/
+    }
 }

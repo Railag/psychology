@@ -5,16 +5,28 @@ import android.os.Bundle;
 import com.firrael.psychology.App;
 import com.firrael.psychology.RConnectorService;
 import com.firrael.psychology.model.User;
-import com.firrael.psychology.view.AgeFragment;
 import com.firrael.psychology.view.TimeFragment;
 
 import icepick.State;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static com.firrael.psychology.Requests.REQUEST_CREATE_ACCOUNT;
 
 /**
  * Created by Railag on 07.11.2016.
  */
 
 public class TimePresenter extends BasePresenter<TimeFragment> {
+
+    @State
+    String login;
+
+    @State
+    String password;
+
+    @State
+    int age;
 
     @State
     int time;
@@ -25,23 +37,29 @@ public class TimePresenter extends BasePresenter<TimeFragment> {
 
         RConnectorService service = App.restService();
 
-        /*restartableLatestCache(REQUEST_LOGIN,
-                () -> service.login(login, password)
+        restartableLatestCache(REQUEST_CREATE_ACCOUNT,
+                () -> service.createAccount(login, password, age, time)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread()),
-                LoginFragment::onSuccess,
-                LoginFragment::onError);*/
+                TimeFragment::onSuccess,
+                TimeFragment::onError);
     }
 
     public void save(String time) {
         try {
             int timeNumber = Integer.valueOf(time);
             this.time = timeNumber;
-            User.get(App.getMainActivity()).setAge(timeNumber);
-            App.getMainActivity().toUserLandingScreen();
+            User.get(App.getMainActivity()).setTime(timeNumber);
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        //    start(REQUEST_LOGIN);
+    }
+
+    public void request(String login, String password, int age, int time) {
+        this.login = login;
+        this.password = password;
+        this.age = age;
+        this.time = time;
+        start(REQUEST_CREATE_ACCOUNT);
     }
 }

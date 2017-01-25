@@ -16,6 +16,13 @@
         android:hint="@string/nameHint"
         android:inputType="textAutoComplete" />
 
+    <EditText
+        android:id="@+id/passwordField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/passwordHint"
+        android:inputType="textPassword" />
+
     <Button
         android:id="@+id/nextButton"
         android:layout_width="160dp"

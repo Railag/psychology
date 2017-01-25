@@ -29,12 +29,12 @@ public class LoginPresenter extends BasePresenter<LoginFragment> {
 
         RConnectorService service = App.restService();
 
-        /*restartableLatestCache(REQUEST_LOGIN,
+        restartableLatestCache(REQUEST_LOGIN,
                 () -> service.login(login, password)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread()),
                 LoginFragment::onSuccess,
-                LoginFragment::onError);*/
+                LoginFragment::onError);
     }
 
     public void request(String login, String password) {

@@ -54,6 +54,7 @@
     <string name="ageTitle">Возраст</string>
     <string name="nameTitle">Имя</string>
     <string name="nameHint">Введите имя</string>
+    <string name="passwordHint">Введите пароль</string>
     <string name="next">Далее</string>
     <string name="ageHint" >Введите возраст</string>
     <string name="landingTitle">Тесты</string>

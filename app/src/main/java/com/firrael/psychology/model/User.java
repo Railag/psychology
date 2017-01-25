@@ -28,7 +28,9 @@ public class User {
     private String fcmToken;
     private String name;
     private int age;
+    private int time;
     private Level level;
+    private String password;
 
     public static User get(Context context) {
         if (user == null)
@@ -37,13 +39,13 @@ public class User {
         return user;
     }
 
-    /*public static void save(UserResult result, Context context) {
+    public static void save(UserResult result, Context context) {
         User user = get(context);
         user.id = result.id;
         user.login = result.login;
         user.email = result.email;
         user.token = result.token;
-        user.profileImageUrl = result.profileImageUrl;
+    //    user.profileImageUrl = result.profileImageUrl;
 
         Utils.prefs(context)
                 .edit()
@@ -52,7 +54,7 @@ public class User {
                 .putString(EMAIL_KEY, user.email)
                 .putString(TOKEN_KEY, user.token)
                 .commit();
-    }*/
+    }
 
     public static void logout(Context context) {
         user = null;
@@ -144,11 +146,27 @@ public class User {
         this.age = age;
     }
 
+    public int getTime() {
+        return this.time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
     public Level getLevel() {
         return level;
     }
 
     public void setLevel(Level level) {
         this.level = level;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

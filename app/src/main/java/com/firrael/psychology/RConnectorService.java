@@ -2,6 +2,8 @@ package com.firrael.psychology;
 
 import android.graphics.Bitmap;
 
+import com.firrael.psychology.model.UserResult;
+
 import java.util.List;
 
 import retrofit2.http.Field;
@@ -16,7 +18,7 @@ public interface RConnectorService {
     //String API_ENDPOINT = "http://127.0.0.1:3000";
     String API_ENDPOINT = "http://10.0.3.2:3000";
 
-/*    @FormUrlEncoded
+    @FormUrlEncoded
     @POST("/user/login")
     Observable<UserResult> login(@Field("login") String login, @Field("password") String password);
 
@@ -26,8 +28,8 @@ public interface RConnectorService {
 
     @FormUrlEncoded
     @POST("/user")
-    Observable<UserResult> createAccount(@Field("login") String login, @Field("email") String email, @Field("password") String password);
-
+    Observable<UserResult> createAccount(@Field("login") String login, @Field("password") String password, @Field("age") int age, @Field("time") int time);
+/*
     @POST("/user/load_user_photo")
     Observable<ImageResult> loadImage();
 
