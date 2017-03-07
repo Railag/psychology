@@ -62,4 +62,6 @@
     <string name="reactionWhiteTitle">Реакция на белый</string>
     <string name="timeTitle">Время</string>
     <string name="timeHint">Введите время</string>
+
+    <string name="firstTestTitle">First Test</string>
 </resources>

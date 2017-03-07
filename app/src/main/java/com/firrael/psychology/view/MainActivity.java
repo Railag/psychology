@@ -58,8 +58,6 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
     @BindView(R.id.nav_view)
@@ -83,9 +81,6 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
         }
 
         setSupportActionBar(toolbar);
-
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -219,7 +214,8 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
     }
 
     public void toSplash() {
-        setFragment(SplashFragment.newInstance());
+        //setFragment(SplashFragment.newInstance());
+        toReactionTests();
     }
 
     public void toLogin() {
@@ -258,7 +254,8 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
     public void toReactionTests() {
         // TODO
-        setFragment(ReactionWhiteTestFragment.newInstance());
+        //setFragment(ReactionWhiteTestFragment.newInstance());
+        setFragment(FirstTestFragment.newInstance());
     }
 
     /*public void toMyGroups() {

@@ -15,6 +15,7 @@ import com.firrael.psychology.presenter.ReactionWhiteTestPresenter;
 import java.text.DecimalFormat;
 import java.util.Random;
 
+import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.OnClick;
 import nucleus.factory.RequiresPresenter;
