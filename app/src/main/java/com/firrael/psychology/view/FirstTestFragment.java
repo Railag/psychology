@@ -83,13 +83,13 @@ public class FirstTestFragment extends BaseFragment<FirstTestPresenter> {
 
         for (int i = 1; i < 100; i++) {
             if (i % 10 == 0) { // first square
-                progressTime += randomTime.nextInt(400);
+                progressTime += randomTime.nextInt(300);
                 handler.postDelayed(this::showRedBackground, progressTime);
             } else if (i % 11 == 0) { // number between
                 progressTime += randomTime.nextInt(1000);
                 handler.postDelayed(this::showNumber, progressTime);
             } else if (i % 12 == 0) { // second square
-                progressTime += randomTime.nextInt(400);
+                progressTime += randomTime.nextInt(200);
                 handler.postDelayed(() -> {
                     currentNum = Integer.parseInt(number.getText().toString()); // number before second red square
                     active = true;
@@ -99,7 +99,7 @@ public class FirstTestFragment extends BaseFragment<FirstTestPresenter> {
                 progressTime += randomTime.nextInt(1000);
                 handler.postDelayed(this::showNumber, progressTime);
             } else {
-                progressTime += randomTime.nextInt(1000);
+                progressTime += 1000;
                 handler.postDelayed(() -> {
                     int num = generateRandomNumber();
                     number.setText(String.valueOf(num));
@@ -167,6 +167,14 @@ public class FirstTestFragment extends BaseFragment<FirstTestPresenter> {
 
     private void toNextTest() {
         // TODO
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
     }
 
     private void action() {

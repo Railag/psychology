@@ -15,7 +15,6 @@ import com.firrael.psychology.presenter.ReactionWhiteTestPresenter;
 import java.text.DecimalFormat;
 import java.util.Random;
 
-import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.OnClick;
 import nucleus.factory.RequiresPresenter;
@@ -26,7 +25,7 @@ import nucleus.factory.RequiresPresenter;
 @RequiresPresenter(ReactionWhiteTestPresenter.class)
 public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPresenter> {
 
-    private final static double MILLIS = 1000000000;
+    private final static double NANO = 1000000000;
 
     @BindView(R.id.whiteTestText)
     TextView text;
@@ -60,6 +59,9 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Handler handler = new Handler();
         int startTime = new Random().nextInt(5000);
+        if (startTime < 2000) {
+            startTime = 3000;
+        }
 
         handler.postDelayed(() -> {
             stopLoading();
@@ -74,7 +76,7 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
         if (text.getVisibility() == View.GONE) {
             long currTime = System.nanoTime();
             long diff = currTime - time;
-            String diffInSeconds = new DecimalFormat("#.##").format(diff / MILLIS);
+            String diffInSeconds = new DecimalFormat("#.##").format(diff / NANO);
             String result = diffInSeconds + " секунд";
             Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
             toNextTest();
@@ -91,26 +93,4 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
         background.setBackgroundColor(getResources().getColor(android.R.color.white));
         time = System.nanoTime();
     }
-
-   /* public void onSuccess(UserResult result) {
-        stopLoading();
-        if (result == null) {
-            onError(new IllegalArgumentException());
-            return;
-        }
-        if (result.invalid()) {
-            toast(result.error);
-            return;
-        }
-        toast("success login");
-        User.save(result, getActivity());
-        getMainActivity().updateNavigationMenu();
-        getMainActivity().toUserLandingScreen();
-    }
-
-    public void onError(Throwable error) {
-        error.printStackTrace();
-        stopLoading();
-        toast(error.getMessage());
-    }*/
 }
