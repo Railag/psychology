@@ -6,26 +6,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.firrael.psychology.App;
 import com.firrael.psychology.FcmMessagingService;
 import com.firrael.psychology.R;
@@ -39,8 +32,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusAppCompatActivity;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static butterknife.ButterKnife.findById;
 
@@ -132,7 +123,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-    //    getMenuInflater().inflate(R.menu.main, menu);
+        //    getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -155,13 +146,13 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
         if (id == R.id.nav_profile) {
             toUserLandingScreen();
         } else if (id == R.id.nav_groups) {
-    //        toMyGroups();
+            //        toMyGroups();
         } else if (id == R.id.nav_new_group) {
-    //        toNewGroup();
+            //        toNewGroup();
         } else if (id == R.id.nav_share) {
             // TODO share app
         } else if (id == R.id.nav_logout) {
-    //        User.logout(this);
+            //        User.logout(this);
             toLogin();
         }
 
@@ -215,7 +206,8 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
     public void toSplash() {
         //setFragment(SplashFragment.newInstance());
-        toReactionTests();
+        //toReactionTests();
+        toUserLandingScreen();
     }
 
     public void toLogin() {
@@ -224,8 +216,8 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
     public void toUserLandingScreen() {
         // TODO add user fragment with info if needed
-         setFragment(UserLandingFragment.newInstance());
-   //     toMyGroups();
+        setFragment(UserLandingFragment.newInstance());
+        //     toMyGroups();
     }
 
     public void toNameScreen() {
@@ -250,12 +242,12 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
     public void toPerceptionTests() {
         // TODO
+        setFragment(FirstTestFragment.newInstance());
     }
 
     public void toReactionTests() {
         // TODO
-        //setFragment(ReactionWhiteTestFragment.newInstance());
-        setFragment(FirstTestFragment.newInstance());
+        setFragment(ReactionWhiteTestFragment.newInstance());
     }
 
     /*public void toMyGroups() {
@@ -373,7 +365,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
                         }*/
                         break;
                     case PN_GROUP_CALL:
-                    //    toWebrtcScreen(data);
+                        //    toWebrtcScreen(data);
                         break;
                 }
             }
