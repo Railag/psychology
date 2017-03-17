@@ -22,7 +22,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp" />
 
-    <android.support.v7.widget.ButtonBarLayout
+    <LinearLayout
         android:id="@+id/buttonBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,9 +74,9 @@
             android:background="@android:color/darker_gray"
             android:text="@string/five" />
 
-    </android.support.v7.widget.ButtonBarLayout>
+    </LinearLayout>
 
-    <android.support.v7.widget.ButtonBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/buttonBar"
@@ -128,7 +128,7 @@
             android:background="@android:color/darker_gray"
             android:text="@string/ten" />
 
-    </android.support.v7.widget.ButtonBarLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>

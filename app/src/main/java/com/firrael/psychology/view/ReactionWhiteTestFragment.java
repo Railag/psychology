@@ -29,6 +29,8 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
 
     private final static double NANO = 1000000000;
 
+    private final static int MAX_COUNT = 10;
+
     @BindView(R.id.whiteTestText)
     TextView text;
 
@@ -38,6 +40,9 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
     private long time;
 
     private Handler handler;
+
+    private double results[] = new double[MAX_COUNT];
+    private int current = 0;
 
     public static ReactionWhiteTestFragment newInstance() {
 
@@ -62,6 +67,12 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         handler = new Handler();
+
+        next();
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    private void next() {
         int startTime = new Random().nextInt(5000);
         if (startTime < 2000) {
             startTime = 3000;
@@ -75,8 +86,8 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
         handler.postDelayed(() -> {
             stopLoading();
             action();
+
         }, startTime);
-        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @OnClick(R.id.whiteTestBackground)
@@ -85,10 +96,22 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
         if (text.getVisibility() == View.GONE) {
             long currTime = System.nanoTime();
             long diff = currTime - time;
-            String diffInSeconds = new DecimalFormat("#.##").format(diff / NANO);
-            String result = diffInSeconds + " секунд";
-            Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
-            toNextTest();
+            double result = diff / NANO;
+            results[current] = result;
+            String diffInSeconds = new DecimalFormat("#.##").format(result);
+            String res = diffInSeconds + " секунд";
+            Toast.makeText(getActivity(), res, Toast.LENGTH_SHORT).show();
+
+            current++;
+
+            if (current < MAX_COUNT) {
+                text.setVisibility(View.VISIBLE);
+                background.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+                time = System.nanoTime();
+                next();
+            } else {
+                toNextTest();
+            }
         }
 
     }
@@ -103,6 +126,14 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
 
     private void toNextTest() {
         // TODO
+        double average = 0;
+        for (int i = 0; i < MAX_COUNT; i++) {
+            average += results[i];
+        }
+
+        average /= MAX_COUNT;
+
+        Toast.makeText(getActivity(), "Средний результат: " + average, Toast.LENGTH_SHORT).show();
     }
 
     private void action() {
