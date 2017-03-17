@@ -233,7 +233,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
     }
 
     public void toMemoryTests() {
-        // TODO
+        setFragment(FiguresTestFragment.newInstance());
     }
 
     public void toAttentionTests() {

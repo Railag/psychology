@@ -64,6 +64,8 @@
     <string name="timeHint">Введите время</string>
 
     <string name="firstTestTitle">First Test</string>
+    <string name="circlesTestTitle">Circles test</string>
+    <string name="figuresTestTitle">Figures test</string>
 
     <string name="one">1</string>
     <string name="two">2</string>

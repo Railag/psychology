@@ -38,7 +38,6 @@ public class CirclesTestFragment extends BaseFragment<CirclesTestPresenter> {
 
     private final static int LINES_COUNT = 30;
     private final static int CIRCLES_PER_LINE = 15;
-    private final static int CIRCLES_COUNT = LINES_VISIBLE * CIRCLES_PER_LINE;
 
     private Handler handler;
 
@@ -69,7 +68,7 @@ public class CirclesTestFragment extends BaseFragment<CirclesTestPresenter> {
 
     @Override
     protected String getTitle() {
-        return getString(R.string.firstTestTitle);
+        return getString(R.string.circlesTestTitle);
     }
 
     @Override
