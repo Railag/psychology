@@ -2,7 +2,9 @@ package com.firrael.psychology.view;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,8 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
 
     private long time;
 
+    private Handler handler;
+
     public static ReactionWhiteTestFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -57,11 +61,16 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Handler handler = new Handler();
+        handler = new Handler();
         int startTime = new Random().nextInt(5000);
         if (startTime < 2000) {
             startTime = 3000;
         }
+
+        long stand = Settings.System.getLong(getActivity().getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, -1);
+        Log.i("DELAY", "Delay: " + stand);
+
+        Settings.System.putInt(getActivity().getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 0);
 
         handler.postDelayed(() -> {
             stopLoading();
@@ -82,6 +91,14 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
             toNextTest();
         }
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
     }
 
     private void toNextTest() {

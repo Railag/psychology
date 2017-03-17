@@ -237,7 +237,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
     }
 
     public void toAttentionTests() {
-        // TODO
+        setFragment(CirclesTestFragment.newInstance());
     }
 
     public void toPerceptionTests() {

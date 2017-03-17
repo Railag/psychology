@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,12 +39,6 @@ public class FirstTestFragment extends BaseFragment<FirstTestPresenter> {
 
     @BindView(R.id.background)
     View background;
-
-    @BindView(R.id.leftButton)
-    Button leftButton;
-
-    @BindView(R.id.rightButton)
-    Button rightButton;
 
     private Random random = new Random();
 
