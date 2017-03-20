@@ -78,11 +78,6 @@ public class ReactionTestFragment extends BaseFragment<ReactionWhiteTestPresente
             startTime = 3000;
         }
 
-        long stand = Settings.System.getLong(getActivity().getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, -1);
-        Log.i("DELAY", "Delay: " + stand);
-
-        Settings.System.putInt(getActivity().getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, 0);
-
         handler.postDelayed(() -> {
             stopLoading();
             action();

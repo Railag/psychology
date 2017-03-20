@@ -79,32 +79,46 @@ public class AttentionStabilityTestFragment extends BaseFragment<FirstTestPresen
 
         Random randomTime = new Random();
 
-        for (int i = 1; i < 100; i++) {
-            if (i % 10 == 0) { // first square
-                progressTime += randomTime.nextInt(300);
-                handler.postDelayed(this::showRedBackground, progressTime);
-            } else if (i == 99) {
-                progressTime += 1000;
-                handler.postDelayed(this::toNextTest, progressTime);
-            } else if (i % 11 == 0) { // number between
-                progressTime += randomTime.nextInt(600);
-                handler.postDelayed(this::showNumber, progressTime);
-            } else if (i % 12 == 0) { // second square
-                progressTime += 300;
-                handler.postDelayed(() -> {
-                    currentNum = Integer.parseInt(number.getText().toString()); // number before second red square
-                    time = System.nanoTime();
-                    active = true;
-                    showRedBackground();
-                }, progressTime);
-            } else if (i % 13 == 0) { // hide second square
-                progressTime += 400;
-                handler.postDelayed(this::showNumber, progressTime);
-            } else {
-                progressTime += 1000;
+        for (int i = 0; i < 100; i++) {
+            if (i < 10) { // first 10 numbers
+                progressTime += randomTime.nextInt(800);
                 handler.postDelayed(() -> {
                     int num = generateRandomNumber();
                     number.setText(String.valueOf(num));
+                }, progressTime);
+            } else if (i % 10 == 0) { // first square
+                progressTime += 800;
+                handler.postDelayed(this::showRedBackground, progressTime);
+            } else if (i == 99) {
+                progressTime += 250;
+                handler.postDelayed(this::toNextTest, progressTime);
+            } else if (i % 10 == 1) { // number between
+                progressTime += 700;
+                handler.postDelayed(() -> {
+                    currentNum = generateRandomNumber(); // number before second red square
+                    number.setText(String.valueOf(currentNum));
+                    showNumber();
+                    time = System.nanoTime();
+                    active = true;
+                }, progressTime);
+            } else if (i % 10 == 2) { // second square
+                progressTime += 300;
+                handler.postDelayed(this::showRedBackground, progressTime);
+            } else if (i % 10 == 3) { // hide second square
+                progressTime += 700;
+                handler.postDelayed(this::showNumber, progressTime);
+            } else if (i % 10 == 4) {
+                progressTime += 50;
+                handler.postDelayed(() -> {
+                    int num = generateRandomNumber();
+                    number.setText(String.valueOf(num));
+                }, progressTime);
+            } else {
+                progressTime += randomTime.nextInt(800);
+                handler.postDelayed(() -> {
+                    int num = generateRandomNumber();
+                    number.setText(String.valueOf(num));
+                    active = false;
                 }, progressTime);
             }
         }
