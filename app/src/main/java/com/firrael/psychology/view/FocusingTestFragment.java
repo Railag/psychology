@@ -32,8 +32,6 @@ import nucleus.factory.RequiresPresenter;
 @RequiresPresenter(CirclesTestPresenter.class)
 public class FocusingTestFragment extends BaseFragment<CirclesTestPresenter> {
 
-    private final static double MILLIS = 1000000000;
-
     private Circle baseCircle;
 
     private final static int LINES_VISIBLE = 11;
@@ -129,6 +127,9 @@ public class FocusingTestFragment extends BaseFragment<CirclesTestPresenter> {
 
         circles = newCircles;
         adapter.setCircles(circles);
+
+        baseCircle = Circle.random();
+        baseCircleView.setRotation(Circle.rotation(baseCircle));
     }
 
     @OnClick(R.id.button1)
