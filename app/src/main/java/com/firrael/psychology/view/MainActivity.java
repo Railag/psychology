@@ -206,7 +206,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
     public void toSplash() {
         //setFragment(SplashFragment.newInstance());
-        //toReactionTests();
+        //toReactionTest();
         toUserLandingScreen();
     }
 
@@ -232,21 +232,23 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
         setFragment(TimeFragment.newInstance());
     }
 
-    public void toMemoryTests() {
+    public void toInstructionFragment(InstructionFragment.Test test) {
+        setFragment(InstructionFragment.newInstance(test));
+    }
+
+    public void toAttentionVolumeTest() {
         setFragment(AttentionVolumeTestFragment.newInstance());
     }
 
-    public void toAttentionTests() {
+    public void toFocusingTest() {
         setFragment(FocusingTestFragment.newInstance());
     }
 
-    public void toPerceptionTests() {
-        // TODO
+    public void toAttentionStabilityTest() {
         setFragment(AttentionStabilityTestFragment.newInstance());
     }
 
-    public void toReactionTests() {
-        // TODO
+    public void toReactionTest() {
         setFragment(ReactionTestFragment.newInstance());
     }
 

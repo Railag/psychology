@@ -2,12 +2,11 @@ package com.firrael.psychology.view;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +32,12 @@ public class ReactionTestFragment extends BaseFragment<ReactionWhiteTestPresente
 
     @BindView(R.id.whiteTestText)
     TextView text;
+
+    @BindView(R.id.current)
+    TextView currentView;
+
+    @BindView(R.id.reactNumberLayout)
+    LinearLayout reactNumberLayout;
 
     @BindView(R.id.whiteTestBackground)
     View background;
@@ -99,6 +104,9 @@ public class ReactionTestFragment extends BaseFragment<ReactionWhiteTestPresente
 
             if (current < MAX_COUNT) {
                 text.setVisibility(View.VISIBLE);
+                reactNumberLayout.setVisibility(View.VISIBLE);
+
+                currentView.setText(String.valueOf(MAX_COUNT - current));
                 background.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
                 time = System.nanoTime();
                 next();
@@ -127,6 +135,7 @@ public class ReactionTestFragment extends BaseFragment<ReactionWhiteTestPresente
 
     private void action() {
         text.setVisibility(View.GONE);
+        reactNumberLayout.setVisibility(View.GONE);
         background.setBackgroundColor(getResources().getColor(android.R.color.white));
         time = System.nanoTime();
     }

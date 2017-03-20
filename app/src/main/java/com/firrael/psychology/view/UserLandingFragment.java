@@ -1,12 +1,10 @@
 package com.firrael.psychology.view;
 
 import android.os.Bundle;
-import android.widget.EditText;
 
 import com.firrael.psychology.R;
 import com.firrael.psychology.presenter.UserLandingPresenter;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 import nucleus.factory.RequiresPresenter;
 
@@ -37,22 +35,22 @@ public class UserLandingFragment extends BaseFragment<UserLandingPresenter> {
 
     @OnClick(R.id.memory)
     public void toMemory() {
-        getMainActivity().toMemoryTests();
+        getMainActivity().toInstructionFragment(InstructionFragment.Test.ATTENTION_VOLUME);
     }
 
     @OnClick(R.id.attention)
     public void toAttention() {
-        getMainActivity().toAttentionTests();
+        getMainActivity().toInstructionFragment(InstructionFragment.Test.FOCUSING);
     }
 
     @OnClick(R.id.perception)
     public void toPerception() {
-        getMainActivity().toPerceptionTests();
+        getMainActivity().toInstructionFragment(InstructionFragment.Test.ATTENTION_STABILITY);
     }
 
     @OnClick(R.id.reaction)
     public void toReaction() {
-        getMainActivity().toReactionTests();
+        getMainActivity().toInstructionFragment(InstructionFragment.Test.REACTION);
     }
 
    /* public void onSuccess(UserResult result) {
