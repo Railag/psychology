@@ -106,6 +106,9 @@ public class AttentionStabilityResultsFragment extends SimpleFragment {
             return;
         }
 
+        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/psychology");
+        dir.mkdir();
+
         File newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/psychology/attention_stability_results.pdf");
 
         String name = newFile.getAbsolutePath();

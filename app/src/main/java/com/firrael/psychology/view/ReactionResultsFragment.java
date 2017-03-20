@@ -103,6 +103,9 @@ public class ReactionResultsFragment extends SimpleFragment {
             return;
         }
 
+        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/psychology");
+        dir.mkdir();
+
         File newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/psychology/reaction_results.pdf");
 
         String name = newFile.getAbsolutePath();

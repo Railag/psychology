@@ -111,6 +111,9 @@ public class FocusingResultsFragment extends SimpleFragment {
             return;
         }
 
+        File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/psychology");
+        dir.mkdir();
+
         File newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/psychology/focusing_results.pdf");
 
         String name = newFile.getAbsolutePath();
