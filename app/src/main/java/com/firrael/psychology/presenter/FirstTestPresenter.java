@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.firrael.psychology.App;
 import com.firrael.psychology.RConnectorService;
-import com.firrael.psychology.view.FirstTestFragment;
+import com.firrael.psychology.view.AttentionStabilityTestFragment;
 
 import icepick.State;
 
@@ -12,7 +12,7 @@ import icepick.State;
  * Created by Railag on 06.03.2017.
  */
 
-public class FirstTestPresenter extends BasePresenter<FirstTestFragment> {
+public class FirstTestPresenter extends BasePresenter<AttentionStabilityTestFragment> {
 
     @State
     String name;

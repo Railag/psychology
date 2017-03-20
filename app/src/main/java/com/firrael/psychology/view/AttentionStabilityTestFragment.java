@@ -23,7 +23,7 @@ import nucleus.factory.RequiresPresenter;
  */
 
 @RequiresPresenter(FirstTestPresenter.class)
-public class FirstTestFragment extends BaseFragment<FirstTestPresenter> {
+public class AttentionStabilityTestFragment extends BaseFragment<FirstTestPresenter> {
 
     private final static double MILLIS = 1000000000;
 
@@ -48,18 +48,18 @@ public class FirstTestFragment extends BaseFragment<FirstTestPresenter> {
 
     private boolean active;
 
-    public static FirstTestFragment newInstance() {
+    public static AttentionStabilityTestFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        FirstTestFragment fragment = new FirstTestFragment();
+        AttentionStabilityTestFragment fragment = new AttentionStabilityTestFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     protected String getTitle() {
-        return getString(R.string.firstTestTitle);
+        return getString(R.string.attentionStabilityTitle);
     }
 
     @Override

@@ -24,7 +24,7 @@ import nucleus.factory.RequiresPresenter;
  */
 
 @RequiresPresenter(FiguresTestPresenter.class)
-public class FiguresTestFragment extends BaseFragment<FiguresTestPresenter> {
+public class AttentionVolumeTestFragment extends BaseFragment<FiguresTestPresenter> {
 
     private final static double MILLIS = 1000000000;
 
@@ -50,18 +50,18 @@ public class FiguresTestFragment extends BaseFragment<FiguresTestPresenter> {
 
     private int progressTime = 0;
 
-    public static FiguresTestFragment newInstance() {
+    public static AttentionVolumeTestFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        FiguresTestFragment fragment = new FiguresTestFragment();
+        AttentionVolumeTestFragment fragment = new AttentionVolumeTestFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     protected String getTitle() {
-        return getString(R.string.figuresTestTitle);
+        return getString(R.string.attentionVolumeTestTitle);
     }
 
     @Override

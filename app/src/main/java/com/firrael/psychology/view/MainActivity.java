@@ -233,21 +233,29 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
     }
 
     public void toMemoryTests() {
-        setFragment(FiguresTestFragment.newInstance());
+        setFragment(AttentionVolumeTestFragment.newInstance());
     }
 
     public void toAttentionTests() {
-        setFragment(CirclesTestFragment.newInstance());
+        setFragment(FocusingTestFragment.newInstance());
     }
 
     public void toPerceptionTests() {
         // TODO
-        setFragment(FirstTestFragment.newInstance());
+        setFragment(AttentionStabilityTestFragment.newInstance());
     }
 
     public void toReactionTests() {
         // TODO
-        setFragment(ReactionWhiteTestFragment.newInstance());
+        setFragment(ReactionTestFragment.newInstance());
+    }
+
+    public void toFocusingResults(Bundle args) {
+        setFragment(FocusingResultsFragment.newInstance(args));
+    }
+
+    public void toReactionResults(Bundle args) {
+        setFragment(ReactionResultsFragment.newInstance(args));
     }
 
     /*public void toMyGroups() {

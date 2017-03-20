@@ -13,7 +13,9 @@ import android.widget.Toast;
 
 import com.firrael.psychology.CirclesAdapter;
 import com.firrael.psychology.R;
+import com.firrael.psychology.Utils;
 import com.firrael.psychology.model.Circle;
+import com.firrael.psychology.model.FocusingAnswer;
 import com.firrael.psychology.presenter.CirclesTestPresenter;
 
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ import nucleus.factory.RequiresPresenter;
  */
 
 @RequiresPresenter(CirclesTestPresenter.class)
-public class CirclesTestFragment extends BaseFragment<CirclesTestPresenter> {
+public class FocusingTestFragment extends BaseFragment<CirclesTestPresenter> {
 
     private final static double MILLIS = 1000000000;
 
@@ -54,21 +56,24 @@ public class CirclesTestFragment extends BaseFragment<CirclesTestPresenter> {
 
     private int currentLine = 0;
 
-    private int progressTime = 0;
+    private long time;
+
     private ArrayList<Circle> circles = new ArrayList<>();
 
-    public static CirclesTestFragment newInstance() {
+    private ArrayList<FocusingAnswer> answers = new ArrayList<>();
+
+    public static FocusingTestFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        CirclesTestFragment fragment = new CirclesTestFragment();
+        FocusingTestFragment fragment = new FocusingTestFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     protected String getTitle() {
-        return getString(R.string.circlesTestTitle);
+        return getString(R.string.focusingTestTitle);
     }
 
     @Override
@@ -109,6 +114,8 @@ public class CirclesTestFragment extends BaseFragment<CirclesTestPresenter> {
         circlesGrid.setLayoutManager(manager);
 
         circlesGrid.setAdapter(adapter);
+
+        time = System.nanoTime();
     }
 
     private void replaceCircleLine() {
@@ -183,15 +190,23 @@ public class CirclesTestFragment extends BaseFragment<CirclesTestPresenter> {
         List<Circle> lineCircles = circles.subList(0, CIRCLES_PER_LINE);
         int answer = Circle.answer(lineCircles, baseCircle);
 
+        FocusingAnswer ans = new FocusingAnswer();
+        ans.setNumber(currentLine);
+
         if (answer == count) {
             wins++;
         } else {
             fails++;
         }
 
+        ans.setErrorValue(Math.abs(answer - count));
+        ans.setTime(Utils.calcTime(time));
+        answers.add(ans);
+
         Toast.makeText(getActivity(), "Wins = " + wins + ", Fails = " + fails, Toast.LENGTH_SHORT).show();
 
         replaceCircleLine();
+        time = System.nanoTime();
 
         currentLine++;
         if (currentLine == LINES_COUNT) {
@@ -200,8 +215,11 @@ public class CirclesTestFragment extends BaseFragment<CirclesTestPresenter> {
     }
 
     private void toNextTest() {
-        // TODO
-        getMainActivity().onBackPressed();
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(FocusingResultsFragment.RESULTS, answers);
+        args.putInt(FocusingResultsFragment.LINES, LINES_COUNT);
+        args.putInt(FocusingResultsFragment.ERRORS, fails);
+        getMainActivity().toFocusingResults(args);
     }
 
     @Override

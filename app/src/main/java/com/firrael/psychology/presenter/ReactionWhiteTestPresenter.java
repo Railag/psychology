@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.firrael.psychology.App;
 import com.firrael.psychology.RConnectorService;
-import com.firrael.psychology.view.ReactionWhiteTestFragment;
+import com.firrael.psychology.view.ReactionTestFragment;
 
 import icepick.State;
 
@@ -12,7 +12,7 @@ import icepick.State;
  * Created by Railag on 07.11.2016.
  */
 
-public class ReactionWhiteTestPresenter extends BasePresenter<ReactionWhiteTestFragment> {
+public class ReactionWhiteTestPresenter extends BasePresenter<ReactionTestFragment> {
 
     @State
     String name;

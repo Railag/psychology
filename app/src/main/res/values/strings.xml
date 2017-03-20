@@ -59,13 +59,13 @@
     <string name="ageHint" >Введите возраст</string>
     <string name="landingTitle">Тесты</string>
     <string name="reactionWhiteText">Нажми на белый, когда он появится на экране</string>
-    <string name="reactionWhiteTitle">Реакция на белый</string>
     <string name="timeTitle">Время</string>
     <string name="timeHint">Введите время</string>
 
-    <string name="firstTestTitle">First Test</string>
-    <string name="circlesTestTitle">Circles test</string>
-    <string name="figuresTestTitle">Figures test</string>
+    <string name="reactionTitle">Скорость реакции</string>
+    <string name="attentionStabilityTitle">Устойчивость внимания</string>
+    <string name="focusingTestTitle">Концентрация внимания</string>
+    <string name="attentionVolumeTestTitle">Объем внимания</string>
 
     <string name="one">1</string>
     <string name="two">2</string>
@@ -77,4 +77,11 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="ten">10</string>
+    <string name="resultsTitle">Результаты</string>
+    <string name="linesCount">Всего строк:</string>
+    <string name="errorsCount">Количество ошибок:</string>
+    <string name="save">Save</string>
+    <string name="minReactTime">Минимальное время реакции:</string>
+    <string name="maxReactTime">Максимальное время реакции:</string>
+    <string name="averageReactTime">Среднее время реакции:</string>
 </resources>

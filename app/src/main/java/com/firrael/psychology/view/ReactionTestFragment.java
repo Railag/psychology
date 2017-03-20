@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firrael.psychology.R;
+import com.firrael.psychology.Utils;
 import com.firrael.psychology.presenter.ReactionWhiteTestPresenter;
 
 import java.text.DecimalFormat;
@@ -25,9 +26,8 @@ import nucleus.factory.RequiresPresenter;
  * Created by Railag on 07.11.2016.
  */
 @RequiresPresenter(ReactionWhiteTestPresenter.class)
-public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPresenter> {
+public class ReactionTestFragment extends BaseFragment<ReactionWhiteTestPresenter> {
 
-    private final static double NANO = 1000000000;
 
     private final static int MAX_COUNT = 10;
 
@@ -44,18 +44,18 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
     private double results[] = new double[MAX_COUNT];
     private int current = 0;
 
-    public static ReactionWhiteTestFragment newInstance() {
+    public static ReactionTestFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        ReactionWhiteTestFragment fragment = new ReactionWhiteTestFragment();
+        ReactionTestFragment fragment = new ReactionTestFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     protected String getTitle() {
-        return getString(R.string.reactionWhiteTitle);
+        return getString(R.string.reactionTitle);
     }
 
     @Override
@@ -94,9 +94,7 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
     public void click() {
 
         if (text.getVisibility() == View.GONE) {
-            long currTime = System.nanoTime();
-            long diff = currTime - time;
-            double result = diff / NANO;
+            double result = Utils.calcTime(time);
             results[current] = result;
             String diffInSeconds = new DecimalFormat("#.##").format(result);
             String res = diffInSeconds + " секунд";
@@ -126,14 +124,10 @@ public class ReactionWhiteTestFragment extends BaseFragment<ReactionWhiteTestPre
 
     private void toNextTest() {
         // TODO
-        double average = 0;
-        for (int i = 0; i < MAX_COUNT; i++) {
-            average += results[i];
-        }
 
-        average /= MAX_COUNT;
-
-        Toast.makeText(getActivity(), "Средний результат: " + average, Toast.LENGTH_SHORT).show();
+        Bundle args = new Bundle();
+        args.putDoubleArray(ReactionResultsFragment.RESULTS, results);
+        getMainActivity().toReactionResults(args);
     }
 
     private void action() {
