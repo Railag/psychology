@@ -7,29 +7,29 @@ import android.os.Parcelable;
  * Created by Railag on 19.03.2017.
  */
 
-public class FocusingAnswer implements Parcelable {
+public class Answer implements Parcelable {
     private int number;
     private double time;
     private int errorValue;
 
-    public FocusingAnswer() {
+    public Answer() {
     }
 
-    protected FocusingAnswer(Parcel in) {
+    protected Answer(Parcel in) {
         number = in.readInt();
         time = in.readDouble();
         errorValue = in.readInt();
     }
 
-    public static final Creator<FocusingAnswer> CREATOR = new Creator<FocusingAnswer>() {
+    public static final Creator<Answer> CREATOR = new Creator<Answer>() {
         @Override
-        public FocusingAnswer createFromParcel(Parcel in) {
-            return new FocusingAnswer(in);
+        public Answer createFromParcel(Parcel in) {
+            return new Answer(in);
         }
 
         @Override
-        public FocusingAnswer[] newArray(int size) {
-            return new FocusingAnswer[size];
+        public Answer[] newArray(int size) {
+            return new Answer[size];
         }
     };
 

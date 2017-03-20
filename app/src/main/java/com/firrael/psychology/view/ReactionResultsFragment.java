@@ -84,7 +84,7 @@ public class ReactionResultsFragment extends SimpleFragment {
         PrintAttributes attributes = new PrintAttributes.Builder()
                 .setColorMode(PrintAttributes.COLOR_MODE_COLOR)
                 .setMediaSize(PrintAttributes.MediaSize.ISO_A2.asPortrait())
-                .setResolution(new PrintAttributes.Resolution("Focusing results", "Focusing results", 300, 300))
+                .setResolution(new PrintAttributes.Resolution("Reaction results", "Reaction results", 300, 300))
                 .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
                 .build();
 

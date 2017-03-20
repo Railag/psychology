@@ -35,28 +35,23 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * Created by Railag on 19.03.2017.
+ * Created by Railag on 20.03.2017.
  */
 
-public class FocusingResultsFragment extends SimpleFragment {
+public class AttentionStabilityResultsFragment extends SimpleFragment {
 
-    public final static String LINES = "lines";
-    public final static String ERRORS = "errors";
     public final static String RESULTS = "results";
 
-    public static FocusingResultsFragment newInstance(Bundle args) {
+    public static AttentionStabilityResultsFragment newInstance(Bundle args) {
 
-        FocusingResultsFragment fragment = new FocusingResultsFragment();
+        AttentionStabilityResultsFragment fragment = new AttentionStabilityResultsFragment();
         fragment.setHasOptionsMenu(true);
         fragment.setArguments(args);
         return fragment;
     }
 
-    @BindView(R.id.linesCount)
-    TextView linesCount;
-
-    @BindView(R.id.errorsCount)
-    TextView errorsCount;
+    @BindView(R.id.averageTime)
+    TextView averageTime;
 
     @BindView(R.id.chart1)
     LineChart chart1;
@@ -90,7 +85,7 @@ public class FocusingResultsFragment extends SimpleFragment {
         PrintAttributes attributes = new PrintAttributes.Builder()
                 .setColorMode(PrintAttributes.COLOR_MODE_COLOR)
                 .setMediaSize(PrintAttributes.MediaSize.ISO_A2.asLandscape())
-                .setResolution(new PrintAttributes.Resolution("Focusing results", "Focusing results", 300, 300))
+                .setResolution(new PrintAttributes.Resolution("Attention stability results", "Attention stability results", 300, 300))
                 .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
                 .build();
 
@@ -111,7 +106,7 @@ public class FocusingResultsFragment extends SimpleFragment {
             return;
         }
 
-        File newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/psychology/focusing_results.pdf");
+        File newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/psychology/attention_stability_results.pdf");
 
         String name = newFile.getAbsolutePath();
 
@@ -142,7 +137,7 @@ public class FocusingResultsFragment extends SimpleFragment {
 
     @Override
     protected int getViewId() {
-        return R.layout.results_focusing_layout;
+        return R.layout.results_attention_stability_layout;
     }
 
     @Override
@@ -152,24 +147,22 @@ public class FocusingResultsFragment extends SimpleFragment {
         Utils.verifyStoragePermissions(getActivity());
 
         if (args != null) {
-            if (args.containsKey(LINES)) {
-                linesCount.setText(String.valueOf(args.getInt(LINES)));
-            }
-
-            if (args.containsKey(ERRORS)) {
-                errorsCount.setText(String.valueOf(args.getInt(ERRORS)));
-            }
-
             if (args.containsKey(RESULTS)) {
                 ArrayList<Answer> results = args.getParcelableArrayList(RESULTS);
 
                 List<Entry> lineEntries = new ArrayList<>();
                 List<BarEntry> barEntries = new ArrayList<>();
 
+                double fullTime = 0;
+
                 for (Answer result : results) {
+                    fullTime += result.getTime();
                     lineEntries.add(new Entry(result.getNumber(), (float) result.getTime()));
                     barEntries.add(new BarEntry(result.getNumber(), result.getErrorValue()));
                 }
+
+                double average = fullTime / results.size();
+                averageTime.setText(String.valueOf(average));
 
                 LineDataSet dataSet = new LineDataSet(lineEntries, "Время");
                 //dataSet.setColor(...);
@@ -185,7 +178,7 @@ public class FocusingResultsFragment extends SimpleFragment {
                     e.printStackTrace();
                 }
 
-                BarDataSet barDataSet = new BarDataSet(barEntries, "Количество неверных при ошибке");
+                BarDataSet barDataSet = new BarDataSet(barEntries, "Динамика ошибок");
 
                 BarData barData = new BarData(barDataSet);
                 chart2.setData(barData);

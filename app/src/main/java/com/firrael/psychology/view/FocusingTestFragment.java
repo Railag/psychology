@@ -15,7 +15,7 @@ import com.firrael.psychology.CirclesAdapter;
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
 import com.firrael.psychology.model.Circle;
-import com.firrael.psychology.model.FocusingAnswer;
+import com.firrael.psychology.model.Answer;
 import com.firrael.psychology.presenter.CirclesTestPresenter;
 
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public class FocusingTestFragment extends BaseFragment<CirclesTestPresenter> {
 
     private ArrayList<Circle> circles = new ArrayList<>();
 
-    private ArrayList<FocusingAnswer> answers = new ArrayList<>();
+    private ArrayList<Answer> answers = new ArrayList<>();
 
     public static FocusingTestFragment newInstance() {
 
@@ -190,7 +190,7 @@ public class FocusingTestFragment extends BaseFragment<CirclesTestPresenter> {
         List<Circle> lineCircles = circles.subList(0, CIRCLES_PER_LINE);
         int answer = Circle.answer(lineCircles, baseCircle);
 
-        FocusingAnswer ans = new FocusingAnswer();
+        Answer ans = new Answer();
         ans.setNumber(currentLine);
 
         if (answer == count) {

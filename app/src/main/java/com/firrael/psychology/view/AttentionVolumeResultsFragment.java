@@ -14,55 +14,33 @@ import android.widget.Toast;
 
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
-import com.firrael.psychology.model.Answer;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 
 /**
- * Created by Railag on 19.03.2017.
+ * Created by Railag on 20.03.2017.
  */
 
-public class FocusingResultsFragment extends SimpleFragment {
+public class AttentionVolumeResultsFragment extends SimpleFragment {
 
-    public final static String LINES = "lines";
-    public final static String ERRORS = "errors";
     public final static String RESULTS = "results";
 
-    public static FocusingResultsFragment newInstance(Bundle args) {
+    public static AttentionVolumeResultsFragment newInstance(Bundle args) {
 
-        FocusingResultsFragment fragment = new FocusingResultsFragment();
+        AttentionVolumeResultsFragment fragment = new AttentionVolumeResultsFragment();
         fragment.setHasOptionsMenu(true);
         fragment.setArguments(args);
         return fragment;
     }
 
-    @BindView(R.id.linesCount)
-    TextView linesCount;
-
-    @BindView(R.id.errorsCount)
-    TextView errorsCount;
-
-    @BindView(R.id.chart1)
-    LineChart chart1;
-
-    @BindView(R.id.chart2)
-    BarChart chart2;
+    @BindView(R.id.winsNumber)
+    TextView winsNumber;
 
     @Override
     protected String getTitle() {
@@ -89,8 +67,8 @@ public class FocusingResultsFragment extends SimpleFragment {
     private void save() {
         PrintAttributes attributes = new PrintAttributes.Builder()
                 .setColorMode(PrintAttributes.COLOR_MODE_COLOR)
-                .setMediaSize(PrintAttributes.MediaSize.ISO_A2.asLandscape())
-                .setResolution(new PrintAttributes.Resolution("Focusing results", "Focusing results", 300, 300))
+                .setMediaSize(PrintAttributes.MediaSize.ISO_A4.asLandscape())
+                .setResolution(new PrintAttributes.Resolution("Attention Volume results", "Attention Volume results", 300, 300))
                 .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
                 .build();
 
@@ -103,15 +81,13 @@ public class FocusingResultsFragment extends SimpleFragment {
         content.draw(page.getCanvas());
 
         document.finishPage(page);
-// add more pages
 
-// write the document content
         if (!canWriteOnExternalStorage() || !Utils.canWrite(getActivity())) {
             // TODO
             return;
         }
 
-        File newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/psychology/focusing_results.pdf");
+        File newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/psychology/attention_volume_results.pdf");
 
         String name = newFile.getAbsolutePath();
 
@@ -142,7 +118,7 @@ public class FocusingResultsFragment extends SimpleFragment {
 
     @Override
     protected int getViewId() {
-        return R.layout.results_focusing_layout;
+        return R.layout.results_attention_volume_layout;
     }
 
     @Override
@@ -152,46 +128,11 @@ public class FocusingResultsFragment extends SimpleFragment {
         Utils.verifyStoragePermissions(getActivity());
 
         if (args != null) {
-            if (args.containsKey(LINES)) {
-                linesCount.setText(String.valueOf(args.getInt(LINES)));
-            }
-
-            if (args.containsKey(ERRORS)) {
-                errorsCount.setText(String.valueOf(args.getInt(ERRORS)));
-            }
-
             if (args.containsKey(RESULTS)) {
-                ArrayList<Answer> results = args.getParcelableArrayList(RESULTS);
+                int wins = args.getInt(RESULTS);
 
-                List<Entry> lineEntries = new ArrayList<>();
-                List<BarEntry> barEntries = new ArrayList<>();
-
-                for (Answer result : results) {
-                    lineEntries.add(new Entry(result.getNumber(), (float) result.getTime()));
-                    barEntries.add(new BarEntry(result.getNumber(), result.getErrorValue()));
-                }
-
-                LineDataSet dataSet = new LineDataSet(lineEntries, "Время");
-                //dataSet.setColor(...);
-                //dataSet.setValueTextColor(...);
-
-                LineData lineData = new LineData(dataSet);
-                chart1.setData(lineData);
-                chart1.invalidate();
-
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                BarDataSet barDataSet = new BarDataSet(barEntries, "Количество неверных при ошибке");
-
-                BarData barData = new BarData(barDataSet);
-                chart2.setData(barData);
-                chart2.invalidate();
+                winsNumber.setText(String.valueOf(wins));
             }
-
 
         }
     }

@@ -258,6 +258,14 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
         setFragment(ReactionResultsFragment.newInstance(args));
     }
 
+    public void toAttentionVolumeResults(Bundle args) {
+        setFragment(AttentionVolumeResultsFragment.newInstance(args));
+    }
+
+    public void toAttentionStabilityResults(Bundle args) {
+        setFragment(AttentionStabilityResultsFragment.newInstance(args));
+    }
+
     /*public void toMyGroups() {
         setFragment(MyGroupsFragment.newInstance());
     }

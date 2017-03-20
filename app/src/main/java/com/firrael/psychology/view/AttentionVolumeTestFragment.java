@@ -26,8 +26,6 @@ import nucleus.factory.RequiresPresenter;
 @RequiresPresenter(FiguresTestPresenter.class)
 public class AttentionVolumeTestFragment extends BaseFragment<FiguresTestPresenter> {
 
-    private final static double MILLIS = 1000000000;
-
     private final static int MAX_FIGURES = 100;
 
     private Handler handler;
@@ -150,7 +148,9 @@ public class AttentionVolumeTestFragment extends BaseFragment<FiguresTestPresent
             handler.removeCallbacksAndMessages(null);
         }
 
-        getMainActivity().onBackPressed();
+        Bundle args = new Bundle();
+        args.putInt(AttentionVolumeResultsFragment.RESULTS, wins);
+        getMainActivity().toAttentionVolumeResults(args);
     }
 
     @Override

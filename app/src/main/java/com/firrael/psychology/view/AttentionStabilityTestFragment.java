@@ -10,8 +10,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firrael.psychology.R;
+import com.firrael.psychology.Utils;
+import com.firrael.psychology.model.Answer;
 import com.firrael.psychology.presenter.FirstTestPresenter;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -24,8 +27,6 @@ import nucleus.factory.RequiresPresenter;
 
 @RequiresPresenter(FirstTestPresenter.class)
 public class AttentionStabilityTestFragment extends BaseFragment<FirstTestPresenter> {
-
-    private final static double MILLIS = 1000000000;
 
     private final static int MAX_NUMBER = 10;
 
@@ -47,6 +48,10 @@ public class AttentionStabilityTestFragment extends BaseFragment<FirstTestPresen
     private int progressTime = 0;
 
     private boolean active;
+
+    private long time;
+
+    private ArrayList<Answer> answers = new ArrayList<>();
 
     public static AttentionStabilityTestFragment newInstance() {
 
@@ -78,18 +83,22 @@ public class AttentionStabilityTestFragment extends BaseFragment<FirstTestPresen
             if (i % 10 == 0) { // first square
                 progressTime += randomTime.nextInt(300);
                 handler.postDelayed(this::showRedBackground, progressTime);
+            } else if (i == 99) {
+                progressTime += 1000;
+                handler.postDelayed(this::toNextTest, progressTime);
             } else if (i % 11 == 0) { // number between
-                progressTime += randomTime.nextInt(1000);
+                progressTime += randomTime.nextInt(600);
                 handler.postDelayed(this::showNumber, progressTime);
             } else if (i % 12 == 0) { // second square
-                progressTime += randomTime.nextInt(200);
+                progressTime += 300;
                 handler.postDelayed(() -> {
                     currentNum = Integer.parseInt(number.getText().toString()); // number before second red square
+                    time = System.nanoTime();
                     active = true;
                     showRedBackground();
                 }, progressTime);
             } else if (i % 13 == 0) { // hide second square
-                progressTime += randomTime.nextInt(1000);
+                progressTime += 400;
                 handler.postDelayed(this::showNumber, progressTime);
             } else {
                 progressTime += 1000;
@@ -118,19 +127,32 @@ public class AttentionStabilityTestFragment extends BaseFragment<FirstTestPresen
         if (!active)
             return;
 
+        double resultTime = Utils.calcTime(time);
+        Answer answer = new Answer();
+        answer.setTime(resultTime);
+
         boolean evenNumber = currentNum % 2 == 0; // четное
 
         if (right) {
-            if (evenNumber)
+            if (evenNumber) {
                 fails++;
-            else
+                answer.setErrorValue(1);
+            } else {
                 wins++;
+                answer.setErrorValue(0);
+            }
         } else {
-            if (!evenNumber)
+            if (!evenNumber) {
                 fails++;
-            else
+                answer.setErrorValue(1);
+            } else {
                 wins++;
+                answer.setErrorValue(0);
+            }
         }
+
+        answer.setNumber(answers.size());
+        answers.add(answer);
 
         active = false;
 
@@ -159,7 +181,9 @@ public class AttentionStabilityTestFragment extends BaseFragment<FirstTestPresen
     }
 
     private void toNextTest() {
-        // TODO
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(AttentionStabilityResultsFragment.RESULTS, answers);
+        getMainActivity().toAttentionStabilityResults(args);
     }
 
     @Override
@@ -168,11 +192,5 @@ public class AttentionStabilityTestFragment extends BaseFragment<FirstTestPresen
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }
-    }
-
-    private void action() {
-        number.setVisibility(View.GONE);
-        background.setBackgroundColor(getResources().getColor(android.R.color.white));
-        //    time = System.nanoTime();
     }
 }

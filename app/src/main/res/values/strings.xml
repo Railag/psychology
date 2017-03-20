@@ -84,4 +84,6 @@
     <string name="minReactTime">Минимальное время реакции:</string>
     <string name="maxReactTime">Максимальное время реакции:</string>
     <string name="averageReactTime">Среднее время реакции:</string>
+    <string name="attentionVolumeWinsNumber">Количество верных совпадений:</string>
+    <string name="AvgReactTime">Среднее время реакции:</string>
 </resources>
