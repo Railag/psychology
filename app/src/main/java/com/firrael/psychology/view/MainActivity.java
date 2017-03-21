@@ -11,7 +11,6 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,10 +48,6 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawer;
-    @BindView(R.id.nav_view)
-    NavigationView navigationView;
 
     @BindView(R.id.loading)
     AVLoadingIndicatorView loading;
@@ -73,18 +68,6 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
         setSupportActionBar(toolbar);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView.setNavigationItemSelectedListener(this);
-
-        View headerView = navigationView.getHeaderView(0);
-        ImageView userImage = findById(headerView, R.id.userImage);
-        userImage.setOnClickListener(v -> {
-            makePhoto();
-        });
 
         App.setMainActivity(this);
 
@@ -112,12 +95,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
             super.onBackPressed();
-        }
     }
 
     @Override
@@ -156,8 +134,6 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
             toLogin();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -205,9 +181,8 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
     }
 
     public void toSplash() {
-        //setFragment(SplashFragment.newInstance());
-        //toReactionTest();
-        toUserLandingScreen();
+        setFragment(SplashFragment.newInstance());
+        //toUserLandingScreen();
     }
 
     public void toLogin() {
@@ -216,7 +191,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
     public void toUserLandingScreen() {
         // TODO add user fragment with info if needed
-        setFragment(UserLandingFragment.newInstance());
+        setFragment(TestsFragment.newInstance());
         //     toMyGroups();
     }
 

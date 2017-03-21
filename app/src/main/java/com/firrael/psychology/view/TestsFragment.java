@@ -3,7 +3,7 @@ package com.firrael.psychology.view;
 import android.os.Bundle;
 
 import com.firrael.psychology.R;
-import com.firrael.psychology.presenter.UserLandingPresenter;
+import com.firrael.psychology.presenter.TestsFragmentPresenter;
 
 import butterknife.OnClick;
 import nucleus.factory.RequiresPresenter;
@@ -11,14 +11,14 @@ import nucleus.factory.RequiresPresenter;
 /**
  * Created by Railag on 07.11.2016.
  */
-@RequiresPresenter(UserLandingPresenter.class)
-public class UserLandingFragment extends BaseFragment<UserLandingPresenter> {
+@RequiresPresenter(TestsFragmentPresenter.class)
+public class TestsFragment extends BaseFragment<TestsFragmentPresenter> {
 
-    public static UserLandingFragment newInstance() {
+    public static TestsFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        UserLandingFragment fragment = new UserLandingFragment();
+        TestsFragment fragment = new TestsFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -30,7 +30,7 @@ public class UserLandingFragment extends BaseFragment<UserLandingPresenter> {
 
     @Override
     protected int getViewId() {
-        return R.layout.fragment_landing;
+        return R.layout.fragment_tests;
     }
 
     @OnClick(R.id.memory)

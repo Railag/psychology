@@ -29,12 +29,12 @@ public class SplashPresenter extends BasePresenter<SplashFragment> {
 
         RConnectorService service = App.restService();
 
-        /*restartableLatestCache(REQUEST_SPLASH,
+        restartableLatestCache(REQUEST_SPLASH,
                 () -> service.startupLogin(login, token)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread()),
                 SplashFragment::onSuccess,
-                SplashFragment::onError);*/
+                SplashFragment::onError);
     }
 
     public void request(String login, String token) {

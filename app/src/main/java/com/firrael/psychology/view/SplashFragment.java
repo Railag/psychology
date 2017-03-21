@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.text.TextUtils;
 
 import com.firrael.psychology.R;
+import com.firrael.psychology.model.User;
+import com.firrael.psychology.model.UserResult;
 import com.firrael.psychology.presenter.SplashPresenter;
 
 import nucleus.factory.RequiresPresenter;
@@ -32,13 +34,7 @@ public class SplashFragment extends BaseFragment<SplashPresenter> {
         if (savedInstanceState == null) {
             startLoading();
 
-            Handler handler = new Handler();
-            handler.postDelayed(() -> {
-                stopLoading();
-                getMainActivity().toLogin();
-            }, 3000);
-
-          /*  User user = User.get(getActivity());
+            User user = User.get(getActivity());
             String token = user.getToken();
 
             if (!TextUtils.isEmpty(token))
@@ -49,7 +45,7 @@ public class SplashFragment extends BaseFragment<SplashPresenter> {
                     stopLoading();
                     getMainActivity().toLogin();
                 }, 3000);
-            }*/
+            }
         }
     }
 
@@ -63,7 +59,7 @@ public class SplashFragment extends BaseFragment<SplashPresenter> {
         return R.layout.fragment_splash;
     }
 
-    /*public void onSuccess(UserResult result) {
+    public void onSuccess(UserResult result) {
         stopLoading();
         if (result == null) {
             onError(new IllegalArgumentException());
@@ -75,9 +71,9 @@ public class SplashFragment extends BaseFragment<SplashPresenter> {
         }
         toast("success login");
         User.save(result, getActivity());
-        getMainActivity().updateNavigationMenu();
+        //getMainActivity().updateNavigationMenu();
         getMainActivity().toUserLandingScreen();
-    }*/
+    }
 
     public void onError(Throwable error) {
         error.printStackTrace();

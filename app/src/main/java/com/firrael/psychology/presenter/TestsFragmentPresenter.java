@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.firrael.psychology.App;
 import com.firrael.psychology.RConnectorService;
 import com.firrael.psychology.model.User;
-import com.firrael.psychology.view.UserLandingFragment;
+import com.firrael.psychology.view.TestsFragment;
 
 import icepick.State;
 
@@ -13,7 +13,7 @@ import icepick.State;
  * Created by Railag on 07.11.2016.
  */
 
-public class UserLandingPresenter extends BasePresenter<UserLandingFragment> {
+public class TestsFragmentPresenter extends BasePresenter<TestsFragment> {
 
     @State
     int age;
