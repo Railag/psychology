@@ -6,12 +6,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.NavigationView;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +20,9 @@ import android.widget.Toast;
 import com.firrael.psychology.App;
 import com.firrael.psychology.FcmMessagingService;
 import com.firrael.psychology.R;
+import com.firrael.psychology.RConnectorService;
+import com.firrael.psychology.model.Result;
+import com.firrael.psychology.model.User;
 import com.firrael.psychology.presenter.MainPresenter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -31,12 +33,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusAppCompatActivity;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static butterknife.ButterKnife.findById;
 
 @RequiresPresenter(MainPresenter.class)
-public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
 
     private final static String TAG = MainActivity.class.getSimpleName();
 
@@ -71,7 +74,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
         App.setMainActivity(this);
 
-        /*if (!User.isFcmSaved(this)) {
+        if (!User.isFcmSaved(this)) {
             User user = User.get(this);
             String fcmToken = user.getFcmToken(this);
             if (!TextUtils.isEmpty(fcmToken)) {
@@ -82,7 +85,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(this::onFcmTokenSuccess, this::onFcmTokenError);
             }
-        }*/
+        }
 
         analytics = FirebaseAnalytics.getInstance(this);
 
@@ -95,46 +98,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
     @Override
     public void onBackPressed() {
-            super.onBackPressed();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //    getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_profile) {
-            toUserLandingScreen();
-        } else if (id == R.id.nav_groups) {
-            //        toMyGroups();
-        } else if (id == R.id.nav_new_group) {
-            //        toNewGroup();
-        } else if (id == R.id.nav_share) {
-            // TODO share app
-        } else if (id == R.id.nav_logout) {
-            //        User.logout(this);
-            toLogin();
-        }
-
-        return true;
+        super.onBackPressed();
     }
 
     void makePhoto() {
@@ -182,17 +146,15 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
     public void toSplash() {
         setFragment(SplashFragment.newInstance());
-        //toUserLandingScreen();
+        //toTests();
     }
 
     public void toLogin() {
         setFragment(LoginFragment.newInstance());
     }
 
-    public void toUserLandingScreen() {
-        // TODO add user fragment with info if needed
+    public void toTests() {
         setFragment(TestsFragment.newInstance());
-        //     toMyGroups();
     }
 
     public void toNameScreen() {
@@ -205,6 +167,23 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
     public void toTimeScreen() {
         setFragment(TimeFragment.newInstance());
+    }
+
+    public void toLanding() {
+        setFragment(LandingFragment.newInstance());
+    }
+
+    public void toInfo() {
+        // TODO
+    }
+
+    public void toStatistics() {
+        // TODO
+    }
+
+
+    public void toSettings() {
+        // TODO
     }
 
     public void toInstructionFragment(InstructionFragment.Test test) {
@@ -306,12 +285,14 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
         toMyGroups();
     }
 
+
+*/
     public void onErrorAddUser(Throwable throwable) {
         throwable.printStackTrace();
     }
 
 
-    public void onFcmTokenSuccess(SendFCMTokenResult result) {
+    public void onFcmTokenSuccess(Result result) {
         if (result.invalid()) {
             Log.e(TAG, result.error);
             return;
@@ -321,7 +302,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter>
 
         User.fcmSaved(getBaseContext());
     }
-*/
+
     public void onFcmTokenError(Throwable throwable) {
         throwable.printStackTrace();
     }

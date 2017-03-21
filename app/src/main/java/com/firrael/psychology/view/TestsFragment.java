@@ -66,7 +66,7 @@ public class TestsFragment extends BaseFragment<TestsFragmentPresenter> {
         toast("success login");
         User.save(result, getActivity());
         getMainActivity().updateNavigationMenu();
-        getMainActivity().toUserLandingScreen();
+        getMainActivity().toTests();
     }
 
     public void onError(Throwable error) {

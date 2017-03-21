@@ -96,4 +96,9 @@
     <string name="instruction_attention_stability"> На экране будут меняться цифры. В какой-то момент появится красный квадрат, который закроет цифру. После этого снова появится цифра, которую нужно увидеть и нажать левую кнопку, если цифра четная, или правую кнопку, если цифра нечетная. Цифра появится лишь на короткое время, и за ней сразу последует другой красный квадрат. Определить нужно только цифру между двумя квадратами. </string>
     <string name="instruction_attention_volume"> Нажмите на кнопку, когда на экране появятся две одинаковые фигуры. </string>
     <string name="landingScreenTitle">Стартовая страница</string>
+    <string name="info">Профиль</string>
+    <string name="testing">Тестирование</string>
+    <string name="statistics">Статистика</string>
+    <string name="settings">Настройки</string>
+    <string name="exit">Выйти</string>
 </resources>

@@ -7,7 +7,6 @@ import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
 import com.firrael.psychology.model.User;
 import com.firrael.psychology.model.UserResult;
-import com.firrael.psychology.presenter.NamePresenter;
 import com.firrael.psychology.presenter.TimePresenter;
 
 import butterknife.BindView;
@@ -65,7 +64,7 @@ public class TimeFragment extends BaseFragment<TimePresenter> {
         toast("success account creation");
         User.save(result, getActivity());
         //getMainActivity().updateNavigationMenu();
-        getMainActivity().toUserLandingScreen();
+        getMainActivity().toLanding();
     }
 
     public void onError(Throwable error) {

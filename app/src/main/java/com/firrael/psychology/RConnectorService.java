@@ -1,10 +1,7 @@
 package com.firrael.psychology;
 
-import android.graphics.Bitmap;
-
+import com.firrael.psychology.model.Result;
 import com.firrael.psychology.model.UserResult;
-
-import java.util.List;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -29,6 +26,11 @@ public interface RConnectorService {
     @FormUrlEncoded
     @POST("/user")
     Observable<UserResult> createAccount(@Field("login") String login, @Field("password") String password, @Field("age") int age, @Field("time") int time);
+
+    @FormUrlEncoded
+    @POST("/user/fcm_token")
+    Observable<Result> sendFCMToken(@Field("user_id") long userId, @Field("fcm_token") String fcmToken);
+
 /*
     @POST("/user/load_user_photo")
     Observable<ImageResult> loadImage();
@@ -69,9 +71,6 @@ public interface RConnectorService {
     @POST("/group/fetch_users")
     Observable<List<ChatUser>> fetchUsers(@Field("group_id") long groupId);
 
-    @FormUrlEncoded
-    @POST("/user/fcm_token")
-    Observable<SendFCMTokenResult> sendFCMToken(@Field("user_id") long userId, @Field("fcm_token") String fcmToken);
 
     // TODO for testing
     @FormUrlEncoded
