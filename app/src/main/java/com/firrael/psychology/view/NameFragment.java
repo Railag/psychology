@@ -20,6 +20,9 @@ public class NameFragment extends BaseFragment<NamePresenter> {
     @BindView(R.id.nameField)
     EditText nameField;
 
+    @BindView(R.id.emailField)
+    EditText emailField;
+
     @BindView(R.id.passwordField)
     EditText passwordField;
 
@@ -45,7 +48,7 @@ public class NameFragment extends BaseFragment<NamePresenter> {
     @OnClick(R.id.nextButton)
     public void login() {
         Utils.hideKeyboard(getActivity());
-        getPresenter().save(nameField.getText().toString(), passwordField.getText().toString());
+        getPresenter().save(nameField.getText().toString(), emailField.getText().toString(), passwordField.getText().toString());
         getMainActivity().toAgeScreen();
     }
 }

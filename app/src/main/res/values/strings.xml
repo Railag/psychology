@@ -101,4 +101,7 @@
     <string name="statistics">Статистика</string>
     <string name="settings">Настройки</string>
     <string name="exit">Выйти</string>
+    <string name="back">Назад</string>
+    <string name="save2">Сохранить</string>
+    <string name="enterEmail">Введите email</string>
 </resources>

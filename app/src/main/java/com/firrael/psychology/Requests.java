@@ -8,6 +8,9 @@ public class Requests {
     public static final int REQUEST_LOGIN = 2;
     public static final int REQUEST_CREATE_ACCOUNT = 3;
     public static final int REQUEST_SAVE_IMAGE = 4;
+    public static final int REQUEST_UPDATE_INFO = 5;
+
+
     public static final int REQUEST_CREATE_GROUP = 5;
     public static final int REQUEST_MY_GROUPS = 6;
     public static final int REQUEST_SEND_MESSAGE = 7;

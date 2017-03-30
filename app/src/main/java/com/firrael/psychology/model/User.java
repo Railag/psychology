@@ -17,6 +17,8 @@ public class User {
     private final static String ID_KEY = "id";
     private final static String LOGIN_KEY = "login";
     private final static String EMAIL_KEY = "email";
+    private final static String TIME_KEY = "time";
+    private final static String AGE_KEY = "age";
     private final static String TOKEN_KEY = "token";
     private final static String FCM_TOKEN_KEY = "fcm_token";
     private final static String FCM_SAVED_KEY = "fcm_saved";
@@ -45,7 +47,8 @@ public class User {
         user.login = result.login;
         user.email = result.email;
         user.token = result.token;
-    //    user.profileImageUrl = result.profileImageUrl;
+        user.time = result.time;
+        user.age = result.age;
 
         Utils.prefs(context)
                 .edit()
@@ -53,6 +56,8 @@ public class User {
                 .putString(LOGIN_KEY, user.login)
                 .putString(EMAIL_KEY, user.email)
                 .putString(TOKEN_KEY, user.token)
+                .putInt(TIME_KEY, user.time)
+                .putInt(AGE_KEY, user.age)
                 .commit();
     }
 
@@ -72,6 +77,8 @@ public class User {
             user.login = prefs.getString(LOGIN_KEY, "");
             user.email = prefs.getString(EMAIL_KEY, "");
             user.token = prefs.getString(TOKEN_KEY, "");
+            user.age = prefs.getInt(AGE_KEY, 0);
+            user.time = prefs.getInt(TIME_KEY, 0);
             user.fcmToken = prefs.getString(FCM_TOKEN_KEY, "");
             return user;
         }

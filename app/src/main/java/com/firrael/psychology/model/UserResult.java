@@ -9,5 +9,6 @@ public class UserResult extends Result {
     public String login;
     public String email;
     public String token;
-    public String profileImageUrl;
+    public int time;
+    public int age;
 }

@@ -26,6 +26,9 @@ public class TimePresenter extends BasePresenter<TimeFragment> {
     String password;
 
     @State
+    String email;
+
+    @State
     int age;
 
     @State
@@ -38,7 +41,7 @@ public class TimePresenter extends BasePresenter<TimeFragment> {
         RConnectorService service = App.restService();
 
         restartableLatestCache(REQUEST_CREATE_ACCOUNT,
-                () -> service.createAccount(login, password, age, time)
+                () -> service.createAccount(login, password, email, age, time)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread()),
                 TimeFragment::onSuccess,
@@ -55,9 +58,10 @@ public class TimePresenter extends BasePresenter<TimeFragment> {
         }
     }
 
-    public void request(String login, String password, int age, int time) {
+    public void request(String login, String password, String email, int age, int time) {
         this.login = login;
         this.password = password;
+        this.email = email;
         this.age = age;
         this.time = time;
         start(REQUEST_CREATE_ACCOUNT);

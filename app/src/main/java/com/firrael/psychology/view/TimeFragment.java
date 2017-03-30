@@ -48,7 +48,7 @@ public class TimeFragment extends BaseFragment<TimePresenter> {
 
         startLoading();
         User user = User.get(getActivity());
-        getPresenter().request(user.getLogin(), user.getPassword(), user.getAge(), user.getTime());
+        getPresenter().request(user.getLogin(), user.getPassword(), user.getEmail(), user.getAge(), user.getTime());
     }
 
     public void onSuccess(UserResult result) {

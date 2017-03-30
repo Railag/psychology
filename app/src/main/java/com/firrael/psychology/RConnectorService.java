@@ -25,11 +25,15 @@ public interface RConnectorService {
 
     @FormUrlEncoded
     @POST("/user")
-    Observable<UserResult> createAccount(@Field("login") String login, @Field("password") String password, @Field("age") int age, @Field("time") int time);
+    Observable<UserResult> createAccount(@Field("login") String login, @Field("password") String password, @Field("email") String email, @Field("age") int age, @Field("time") int time);
 
     @FormUrlEncoded
     @POST("/user/fcm_token")
     Observable<Result> sendFCMToken(@Field("user_id") long userId, @Field("fcm_token") String fcmToken);
+
+    @FormUrlEncoded
+    @POST("/user/update")
+    Observable<UserResult> updateInfo(@Field("user_id") long userId, @Field("email") String email, @Field("age") int age, @Field("time") int time);
 
 /*
     @POST("/user/load_user_photo")

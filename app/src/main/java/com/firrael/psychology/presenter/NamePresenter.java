@@ -1,10 +1,6 @@
 package com.firrael.psychology.presenter;
 
-import android.os.Bundle;
-import android.support.design.widget.BottomSheetBehavior;
-
 import com.firrael.psychology.App;
-import com.firrael.psychology.RConnectorService;
 import com.firrael.psychology.model.User;
 import com.firrael.psychology.view.NameFragment;
 
@@ -20,11 +16,17 @@ public class NamePresenter extends BasePresenter<NameFragment> {
     String name;
 
     @State
+    String email;
+
+    @State
     String password;
 
-    public void save(String name, String password) {
+    public void save(String name, String email, String password) {
         this.name = name;
+        this.email = email;
+        this.password = password;
         User.get(App.getMainActivity()).setLogin(name);
+        User.get(App.getMainActivity()).setEmail(email);
         User.get(App.getMainActivity()).setPassword(password);
     }
 }

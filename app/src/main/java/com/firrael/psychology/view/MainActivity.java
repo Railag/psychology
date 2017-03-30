@@ -11,8 +11,6 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -174,7 +172,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
     }
 
     public void toInfo() {
-        // TODO
+        setFragment(InfoFragment.newInstance());
     }
 
     public void toStatistics() {
