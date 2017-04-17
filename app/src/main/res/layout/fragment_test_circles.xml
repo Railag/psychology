@@ -12,7 +12,7 @@
         android:layout_height="20dp"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:src="@drawable/circle" />
+        android:src="@drawable/circle_stress" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/circlesGrid"

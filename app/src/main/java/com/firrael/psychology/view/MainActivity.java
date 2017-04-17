@@ -177,6 +177,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
 
     public void toStatistics() {
         // TODO
+        toStressResistanceTest();
     }
 
 
@@ -204,6 +205,10 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
         setFragment(ReactionTestFragment.newInstance());
     }
 
+    public void toStressResistanceTest() {
+        setFragment(StressResistanceTestFragment.newInstance());
+    }
+
     public void toFocusingResults(Bundle args) {
         setFragment(FocusingResultsFragment.newInstance(args));
     }
@@ -219,6 +224,12 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
     public void toAttentionStabilityResults(Bundle args) {
         setFragment(AttentionStabilityResultsFragment.newInstance(args));
     }
+
+    public void toStressResistanceResults(Bundle args) {
+        setFragment(StressResistanceResultsFragment.newInstance(args));
+    }
+
+
 
     /*public void toMyGroups() {
         setFragment(MyGroupsFragment.newInstance());

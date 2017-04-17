@@ -104,4 +104,5 @@
     <string name="back">Назад</string>
     <string name="save2">Сохранить</string>
     <string name="enterEmail">Введите email</string>
+    <string name="stressResistanceTestTitle">Стрессоустойчивость</string>
 </resources>
