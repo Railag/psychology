@@ -177,12 +177,13 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
 
     public void toStatistics() {
         // TODO
-        toStressResistanceTest();
+        toInstructionFragment(InstructionFragment.Test.STRESS_RESISTANCE);
     }
 
 
     public void toSettings() {
         // TODO
+        toInstructionFragment(InstructionFragment.Test.COMPLEX_MOTOR_REACTION);
     }
 
     public void toInstructionFragment(InstructionFragment.Test test) {
@@ -209,6 +210,10 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
         setFragment(StressResistanceTestFragment.newInstance());
     }
 
+    public void toComplexMotorReactionTest() {
+        setFragment(ComplexMotorReactionTestFragment.newInstance());
+    }
+
     public void toFocusingResults(Bundle args) {
         setFragment(FocusingResultsFragment.newInstance(args));
     }
@@ -227,6 +232,10 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
 
     public void toStressResistanceResults(Bundle args) {
         setFragment(StressResistanceResultsFragment.newInstance(args));
+    }
+
+    public void toComplexMotorReactionResults(Bundle args) {
+        setFragment(ComplexMotorReactionResultsFragment.newInstance(args));
     }
 
 

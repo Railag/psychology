@@ -21,7 +21,9 @@ public class InstructionFragment extends SimpleFragment {
         FOCUSING,
         REACTION,
         ATTENTION_STABILITY,
-        ATTENTION_VOLUME
+        ATTENTION_VOLUME,
+        STRESS_RESISTANCE,
+        COMPLEX_MOTOR_REACTION
     }
 
     public static InstructionFragment newInstance(Test test) {
@@ -71,6 +73,12 @@ public class InstructionFragment extends SimpleFragment {
             case ATTENTION_VOLUME:
                 instruction = getString(R.string.instruction_attention_volume);
                 break;
+            case STRESS_RESISTANCE:
+                instruction = getString(R.string.instruction_stress_resistance);
+                break;
+            case COMPLEX_MOTOR_REACTION:
+                instruction = getString(R.string.instruction_complex_motor_reaction);
+                break;
         }
 
         instructionText.setText(instruction);
@@ -90,6 +98,12 @@ public class InstructionFragment extends SimpleFragment {
                 break;
             case ATTENTION_VOLUME:
                 getMainActivity().toAttentionVolumeTest();
+                break;
+            case STRESS_RESISTANCE:
+                getMainActivity().toStressResistanceTest();
+                break;
+            case COMPLEX_MOTOR_REACTION:
+                getMainActivity().toComplexMotorReactionTest();
                 break;
         }
     }
