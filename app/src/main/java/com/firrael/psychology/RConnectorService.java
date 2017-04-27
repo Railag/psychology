@@ -3,6 +3,8 @@ package com.firrael.psychology;
 import com.firrael.psychology.model.Result;
 import com.firrael.psychology.model.UserResult;
 
+import java.util.ArrayList;
+
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -13,8 +15,8 @@ import rx.Observable;
  */
 public interface RConnectorService {
     //String API_ENDPOINT = "http://127.0.0.1:3000";
-    //String API_ENDPOINT = "http://10.0.3.2:3000";
-    String API_ENDPOINT = "https://firrael.herokuapp.com";
+    String API_ENDPOINT = "http://10.0.3.2:3000";
+    //String API_ENDPOINT = "https://firrael.herokuapp.com";
 
     @FormUrlEncoded
     @POST("/user/login")
@@ -35,6 +37,14 @@ public interface RConnectorService {
     @FormUrlEncoded
     @POST("/user/update")
     Observable<UserResult> updateInfo(@Field("user_id") long userId, @Field("email") String email, @Field("age") int age, @Field("time") int time);
+
+    @FormUrlEncoded
+    @POST("/user/results_reaction")
+    Observable<Result> sendReactionResults(@Field("user_id") long userId, @Field("times[]") ArrayList<Double> times);
+
+    @FormUrlEncoded
+    @POST("/user/results_stress")
+    Observable<Result> sendStressResults(@Field("user_id") long userId, @Field("times[]") ArrayList<Double> times, @Field("misses") long misses);
 
 /*
     @POST("/user/load_user_photo")

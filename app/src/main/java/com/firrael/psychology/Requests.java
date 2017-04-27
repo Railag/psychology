@@ -9,6 +9,8 @@ public class Requests {
     public static final int REQUEST_CREATE_ACCOUNT = 3;
     public static final int REQUEST_SAVE_IMAGE = 4;
     public static final int REQUEST_UPDATE_INFO = 5;
+    public static final int REQUEST_RESULTS_REACTION = 6;
+    public static final int REQUEST_RESULTS_STRESS = 7;
 
 
     public static final int REQUEST_CREATE_GROUP = 5;

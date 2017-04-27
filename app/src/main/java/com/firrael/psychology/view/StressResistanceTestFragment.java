@@ -11,6 +11,9 @@ import android.widget.Toast;
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
 import com.firrael.psychology.model.Answer;
+import com.firrael.psychology.model.Result;
+import com.firrael.psychology.presenter.ReactionTestPresenter;
+import com.firrael.psychology.presenter.StressResistanceTestPresenter;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -18,12 +21,14 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import nucleus.factory.RequiresPresenter;
 
 /**
  * Created by Railag on 30.03.2017.
  */
 
-public class StressResistanceTestFragment extends SimpleFragment {
+@RequiresPresenter(StressResistanceTestPresenter.class)
+public class StressResistanceTestFragment extends BaseFragment<StressResistanceTestPresenter> {
 
     @BindView(R.id.circle1)
     ImageView circle1;
@@ -222,8 +227,40 @@ public class StressResistanceTestFragment extends SimpleFragment {
     }
 
     private void toNextTest() {
+        ArrayList<Double> times = new ArrayList<>();
+        long misses = 0;
+
+        for (Answer a : answers) {
+            times.add(a.getTime());
+
+            if (a.getErrorValue() == 1) {
+                misses++;
+            }
+        }
+
+        getPresenter().save(times, misses);
+    }
+
+    public void onSuccess(Result result) {
+        stopLoading();
+
+        if (result == null) {
+            onError(new IllegalArgumentException());
+            return;
+        }
+        if (result.invalid()) {
+            toast(result.error);
+            return;
+        }
+        toast("success");
+
         Bundle args = new Bundle();
         args.putParcelableArrayList(StressResistanceResultsFragment.RESULTS, answers);
         getMainActivity().toStressResistanceResults(args);
+    }
+
+    public void onError(Throwable throwable) {
+        stopLoading();
+        throwable.printStackTrace();
     }
 }

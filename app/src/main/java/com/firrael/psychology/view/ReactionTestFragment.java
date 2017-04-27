@@ -12,9 +12,15 @@ import android.widget.Toast;
 
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
-import com.firrael.psychology.presenter.ReactionWhiteTestPresenter;
+import com.firrael.psychology.model.Result;
+import com.firrael.psychology.model.User;
+import com.firrael.psychology.model.UserResult;
+import com.firrael.psychology.presenter.ReactionTestPresenter;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -24,8 +30,8 @@ import nucleus.factory.RequiresPresenter;
 /**
  * Created by Railag on 07.11.2016.
  */
-@RequiresPresenter(ReactionWhiteTestPresenter.class)
-public class ReactionTestFragment extends BaseFragment<ReactionWhiteTestPresenter> {
+@RequiresPresenter(ReactionTestPresenter.class)
+public class ReactionTestFragment extends BaseFragment<ReactionTestPresenter> {
 
 
     private final static int MAX_COUNT = 10;
@@ -46,7 +52,7 @@ public class ReactionTestFragment extends BaseFragment<ReactionWhiteTestPresente
 
     private Handler handler;
 
-    private double results[] = new double[MAX_COUNT];
+    private ArrayList<Double> results = new ArrayList<>();
     private int current = 0;
 
     public static ReactionTestFragment newInstance() {
@@ -95,7 +101,8 @@ public class ReactionTestFragment extends BaseFragment<ReactionWhiteTestPresente
 
         if (text.getVisibility() == View.GONE) {
             double result = Utils.calcTime(time);
-            results[current] = result;
+            results.add(result);
+
             String diffInSeconds = new DecimalFormat("#.##").format(result);
             String res = diffInSeconds + " секунд";
             Toast.makeText(getActivity(), res, Toast.LENGTH_SHORT).show();
@@ -126,11 +133,9 @@ public class ReactionTestFragment extends BaseFragment<ReactionWhiteTestPresente
     }
 
     private void toNextTest() {
-        // TODO
+        startLoading();
 
-        Bundle args = new Bundle();
-        args.putDoubleArray(ReactionResultsFragment.RESULTS, results);
-        getMainActivity().toReactionResults(args);
+        getPresenter().save(results);
     }
 
     private void action() {
@@ -138,5 +143,28 @@ public class ReactionTestFragment extends BaseFragment<ReactionWhiteTestPresente
         reactNumberLayout.setVisibility(View.GONE);
         background.setBackgroundColor(getResources().getColor(android.R.color.white));
         time = System.nanoTime();
+    }
+
+    public void onSuccess(Result result) {
+        stopLoading();
+
+        if (result == null) {
+            onError(new IllegalArgumentException());
+            return;
+        }
+        if (result.invalid()) {
+            toast(result.error);
+            return;
+        }
+        toast("success");
+
+        Bundle args = new Bundle();
+        args.putSerializable(ReactionResultsFragment.RESULTS, results);
+        getMainActivity().toReactionResults(args);
+    }
+
+    public void onError(Throwable throwable) {
+        stopLoading();
+        throwable.printStackTrace();
     }
 }

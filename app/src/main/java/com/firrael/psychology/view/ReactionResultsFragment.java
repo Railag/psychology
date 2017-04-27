@@ -148,32 +148,28 @@ public class ReactionResultsFragment extends SimpleFragment {
 
         if (args != null) {
             if (args.containsKey(RESULTS)) {
-                double[] results = args.getDoubleArray(RESULTS);
+                ArrayList<Double> results = (ArrayList<Double>) args.getSerializable(RESULTS);
 
 
                 double average = 0;
-                for (int i = 0; i < results.length; i++) {
-                    average += results[i];
+                for (int i = 0; i < results.size(); i++) {
+                    average += results.get(i);
                 }
 
-                average /= results.length;
+                average /= results.size();
 
                 averageReact.setText(String.valueOf(average));
 
-                ArrayList<Double> list = new ArrayList<>();
-                for (double d : results)
-                    list.add(d);
-
-                double min = Collections.min(list);
-                double max = Collections.max(list);
+                double min = Collections.min(results);
+                double max = Collections.max(results);
 
                 minReact.setText(String.valueOf(min));
                 maxReact.setText(String.valueOf(max));
 
                 List<Entry> lineEntries = new ArrayList<>();
 
-                for (int i = 0; i < list.size(); i++) {
-                    lineEntries.add(new Entry(i, list.get(i).floatValue()));
+                for (int i = 0; i < results.size(); i++) {
+                    lineEntries.add(new Entry(i, results.get(i).floatValue()));
                 }
 
                 LineDataSet dataSet = new LineDataSet(lineEntries, "Время");
