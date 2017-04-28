@@ -13,7 +13,8 @@ import android.widget.Toast;
 
 import com.firrael.psychology.R;
 import com.firrael.psychology.model.Figure;
-import com.firrael.psychology.presenter.FiguresTestPresenter;
+import com.firrael.psychology.model.Result;
+import com.firrael.psychology.presenter.AttentionVolumeTestPresenter;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -23,8 +24,8 @@ import nucleus.factory.RequiresPresenter;
  * Created by Railag on 17.03.2017.
  */
 
-@RequiresPresenter(FiguresTestPresenter.class)
-public class AttentionVolumeTestFragment extends BaseFragment<FiguresTestPresenter> {
+@RequiresPresenter(AttentionVolumeTestPresenter.class)
+public class AttentionVolumeTestFragment extends BaseFragment<AttentionVolumeTestPresenter> {
 
     private final static int MAX_FIGURES = 100;
 
@@ -32,6 +33,7 @@ public class AttentionVolumeTestFragment extends BaseFragment<FiguresTestPresent
 
     private int wins;
     private int fails;
+    private int misses;
 
     @BindView(R.id.firstImage)
     ImageView firstImage;
@@ -88,7 +90,7 @@ public class AttentionVolumeTestFragment extends BaseFragment<FiguresTestPresent
             }
 
             if (active && figure1.equals(figure2)) {
-                fails++;
+                misses++;
             }
 
             currentFigure++;
@@ -143,14 +145,36 @@ public class AttentionVolumeTestFragment extends BaseFragment<FiguresTestPresent
     }
 
     private void toNextTest() {
-        // TODO
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }
 
+        startLoading();
+        getPresenter().save(wins, fails, misses);
+    }
+
+    public void onSuccess(Result result) {
+        stopLoading();
+
+        if (result == null) {
+            onError(new IllegalArgumentException());
+            return;
+        }
+        if (result.invalid()) {
+            toast(result.error);
+            return;
+        }
+        toast("success");
+
+
         Bundle args = new Bundle();
         args.putInt(AttentionVolumeResultsFragment.RESULTS, wins);
         getMainActivity().toAttentionVolumeResults(args);
+    }
+
+    public void onError(Throwable throwable) {
+        stopLoading();
+        throwable.printStackTrace();
     }
 
     @Override

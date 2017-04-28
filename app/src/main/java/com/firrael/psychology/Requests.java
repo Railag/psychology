@@ -11,6 +11,10 @@ public class Requests {
     public static final int REQUEST_UPDATE_INFO = 5;
     public static final int REQUEST_RESULTS_REACTION = 6;
     public static final int REQUEST_RESULTS_STRESS = 7;
+    public static final int REQUEST_RESULTS_FOCUSING = 8;
+    public static final int REQUEST_RESULTS_ATTENTION_STABILITY = 9;
+    public static final int REQUEST_RESULTS_COMPLEX_MOTOR_REACTION = 10;
+    public static final int REQUEST_RESULTS_ATTENTION_VOLUME = 11;
 
 
     public static final int REQUEST_CREATE_GROUP = 5;

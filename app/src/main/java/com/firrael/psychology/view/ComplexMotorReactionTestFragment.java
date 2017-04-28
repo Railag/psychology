@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.firrael.psychology.R;
 import com.firrael.psychology.model.MotorCircle;
+import com.firrael.psychology.model.Result;
 import com.firrael.psychology.presenter.ComplexMotorReactionTestPresenter;
 
 import butterknife.BindView;
@@ -31,8 +32,6 @@ public class ComplexMotorReactionTestFragment extends BaseFragment<ComplexMotorR
     @BindView(R.id.reactionImage)
     ImageView image;
 
-    private long time;
-
     private Handler handler;
 
     boolean active;
@@ -41,6 +40,7 @@ public class ComplexMotorReactionTestFragment extends BaseFragment<ComplexMotorR
 
     int wins = 0;
     int fails = 0;
+    int misses = 0;
 
     public static ComplexMotorReactionTestFragment newInstance() {
 
@@ -74,10 +74,13 @@ public class ComplexMotorReactionTestFragment extends BaseFragment<ComplexMotorR
         int startTime = 1200;
 
         handler.postDelayed(() -> {
+            if (active) {
+                misses++;
+                active = false;
+            }
+
             currentStep++;
-            active = false;
             action();
-            next();
 
         }, startTime);
     }
@@ -132,11 +135,34 @@ public class ComplexMotorReactionTestFragment extends BaseFragment<ComplexMotorR
     }
 
     private void toNextTest() {
+        startLoading();
+        getPresenter().save(wins, fails, misses);
+    }
+
+    public void onSuccess(Result result) {
+        stopLoading();
+
+        if (result == null) {
+            onError(new IllegalArgumentException());
+            return;
+        }
+        if (result.invalid()) {
+            toast(result.error);
+            return;
+        }
+        toast("success");
+
         Bundle args = new Bundle();
         args.putInt(ComplexMotorReactionResultsFragment.WINS, wins);
         args.putInt(ComplexMotorReactionResultsFragment.FAILS, fails);
         getMainActivity().toComplexMotorReactionResults(args);
     }
+
+    public void onError(Throwable throwable) {
+        stopLoading();
+        throwable.printStackTrace();
+    }
+
 
     private void action() {
         if (getActivity() == null) {
@@ -164,10 +190,10 @@ public class ComplexMotorReactionTestFragment extends BaseFragment<ComplexMotorR
                 break;
         }
 
-        time = System.nanoTime();
-
         if (currentStep > MAX_COUNT) {
             toNextTest();
+        } else {
+            next();
         }
     }
 }

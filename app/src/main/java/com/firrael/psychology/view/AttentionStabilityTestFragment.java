@@ -12,7 +12,8 @@ import android.widget.Toast;
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
 import com.firrael.psychology.model.Answer;
-import com.firrael.psychology.presenter.FirstTestPresenter;
+import com.firrael.psychology.model.Result;
+import com.firrael.psychology.presenter.AttentionStabilityTestPresenter;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -25,15 +26,16 @@ import nucleus.factory.RequiresPresenter;
  * Created by Railag on 06.03.2017.
  */
 
-@RequiresPresenter(FirstTestPresenter.class)
-public class AttentionStabilityTestFragment extends BaseFragment<FirstTestPresenter> {
+@RequiresPresenter(AttentionStabilityTestPresenter.class)
+public class AttentionStabilityTestFragment extends BaseFragment<AttentionStabilityTestPresenter> {
 
     private final static int MAX_NUMBER = 10;
 
     private Handler handler;
 
     private int wins;
-    private int fails;
+    private long errors;
+    private long misses;
 
     @BindView(R.id.number)
     TextView number;
@@ -118,7 +120,10 @@ public class AttentionStabilityTestFragment extends BaseFragment<FirstTestPresen
                 handler.postDelayed(() -> {
                     int num = generateRandomNumber();
                     number.setText(String.valueOf(num));
-                    active = false;
+                    if (active) {
+                        misses++;
+                        active = false;
+                    }
                 }, progressTime);
             }
         }
@@ -149,7 +154,7 @@ public class AttentionStabilityTestFragment extends BaseFragment<FirstTestPresen
 
         if (right) {
             if (evenNumber) {
-                fails++;
+                errors++;
                 answer.setErrorValue(1);
             } else {
                 wins++;
@@ -157,7 +162,7 @@ public class AttentionStabilityTestFragment extends BaseFragment<FirstTestPresen
             }
         } else {
             if (!evenNumber) {
-                fails++;
+                errors++;
                 answer.setErrorValue(1);
             } else {
                 wins++;
@@ -170,7 +175,7 @@ public class AttentionStabilityTestFragment extends BaseFragment<FirstTestPresen
 
         active = false;
 
-        Toast.makeText(getActivity(), "Wins = " + wins + ", Fails = " + fails, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Wins = " + wins + ", Fails = " + errors, Toast.LENGTH_SHORT).show();
 
         /*if (number.getVisibility() == View.GONE) {
             long currTime = System.nanoTime();
@@ -195,9 +200,37 @@ public class AttentionStabilityTestFragment extends BaseFragment<FirstTestPresen
     }
 
     private void toNextTest() {
+        ArrayList<Double> times = new ArrayList<>();
+
+        for (Answer a : answers) {
+            times.add(a.getTime());
+        }
+
+        startLoading();
+        getPresenter().save(times, errors, misses);
+    }
+
+    public void onSuccess(Result result) {
+        stopLoading();
+
+        if (result == null) {
+            onError(new IllegalArgumentException());
+            return;
+        }
+        if (result.invalid()) {
+            toast(result.error);
+            return;
+        }
+        toast("success");
+
         Bundle args = new Bundle();
         args.putParcelableArrayList(AttentionStabilityResultsFragment.RESULTS, answers);
         getMainActivity().toAttentionStabilityResults(args);
+    }
+
+    public void onError(Throwable throwable) {
+        stopLoading();
+        throwable.printStackTrace();
     }
 
     @Override

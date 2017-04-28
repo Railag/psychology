@@ -16,7 +16,8 @@ import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
 import com.firrael.psychology.model.Circle;
 import com.firrael.psychology.model.Answer;
-import com.firrael.psychology.presenter.CirclesTestPresenter;
+import com.firrael.psychology.model.Result;
+import com.firrael.psychology.presenter.FocusingTestPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,8 @@ import nucleus.factory.RequiresPresenter;
  * Created by Railag on 16.03.2017.
  */
 
-@RequiresPresenter(CirclesTestPresenter.class)
-public class FocusingTestFragment extends BaseFragment<CirclesTestPresenter> {
+@RequiresPresenter(FocusingTestPresenter.class)
+public class FocusingTestFragment extends BaseFragment<FocusingTestPresenter> {
 
     private Circle baseCircle;
 
@@ -216,11 +217,42 @@ public class FocusingTestFragment extends BaseFragment<CirclesTestPresenter> {
     }
 
     private void toNextTest() {
+        ArrayList<Double> times = new ArrayList<>();
+        ArrayList<Long> errors = new ArrayList<>();
+
+        for (Answer a : answers) {
+            times.add(a.getTime());
+
+            errors.add((long) a.getErrorValue());
+        }
+
+        startLoading();
+        getPresenter().save(times, errors);
+    }
+
+    public void onSuccess(Result result) {
+        stopLoading();
+
+        if (result == null) {
+            onError(new IllegalArgumentException());
+            return;
+        }
+        if (result.invalid()) {
+            toast(result.error);
+            return;
+        }
+        toast("success");
+
         Bundle args = new Bundle();
         args.putParcelableArrayList(FocusingResultsFragment.RESULTS, answers);
         args.putInt(FocusingResultsFragment.LINES, LINES_COUNT);
         args.putInt(FocusingResultsFragment.ERRORS, fails);
         getMainActivity().toFocusingResults(args);
+    }
+
+    public void onError(Throwable throwable) {
+        stopLoading();
+        throwable.printStackTrace();
     }
 
     @Override

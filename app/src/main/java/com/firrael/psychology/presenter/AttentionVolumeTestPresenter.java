@@ -5,19 +5,22 @@ import android.os.Bundle;
 import com.firrael.psychology.App;
 import com.firrael.psychology.RConnectorService;
 import com.firrael.psychology.model.User;
+import com.firrael.psychology.view.AttentionVolumeTestFragment;
 import com.firrael.psychology.view.ComplexMotorReactionTestFragment;
 
 import icepick.State;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.firrael.psychology.Requests.REQUEST_RESULTS_ATTENTION_VOLUME;
 import static com.firrael.psychology.Requests.REQUEST_RESULTS_COMPLEX_MOTOR_REACTION;
 
 /**
- * Created by Railag on 19.04.2017.
+ * Created by Railag on 17.03.2017.
  */
 
-public class ComplexMotorReactionTestPresenter extends BasePresenter<ComplexMotorReactionTestFragment> {
+public class AttentionVolumeTestPresenter extends BasePresenter<AttentionVolumeTestFragment> {
+
 
     @State
     long userId;
@@ -37,12 +40,12 @@ public class ComplexMotorReactionTestPresenter extends BasePresenter<ComplexMoto
 
         RConnectorService service = App.restService();
 
-        restartableLatestCache(REQUEST_RESULTS_COMPLEX_MOTOR_REACTION,
-                () -> service.sendComplexMotorReactionResults(userId, wins, fails, misses)
+        restartableLatestCache(REQUEST_RESULTS_ATTENTION_VOLUME,
+                () -> service.sendAttentionVolumeResults(userId, wins, fails, misses)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread()),
-                ComplexMotorReactionTestFragment::onSuccess,
-                ComplexMotorReactionTestFragment::onError);
+                AttentionVolumeTestFragment::onSuccess,
+                AttentionVolumeTestFragment::onError);
     }
 
     public void save(long wins, long fails, long misses) {
@@ -51,6 +54,6 @@ public class ComplexMotorReactionTestPresenter extends BasePresenter<ComplexMoto
         this.fails = fails;
         this.misses = misses;
 
-        start(REQUEST_RESULTS_COMPLEX_MOTOR_REACTION);
+        start(REQUEST_RESULTS_ATTENTION_VOLUME);
     }
 }

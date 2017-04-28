@@ -46,6 +46,22 @@ public interface RConnectorService {
     @POST("/user/results_stress")
     Observable<Result> sendStressResults(@Field("user_id") long userId, @Field("times[]") ArrayList<Double> times, @Field("misses") long misses);
 
+    @FormUrlEncoded
+    @POST("/user/results_focusing")
+    Observable<Result> sendFocusingResults(@Field("user_id") long userId, @Field("times[]") ArrayList<Double> times, @Field("error_values[]") ArrayList<Long> errors);
+
+    @FormUrlEncoded
+    @POST("/user/results_stability")
+    Observable<Result> sendAttentionStabilityResults(@Field("user_id") long userId, @Field("times[]") ArrayList<Double> times, @Field("misses") long misses, @Field("errors_value") long errors);
+
+    @FormUrlEncoded
+    @POST("/user/results_complex")
+    Observable<Result> sendComplexMotorReactionResults(@Field("user_id") long userId, @Field("wins") long wins, @Field("fails") long fails, @Field("misses") long misses);
+
+    @FormUrlEncoded
+    @POST("/user/results_volume")
+    Observable<Result> sendAttentionVolumeResults(@Field("user_id") long userId, @Field("wins") long wins, @Field("fails") long fails, @Field("misses") long misses);
+
 /*
     @POST("/user/load_user_photo")
     Observable<ImageResult> loadImage();
