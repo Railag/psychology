@@ -39,7 +39,7 @@ import butterknife.BindView;
  * Created by Railag on 20.03.2017.
  */
 
-public class AttentionStabilityResultsFragment extends SimpleFragment {
+public class AttentionStabilityResultsFragment extends SimpleFragment implements ResultScreen {
 
     public final static String RESULTS = "results";
 

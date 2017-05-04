@@ -35,7 +35,7 @@ import butterknife.BindView;
  * Created by Railag on 20.03.2017.
  */
 
-public class ReactionResultsFragment extends SimpleFragment {
+public class ReactionResultsFragment extends SimpleFragment implements ResultScreen {
 
     public final static String RESULTS = "results";
 

@@ -28,7 +28,7 @@ import butterknife.BindView;
  * Created by Railag on 20.03.2017.
  */
 
-public class AttentionVolumeResultsFragment extends SimpleFragment {
+public class AttentionVolumeResultsFragment extends SimpleFragment implements ResultScreen {
 
     public final static String RESULTS = "results";
 

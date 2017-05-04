@@ -28,7 +28,7 @@ import butterknife.BindView;
  * Created by Railag on 19.04.2017.
  */
 
-public class ComplexMotorReactionResultsFragment extends SimpleFragment {
+public class ComplexMotorReactionResultsFragment extends SimpleFragment implements ResultScreen {
 
     public final static String WINS = "wins";
     public final static String FAILS = "fails";

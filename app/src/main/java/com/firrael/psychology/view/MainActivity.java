@@ -27,6 +27,7 @@ import com.firrael.psychology.view.results.AttentionVolumeResultsFragment;
 import com.firrael.psychology.view.results.ComplexMotorReactionResultsFragment;
 import com.firrael.psychology.view.results.FocusingResultsFragment;
 import com.firrael.psychology.view.results.ReactionResultsFragment;
+import com.firrael.psychology.view.results.ResultScreen;
 import com.firrael.psychology.view.results.StressResistanceResultsFragment;
 import com.firrael.psychology.view.tests.AttentionStabilityTestFragment;
 import com.firrael.psychology.view.tests.AttentionVolumeTestFragment;
@@ -66,6 +67,8 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
     AVLoadingIndicatorView loading;
 
     private FirebaseAnalytics analytics;
+
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +111,20 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
 
     @Override
     public void onBackPressed() {
+
+        if (currentFragment instanceof ResultScreen) {
+            toLanding();
+            return;
+        }
+
+        if (currentFragment instanceof LandingFragment) {
+            finish();
+            return;
+        }
+
         super.onBackPressed();
     }
+
 
     void makePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -145,12 +160,15 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
 
     private <T extends Fragment> void setFragment(final T fragment) {
         runOnUiThread(() -> {
+            currentFragment = fragment;
+
             final FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
             // TODO custom transaction animations
             fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
             fragmentTransaction.replace(R.id.mainFragment, fragment, TAG_MAIN);
             fragmentTransaction.commitAllowingStateLoss();
+
         });
     }
 
