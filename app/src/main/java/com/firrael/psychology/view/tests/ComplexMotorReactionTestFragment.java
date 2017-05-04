@@ -1,4 +1,4 @@
-package com.firrael.psychology.view;
+package com.firrael.psychology.view.tests;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -9,10 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.firrael.psychology.App;
 import com.firrael.psychology.R;
+import com.firrael.psychology.model.Difficulty;
 import com.firrael.psychology.model.MotorCircle;
 import com.firrael.psychology.model.Result;
 import com.firrael.psychology.presenter.ComplexMotorReactionTestPresenter;
+import com.firrael.psychology.view.base.BaseFragment;
+import com.firrael.psychology.view.results.ComplexMotorReactionResultsFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -190,7 +194,9 @@ public class ComplexMotorReactionTestFragment extends BaseFragment<ComplexMotorR
                 break;
         }
 
-        if (currentStep > MAX_COUNT) {
+        Difficulty diff = App.diff(getActivity());
+
+        if (currentStep > MAX_COUNT * diff.getLevel()) {
             toNextTest();
         } else {
             next();

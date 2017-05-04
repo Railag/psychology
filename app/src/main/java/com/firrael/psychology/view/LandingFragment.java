@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.firrael.psychology.R;
 import com.firrael.psychology.model.User;
+import com.firrael.psychology.view.base.SimpleFragment;
 
 import butterknife.OnClick;
 

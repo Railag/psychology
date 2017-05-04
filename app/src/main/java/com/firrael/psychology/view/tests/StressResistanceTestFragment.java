@@ -1,4 +1,4 @@
-package com.firrael.psychology.view;
+package com.firrael.psychology.view.tests;
 
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -8,12 +8,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.firrael.psychology.App;
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
 import com.firrael.psychology.model.Answer;
+import com.firrael.psychology.model.Difficulty;
 import com.firrael.psychology.model.Result;
-import com.firrael.psychology.presenter.ReactionTestPresenter;
 import com.firrael.psychology.presenter.StressResistanceTestPresenter;
+import com.firrael.psychology.view.base.BaseFragment;
+import com.firrael.psychology.view.results.StressResistanceResultsFragment;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -80,9 +83,6 @@ public class StressResistanceTestFragment extends BaseFragment<StressResistanceT
     private final static int POINTS_COUNT = 20;
     private final static int MAX_POINT = 19;
 
-    private final static int USUAL_TIME = 3000;
-    private final static int ACTION_TIME = 1500;
-
     private final static int MAX_VALUE = 12;
 
 
@@ -125,24 +125,23 @@ public class StressResistanceTestFragment extends BaseFragment<StressResistanceT
     }
 
     private boolean checkAction() {
-        int randomNumber = random.nextInt(4);
+        int randomNumber = random.nextInt(5);
 
-        return randomNumber == 1; // 25% chance
+        return randomNumber == 1; // 20% chance
     }
 
     private void next() {
-        int startTime = 1000;
+        Difficulty diff = App.diff(getActivity());
+
+        int startTime = 2100 / diff.getLevel();
 
         final boolean isAction = checkAction();
         if (isAction) {
-            //        startTime = ACTION_TIME;
             if (currentPoint == MAX_POINT) {
                 currentPoint = 0;
             } else {
                 currentPoint++;
             }
-        } else {
-            //        startTime = USUAL_TIME;
         }
 
         handler.postDelayed(() -> {

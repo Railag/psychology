@@ -15,6 +15,7 @@ public class Requests {
     public static final int REQUEST_RESULTS_ATTENTION_STABILITY = 9;
     public static final int REQUEST_RESULTS_COMPLEX_MOTOR_REACTION = 10;
     public static final int REQUEST_RESULTS_ATTENTION_VOLUME = 11;
+    public static final int REQUEST_STATISTICS = 12;
 
 
     public static final int REQUEST_CREATE_GROUP = 5;

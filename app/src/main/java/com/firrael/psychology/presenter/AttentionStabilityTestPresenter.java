@@ -5,8 +5,7 @@ import android.os.Bundle;
 import com.firrael.psychology.App;
 import com.firrael.psychology.RConnectorService;
 import com.firrael.psychology.model.User;
-import com.firrael.psychology.view.AttentionStabilityTestFragment;
-import com.firrael.psychology.view.FocusingTestFragment;
+import com.firrael.psychology.view.tests.AttentionStabilityTestFragment;
 
 import java.util.ArrayList;
 

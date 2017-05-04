@@ -6,6 +6,7 @@ import android.widget.EditText;
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
 import com.firrael.psychology.presenter.NamePresenter;
+import com.firrael.psychology.view.base.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;

@@ -1,4 +1,4 @@
-package com.firrael.psychology.view;
+package com.firrael.psychology.view.results;
 
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
 import com.firrael.psychology.model.Answer;
+import com.firrael.psychology.view.base.SimpleFragment;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;

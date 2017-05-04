@@ -1,4 +1,4 @@
-package com.firrael.psychology.view;
+package com.firrael.psychology.view.tests;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,17 +10,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firrael.psychology.App;
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
+import com.firrael.psychology.model.Difficulty;
 import com.firrael.psychology.model.Result;
-import com.firrael.psychology.model.User;
-import com.firrael.psychology.model.UserResult;
 import com.firrael.psychology.presenter.ReactionTestPresenter;
+import com.firrael.psychology.view.base.BaseFragment;
+import com.firrael.psychology.view.results.ReactionResultsFragment;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -84,9 +84,10 @@ public class ReactionTestFragment extends BaseFragment<ReactionTestPresenter> {
     }
 
     private void next() {
-        int startTime = new Random().nextInt(5000);
+        Difficulty diff = App.diff(getActivity());
+        int startTime = new Random().nextInt(2000 * diff.getLevel());
         if (startTime < 2000) {
-            startTime = 3000;
+            startTime = 2500;
         }
 
         handler.postDelayed(() -> {

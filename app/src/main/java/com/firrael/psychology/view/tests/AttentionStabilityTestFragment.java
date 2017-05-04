@@ -1,4 +1,4 @@
-package com.firrael.psychology.view;
+package com.firrael.psychology.view.tests;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,11 +9,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firrael.psychology.App;
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
 import com.firrael.psychology.model.Answer;
+import com.firrael.psychology.model.Difficulty;
 import com.firrael.psychology.model.Result;
 import com.firrael.psychology.presenter.AttentionStabilityTestPresenter;
+import com.firrael.psychology.view.base.BaseFragment;
+import com.firrael.psychology.view.results.AttentionStabilityResultsFragment;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -81,7 +85,9 @@ public class AttentionStabilityTestFragment extends BaseFragment<AttentionStabil
 
         Random randomTime = new Random();
 
-        for (int i = 0; i < 100; i++) {
+        Difficulty diff = App.diff(getActivity());
+
+        for (int i = 0; i < 100 * diff.getLevel(); i++) {
             if (i < 10) { // first 10 numbers
                 progressTime += randomTime.nextInt(800);
                 handler.postDelayed(() -> {
@@ -176,15 +182,6 @@ public class AttentionStabilityTestFragment extends BaseFragment<AttentionStabil
         active = false;
 
         Toast.makeText(getActivity(), "Wins = " + wins + ", Fails = " + errors, Toast.LENGTH_SHORT).show();
-
-        /*if (number.getVisibility() == View.GONE) {
-            long currTime = System.nanoTime();
-            long diff = currTime - time;
-            String diffInSeconds = new DecimalFormat("#.##").format(diff / MILLIS);
-            String result = diffInSeconds + " секунд";
-            Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
-            toNextTest();
-        }*/
     }
 
     private int generateRandomNumber() {

@@ -1,4 +1,4 @@
-package com.firrael.psychology.view;
+package com.firrael.psychology.view.tests;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,13 +11,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.firrael.psychology.CirclesAdapter;
+import com.firrael.psychology.App;
+import com.firrael.psychology.view.adapter.CirclesAdapter;
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
-import com.firrael.psychology.model.Circle;
 import com.firrael.psychology.model.Answer;
+import com.firrael.psychology.model.Circle;
+import com.firrael.psychology.model.Difficulty;
 import com.firrael.psychology.model.Result;
 import com.firrael.psychology.presenter.FocusingTestPresenter;
+import com.firrael.psychology.view.base.BaseFragment;
+import com.firrael.psychology.view.results.FocusingResultsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +41,7 @@ public class FocusingTestFragment extends BaseFragment<FocusingTestPresenter> {
 
     private final static int LINES_VISIBLE = 11;
 
-    private final static int LINES_COUNT = 30;
+    private static int LINES_COUNT = 20;
     private final static int CIRCLES_PER_LINE = 15;
 
     private Handler handler;
@@ -89,6 +93,9 @@ public class FocusingTestFragment extends BaseFragment<FocusingTestPresenter> {
 
     @Override
     protected void initView(View v) {
+        Difficulty diff = App.diff(getActivity());
+        LINES_COUNT *= diff.getLevel();
+
         baseCircle = Circle.random();
         baseCircleView.setRotation(Circle.rotation(baseCircle));
 

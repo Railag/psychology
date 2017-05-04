@@ -5,15 +5,13 @@ import android.os.Bundle;
 import com.firrael.psychology.App;
 import com.firrael.psychology.RConnectorService;
 import com.firrael.psychology.model.User;
-import com.firrael.psychology.view.AttentionVolumeTestFragment;
-import com.firrael.psychology.view.ComplexMotorReactionTestFragment;
+import com.firrael.psychology.view.tests.AttentionVolumeTestFragment;
 
 import icepick.State;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.firrael.psychology.Requests.REQUEST_RESULTS_ATTENTION_VOLUME;
-import static com.firrael.psychology.Requests.REQUEST_RESULTS_COMPLEX_MOTOR_REACTION;
 
 /**
  * Created by Railag on 17.03.2017.

@@ -1,4 +1,4 @@
-package com.firrael.psychology.view;
+package com.firrael.psychology.view.tests;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -11,10 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.firrael.psychology.App;
 import com.firrael.psychology.R;
+import com.firrael.psychology.model.Difficulty;
 import com.firrael.psychology.model.Figure;
 import com.firrael.psychology.model.Result;
 import com.firrael.psychology.presenter.AttentionVolumeTestPresenter;
+import com.firrael.psychology.view.results.AttentionVolumeResultsFragment;
+import com.firrael.psychology.view.base.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -28,6 +32,8 @@ import nucleus.factory.RequiresPresenter;
 public class AttentionVolumeTestFragment extends BaseFragment<AttentionVolumeTestPresenter> {
 
     private final static int MAX_FIGURES = 100;
+
+    private final static int BASE_TIME = 2100;
 
     private Handler handler;
 
@@ -48,7 +54,7 @@ public class AttentionVolumeTestFragment extends BaseFragment<AttentionVolumeTes
 
     private int currentFigure = 0;
 
-    private int progressTime = 0;
+    private Difficulty currentDiff;
 
     public static AttentionVolumeTestFragment newInstance() {
 
@@ -80,6 +86,7 @@ public class AttentionVolumeTestFragment extends BaseFragment<AttentionVolumeTes
     protected void initView(View v) {
         figure1 = Figure.random();
         figure2 = Figure.random();
+        currentDiff = App.diff(getActivity());
         next();
     }
 
@@ -121,7 +128,7 @@ public class AttentionVolumeTestFragment extends BaseFragment<AttentionVolumeTes
             next();
             active = true;
             Log.i("DEBUG", currentFigure + " w:" + wins + " f:" + fails);
-        }, 800);
+        }, BASE_TIME / currentDiff.getLevel());
     }
 
     @OnClick(R.id.button)

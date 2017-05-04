@@ -1,6 +1,5 @@
-package com.firrael.psychology.view;
+package com.firrael.psychology.view.base;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -10,15 +9,17 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.firrael.psychology.App;
+import com.firrael.psychology.presenter.BasePresenter;
+import com.firrael.psychology.view.MainActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import nucleus.view.NucleusFragment;
 
 /**
- * Created by Railag on 19.03.2017.
+ * Created by firrael on 27.05.2016.
  */
-
-public abstract class SimpleFragment extends Fragment {
+public abstract class BaseFragment<P extends BasePresenter> extends NucleusFragment<P> {
 
     private Unbinder unbinder;
 
@@ -76,5 +77,4 @@ public abstract class SimpleFragment extends Fragment {
         if (unbinder != null)
             unbinder.unbind();
     }
-
 }

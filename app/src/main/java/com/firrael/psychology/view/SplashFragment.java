@@ -8,6 +8,7 @@ import com.firrael.psychology.R;
 import com.firrael.psychology.model.User;
 import com.firrael.psychology.model.UserResult;
 import com.firrael.psychology.presenter.SplashPresenter;
+import com.firrael.psychology.view.base.BaseFragment;
 
 import nucleus.factory.RequiresPresenter;
 

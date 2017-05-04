@@ -1,4 +1,4 @@
-package com.firrael.psychology;
+package com.firrael.psychology.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.firrael.psychology.R;
 import com.firrael.psychology.model.Circle;
 
 import java.util.ArrayList;

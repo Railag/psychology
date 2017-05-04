@@ -1,8 +1,10 @@
 package com.firrael.psychology;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.facebook.stetho.Stetho;
+import com.firrael.psychology.model.Difficulty;
 import com.firrael.psychology.view.MainActivity;
 import com.google.gson.Gson;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
@@ -20,6 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class App extends Application {
 
     public static final String PREFS = "prefs";
+    public static final String DIFFICULTY_KEY = "difficulty";
 
     private static WeakReference<MainActivity> activityRef;
 
@@ -88,5 +91,15 @@ public class App extends Application {
 
     private static <T> T createRetrofitService(final Class<T> clazz) {
         return api().create(clazz);
+    }
+
+    public static Difficulty diff(Context context) {
+        int level = Utils.prefs(context).getInt(DIFFICULTY_KEY, Difficulty.MEDIUM.getLevel());
+        Difficulty currentDifficulty = Difficulty.create(level);
+        return currentDifficulty;
+    }
+
+    public static void setDiff(Context context, Difficulty diff) {
+        Utils.prefs(context).edit().putInt(DIFFICULTY_KEY, diff.getLevel()).apply();
     }
 }

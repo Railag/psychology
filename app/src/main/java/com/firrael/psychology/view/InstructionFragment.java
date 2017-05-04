@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.firrael.psychology.R;
+import com.firrael.psychology.view.base.SimpleFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -56,32 +57,32 @@ public class InstructionFragment extends SimpleFragment {
         Bundle args = getArguments();
         if (args != null && args.containsKey(TYPE)) {
             test = (Test) args.getSerializable(TYPE);
+
+            String instruction = "";
+
+            switch (test) {
+                case FOCUSING:
+                    instruction = getString(R.string.instruction_focusing);
+                    break;
+                case REACTION:
+                    instruction = getString(R.string.instruction_reaction);
+                    break;
+                case ATTENTION_STABILITY:
+                    instruction = getString(R.string.instruction_attention_stability);
+                    break;
+                case ATTENTION_VOLUME:
+                    instruction = getString(R.string.instruction_attention_volume);
+                    break;
+                case STRESS_RESISTANCE:
+                    instruction = getString(R.string.instruction_stress_resistance);
+                    break;
+                case COMPLEX_MOTOR_REACTION:
+                    instruction = getString(R.string.instruction_complex_motor_reaction);
+                    break;
+            }
+
+            instructionText.setText(instruction);
         }
-
-        String instruction = "";
-
-        switch (test) {
-            case FOCUSING:
-                instruction = getString(R.string.instruction_focusing);
-                break;
-            case REACTION:
-                instruction = getString(R.string.instruction_reaction);
-                break;
-            case ATTENTION_STABILITY:
-                instruction = getString(R.string.instruction_attention_stability);
-                break;
-            case ATTENTION_VOLUME:
-                instruction = getString(R.string.instruction_attention_volume);
-                break;
-            case STRESS_RESISTANCE:
-                instruction = getString(R.string.instruction_stress_resistance);
-                break;
-            case COMPLEX_MOTOR_REACTION:
-                instruction = getString(R.string.instruction_complex_motor_reaction);
-                break;
-        }
-
-        instructionText.setText(instruction);
     }
 
     @OnClick(R.id.start)

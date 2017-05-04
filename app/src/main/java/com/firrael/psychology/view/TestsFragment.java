@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.firrael.psychology.R;
 import com.firrael.psychology.presenter.TestsFragmentPresenter;
+import com.firrael.psychology.view.base.BaseFragment;
 
 import butterknife.OnClick;
 import nucleus.factory.RequiresPresenter;

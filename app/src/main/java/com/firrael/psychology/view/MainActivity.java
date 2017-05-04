@@ -22,6 +22,18 @@ import com.firrael.psychology.RConnectorService;
 import com.firrael.psychology.model.Result;
 import com.firrael.psychology.model.User;
 import com.firrael.psychology.presenter.MainPresenter;
+import com.firrael.psychology.view.results.AttentionStabilityResultsFragment;
+import com.firrael.psychology.view.results.AttentionVolumeResultsFragment;
+import com.firrael.psychology.view.results.ComplexMotorReactionResultsFragment;
+import com.firrael.psychology.view.results.FocusingResultsFragment;
+import com.firrael.psychology.view.results.ReactionResultsFragment;
+import com.firrael.psychology.view.results.StressResistanceResultsFragment;
+import com.firrael.psychology.view.tests.AttentionStabilityTestFragment;
+import com.firrael.psychology.view.tests.AttentionVolumeTestFragment;
+import com.firrael.psychology.view.tests.ComplexMotorReactionTestFragment;
+import com.firrael.psychology.view.tests.FocusingTestFragment;
+import com.firrael.psychology.view.tests.ReactionTestFragment;
+import com.firrael.psychology.view.tests.StressResistanceTestFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -176,14 +188,15 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
     }
 
     public void toStatistics() {
-        // TODO
-        toInstructionFragment(InstructionFragment.Test.STRESS_RESISTANCE);
+        setFragment(StatisticsFragment.newInstance());
+    //    toInstructionFragment(InstructionFragment.Test.STRESS_RESISTANCE);
     }
 
 
     public void toSettings() {
         // TODO
-        toInstructionFragment(InstructionFragment.Test.COMPLEX_MOTOR_REACTION);
+        setFragment(SettingsFragment.newInstance());
+    //    toInstructionFragment(InstructionFragment.Test.COMPLEX_MOTOR_REACTION);
     }
 
     public void toInstructionFragment(InstructionFragment.Test test) {

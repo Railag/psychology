@@ -1,6 +1,7 @@
 package com.firrael.psychology;
 
 import com.firrael.psychology.model.Result;
+import com.firrael.psychology.model.StatisticsResult;
 import com.firrael.psychology.model.UserResult;
 
 import java.util.ArrayList;
@@ -61,6 +62,10 @@ public interface RConnectorService {
     @FormUrlEncoded
     @POST("/user/results_volume")
     Observable<Result> sendAttentionVolumeResults(@Field("user_id") long userId, @Field("wins") long wins, @Field("fails") long fails, @Field("misses") long misses);
+
+    @FormUrlEncoded
+    @POST("/user/statistics")
+    Observable<StatisticsResult> fetchStatistics(@Field("user_id") long userId);
 
 /*
     @POST("/user/load_user_photo")

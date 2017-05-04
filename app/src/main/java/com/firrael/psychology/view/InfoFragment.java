@@ -12,6 +12,7 @@ import com.firrael.psychology.Utils;
 import com.firrael.psychology.model.User;
 import com.firrael.psychology.model.UserResult;
 import com.firrael.psychology.presenter.InfoPresenter;
+import com.firrael.psychology.view.base.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;

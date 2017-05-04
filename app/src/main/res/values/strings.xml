@@ -82,6 +82,7 @@
     <string name="resultsTitle">Результаты</string>
     <string name="linesCount">Всего строк:</string>
     <string name="errorsCount">Количество ошибок:</string>
+    <string name="missesCount">Количество пропущенных:</string>
     <string name="save">Save</string>
     <string name="minReactTime">Минимальное время реакции:</string>
     <string name="maxReactTime">Максимальное время реакции:</string>
@@ -110,4 +111,9 @@
     <string name="enterEmail">Введите email</string>
     <string name="complex_motor_wins">Количество верных нажатий:</string>
     <string name="complex_motor_fails">Количество ошибок</string>
+    <string name="easy">Начальный</string>
+    <string name="medium">Средний</string>
+    <string name="hard">Продвинутый</string>
+    <string name="settings_level">Уровень сложности:</string>
+    <string name="winsCount">Количество правильных</string>
 </resources>
