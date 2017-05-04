@@ -35,8 +35,6 @@ import com.firrael.psychology.view.tests.ComplexMotorReactionTestFragment;
 import com.firrael.psychology.view.tests.FocusingTestFragment;
 import com.firrael.psychology.view.tests.ReactionTestFragment;
 import com.firrael.psychology.view.tests.StressResistanceTestFragment;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -77,10 +75,10 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
         ButterKnife.bind(this);
 
         // TODO check for google play services
-        int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
+/*        int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
         if (code != ConnectionResult.SUCCESS) {
             GoogleApiAvailability.getInstance().showErrorDialogFragment(this, code, 1);
-        }
+        }*/
 
         setSupportActionBar(toolbar);
 
@@ -207,14 +205,14 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
 
     public void toStatistics() {
         setFragment(StatisticsFragment.newInstance());
-    //    toInstructionFragment(InstructionFragment.Test.STRESS_RESISTANCE);
+        //    toInstructionFragment(InstructionFragment.Test.STRESS_RESISTANCE);
     }
 
 
     public void toSettings() {
         // TODO
         setFragment(SettingsFragment.newInstance());
-    //    toInstructionFragment(InstructionFragment.Test.COMPLEX_MOTOR_REACTION);
+        //    toInstructionFragment(InstructionFragment.Test.COMPLEX_MOTOR_REACTION);
     }
 
     public void toInstructionFragment(InstructionFragment.Test test) {
@@ -268,7 +266,6 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
     public void toComplexMotorReactionResults(Bundle args) {
         setFragment(ComplexMotorReactionResultsFragment.newInstance(args));
     }
-
 
 
     /*public void toMyGroups() {

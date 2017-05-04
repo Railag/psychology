@@ -3,16 +3,12 @@ package com.firrael.psychology;
 import android.app.Application;
 import android.content.Context;
 
-import com.facebook.stetho.Stetho;
 import com.firrael.psychology.model.Difficulty;
 import com.firrael.psychology.view.MainActivity;
 import com.google.gson.Gson;
-import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import java.lang.ref.WeakReference;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -27,21 +23,7 @@ public class App extends Application {
     private static WeakReference<MainActivity> activityRef;
 
     private static Retrofit api;
-    private static Realm realm;
     private static RConnectorService rConnectorService;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Stetho.initialize(
-                Stetho.newInitializerBuilder(this)
-                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
-                        .build());
-
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).build();
-        Realm.setDefaultConfiguration(realmConfig);
-    }
 
     private static Retrofit api() {
         if (api == null) {
@@ -64,14 +46,6 @@ public class App extends Application {
         }
 
         return api;
-    }
-
-    public static Realm realm() {
-        if (realm == null) {
-            realm = Realm.getDefaultInstance();
-        }
-
-        return realm;
     }
 
     public static RConnectorService restService() {
