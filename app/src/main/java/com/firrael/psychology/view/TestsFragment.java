@@ -3,17 +3,14 @@ package com.firrael.psychology.view;
 import android.os.Bundle;
 
 import com.firrael.psychology.R;
-import com.firrael.psychology.presenter.TestsFragmentPresenter;
-import com.firrael.psychology.view.base.BaseFragment;
+import com.firrael.psychology.view.base.SimpleFragment;
 
 import butterknife.OnClick;
-import nucleus.factory.RequiresPresenter;
 
 /**
  * Created by Railag on 07.11.2016.
  */
-@RequiresPresenter(TestsFragmentPresenter.class)
-public class TestsFragment extends BaseFragment<TestsFragmentPresenter> {
+public class TestsFragment extends SimpleFragment {
 
     public static TestsFragment newInstance() {
 
@@ -34,45 +31,18 @@ public class TestsFragment extends BaseFragment<TestsFragmentPresenter> {
         return R.layout.fragment_tests;
     }
 
-    @OnClick(R.id.memory)
-    public void toMemory() {
-        getMainActivity().toInstructionFragment(InstructionFragment.Test.ATTENTION_VOLUME);
-    }
-
-    @OnClick(R.id.attention)
-    public void toAttention() {
+    @OnClick(R.id.focusing)
+    public void toFocusing() {
         getMainActivity().toInstructionFragment(InstructionFragment.Test.FOCUSING);
     }
 
-    @OnClick(R.id.perception)
-    public void toPerception() {
+    @OnClick(R.id.resistance)
+    public void toResistance() {
+        getMainActivity().toInstructionFragment(InstructionFragment.Test.STRESS_RESISTANCE);
+    }
+
+    @OnClick(R.id.stability)
+    public void toStability() {
         getMainActivity().toInstructionFragment(InstructionFragment.Test.ATTENTION_STABILITY);
     }
-
-    @OnClick(R.id.reaction)
-    public void toReaction() {
-        getMainActivity().toInstructionFragment(InstructionFragment.Test.REACTION);
-    }
-
-   /* public void onSuccess(UserResult result) {
-        stopLoading();
-        if (result == null) {
-            onError(new IllegalArgumentException());
-            return;
-        }
-        if (result.invalid()) {
-            toast(result.error);
-            return;
-        }
-        toast("success login");
-        User.save(result, getActivity());
-        getMainActivity().updateNavigationMenu();
-        getMainActivity().toTests();
-    }
-
-    public void onError(Throwable error) {
-        error.printStackTrace();
-        stopLoading();
-        toast(error.getMessage());
-    }*/
 }

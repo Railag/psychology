@@ -12,20 +12,12 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/memory"
+            android:id="@+id/focusing"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:scaleType="fitXY"
             android:src="@drawable/ic_menu_camera" />
-
-        <ImageView
-            android:id="@+id/attention"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_menu_gallery" />
 
     </LinearLayout>
 
@@ -37,7 +29,7 @@
         android:weightSum="1">
 
         <ImageView
-            android:id="@+id/perception"
+            android:id="@+id/resistance"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
@@ -45,7 +37,7 @@
             android:src="@drawable/ic_menu_manage" />
 
         <ImageView
-            android:id="@+id/reaction"
+            android:id="@+id/stability"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"

@@ -20,11 +20,8 @@ public class InstructionFragment extends SimpleFragment {
 
     public enum Test {
         FOCUSING,
-        REACTION,
         ATTENTION_STABILITY,
-        ATTENTION_VOLUME,
         STRESS_RESISTANCE,
-        COMPLEX_MOTOR_REACTION
     }
 
     public static InstructionFragment newInstance(Test test) {
@@ -40,7 +37,7 @@ public class InstructionFragment extends SimpleFragment {
     @BindView(R.id.instructionText)
     TextView instructionText;
 
-    private Test test = Test.REACTION;
+    private Test test = Test.FOCUSING;
 
     @Override
     protected String getTitle() {
@@ -64,20 +61,11 @@ public class InstructionFragment extends SimpleFragment {
                 case FOCUSING:
                     instruction = getString(R.string.instruction_focusing);
                     break;
-                case REACTION:
-                    instruction = getString(R.string.instruction_reaction);
-                    break;
                 case ATTENTION_STABILITY:
                     instruction = getString(R.string.instruction_attention_stability);
                     break;
-                case ATTENTION_VOLUME:
-                    instruction = getString(R.string.instruction_attention_volume);
-                    break;
                 case STRESS_RESISTANCE:
                     instruction = getString(R.string.instruction_stress_resistance);
-                    break;
-                case COMPLEX_MOTOR_REACTION:
-                    instruction = getString(R.string.instruction_complex_motor_reaction);
                     break;
             }
 
@@ -91,20 +79,11 @@ public class InstructionFragment extends SimpleFragment {
             case FOCUSING:
                 getMainActivity().toFocusingTest();
                 break;
-            case REACTION:
-                getMainActivity().toReactionTest();
-                break;
             case ATTENTION_STABILITY:
                 getMainActivity().toAttentionStabilityTest();
                 break;
-            case ATTENTION_VOLUME:
-                getMainActivity().toAttentionVolumeTest();
-                break;
             case STRESS_RESISTANCE:
                 getMainActivity().toStressResistanceTest();
-                break;
-            case COMPLEX_MOTOR_REACTION:
-                getMainActivity().toComplexMotorReactionTest();
                 break;
         }
     }
