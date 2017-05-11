@@ -2,6 +2,7 @@ package com.firrael.psychology.view;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firrael.psychology.R;
@@ -17,6 +18,12 @@ import butterknife.OnClick;
 public class InstructionFragment extends SimpleFragment {
 
     private final static String TYPE = "type";
+    @BindView(R.id.instructionTitle)
+    TextView instructionTitle;
+    @BindView(R.id.instructionText)
+    TextView instructionText;
+    @BindView(R.id.instructionImage)
+    ImageView instructionImage;
 
     public enum Test {
         FOCUSING,
@@ -34,9 +41,6 @@ public class InstructionFragment extends SimpleFragment {
         return fragment;
     }
 
-    @BindView(R.id.instructionText)
-    TextView instructionText;
-
     private Test test = Test.FOCUSING;
 
     @Override
@@ -51,29 +55,41 @@ public class InstructionFragment extends SimpleFragment {
 
     @Override
     protected void initView(View v) {
+        getMainActivity().toggleArrow(true);
+
         Bundle args = getArguments();
         if (args != null && args.containsKey(TYPE)) {
             test = (Test) args.getSerializable(TYPE);
 
+            String title = "";
             String instruction = "";
+            int drawableId = 0;
 
             switch (test) {
                 case FOCUSING:
+                    title = getString(R.string.focusingTestTitle);
                     instruction = getString(R.string.instruction_focusing);
+                    drawableId = R.drawable.circle;
                     break;
                 case ATTENTION_STABILITY:
+                    title = getString(R.string.attentionStabilityTitle);
                     instruction = getString(R.string.instruction_attention_stability);
+                    drawableId = R.drawable.circle;
                     break;
                 case STRESS_RESISTANCE:
+                    title = getString(R.string.stressResistanceTestTitle);
                     instruction = getString(R.string.instruction_stress_resistance);
+                    drawableId = R.drawable.circle;
                     break;
             }
 
+            instructionTitle.setText(title);
             instructionText.setText(instruction);
+            instructionImage.setImageDrawable(getResources().getDrawable(drawableId));
         }
     }
 
-    @OnClick(R.id.start)
+    @OnClick(R.id.startButton)
     public void start() {
         switch (test) {
             case FOCUSING:

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.firrael.psychology.App;
 import com.firrael.psychology.RConnectorService;
 import com.firrael.psychology.model.User;
-import com.firrael.psychology.view.TimeFragment;
+import com.firrael.psychology.view.register.TimeFragment;
 
 import icepick.State;
 import rx.android.schedulers.AndroidSchedulers;

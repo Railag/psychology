@@ -44,8 +44,8 @@ public class SplashFragment extends BaseFragment<SplashPresenter> {
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
                     stopLoading();
-                    getMainActivity().toLogin();
-                }, 3000);
+                    getMainActivity().toStart();
+                }, 3500);
             }
         }
     }
@@ -67,18 +67,17 @@ public class SplashFragment extends BaseFragment<SplashPresenter> {
             return;
         }
         if (result.invalid()) {
-            getMainActivity().toLogin();
+            getMainActivity().toStart();
             return;
         }
-        toast("success login");
+
         User.save(result, getActivity());
-        //getMainActivity().updateNavigationMenu();
-        getMainActivity().toLanding();
+        getMainActivity().toMenu();
     }
 
     public void onError(Throwable error) {
         error.printStackTrace();
         stopLoading();
-        getMainActivity().toLogin();
+        getMainActivity().toStart();
     }
 }

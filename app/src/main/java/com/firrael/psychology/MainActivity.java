@@ -1,15 +1,30 @@
-package com.firrael.psychology.view;
+package com.firrael.psychology;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
 
-import com.firrael.psychology.App;
-import com.firrael.psychology.R;
+import com.firrael.psychology.model.User;
 import com.firrael.psychology.presenter.MainPresenter;
+import com.firrael.psychology.view.InfoFragment;
+import com.firrael.psychology.view.InstructionFragment;
+import com.firrael.psychology.view.MenuFragment;
+import com.firrael.psychology.view.SettingsFragment;
+import com.firrael.psychology.view.SplashFragment;
+import com.firrael.psychology.view.StartFragment;
+import com.firrael.psychology.view.StatisticsFragment;
+import com.firrael.psychology.view.TestsFragment;
+import com.firrael.psychology.view.register.AgeFragment;
+import com.firrael.psychology.view.register.LoginFragment;
+import com.firrael.psychology.view.register.RegisterFragment;
+import com.firrael.psychology.view.register.TimeFragment;
 import com.firrael.psychology.view.results.AttentionStabilityResultsFragment;
 import com.firrael.psychology.view.results.FocusingResultsFragment;
 import com.firrael.psychology.view.results.ResultScreen;
@@ -36,6 +51,12 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
     @BindView(R.id.loading)
     AVLoadingIndicatorView loading;
 
+    @BindView(R.id.toolbarTitle)
+    TextView toolbarTitle;
+
+    @BindView(R.id.toolbarExit)
+    TextView toolbarExit;
+
     private FirebaseAnalytics analytics;
 
     private Fragment currentFragment;
@@ -53,10 +74,21 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
         }*/
 
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         App.setMainActivity(this);
 
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
+        toolbarExit.setOnClickListener(view -> {
+            toggleExit(false);
+            User.logout(this);
+            toSplash();
+        });
+
         analytics = FirebaseAnalytics.getInstance(this);
+
+        hideToolbar();
 
         toSplash();
     }
@@ -66,16 +98,29 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
     public void onBackPressed() {
 
         if (currentFragment instanceof ResultScreen) {
-            toLanding();
+            toMenu();
             return;
         }
 
-        if (currentFragment instanceof LandingFragment) {
+        if (currentFragment instanceof LoginFragment || currentFragment instanceof RegisterFragment) {
+            hideToolbar();
+            toStart();
+            return;
+        }
+
+        if (currentFragment instanceof MenuFragment || currentFragment instanceof StartFragment) {
             finish();
             return;
         }
 
         super.onBackPressed();
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        if (toolbarTitle != null) {
+            toolbarTitle.setText(title);
+        }
     }
 
     @Override
@@ -105,8 +150,57 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
         });
     }
 
+    public void setCurrentFragment(Fragment fragment) {
+        this.currentFragment = fragment;
+    }
+
+    public void showToolbar() {
+        toolbar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideToolbar() {
+        toolbar.setVisibility(View.GONE);
+    }
+
+    public void blueTop() {
+        showToolbar();
+
+        setStatusBarColor(R.color.toolbarColor);
+    }
+
+    public void setStatusBarColor(int color) {
+        Window window = getWindow();
+
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+        window.setStatusBarColor(getResources().getColor(color));
+    }
+
+    public void transparentStatusBar() {
+        Window window = getWindow();
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
+
+    public void toggleArrow(boolean visible) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(visible);
+        }
+    }
+
+    public void toggleExit(boolean visible) {
+        toolbarExit.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
     public void toSplash() {
         setFragment(SplashFragment.newInstance());
+    }
+
+    public void toStart() {
+        setFragment(StartFragment.newInstance());
     }
 
     public void toLogin() {
@@ -118,7 +212,7 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
     }
 
     public void toNameScreen() {
-        setFragment(NameFragment.newInstance());
+        setFragment(RegisterFragment.newInstance());
     }
 
     public void toAgeScreen() {
@@ -129,8 +223,8 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
         setFragment(TimeFragment.newInstance());
     }
 
-    public void toLanding() {
-        setFragment(LandingFragment.newInstance());
+    public void toMenu() {
+        setFragment(MenuFragment.newInstance());
     }
 
     public void toInfo() {

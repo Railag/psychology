@@ -6,9 +6,9 @@
     <string name="login">Вход</string>
     <string name="password">Пароль</string>
     <string name="login_email">Email</string>
-    <string name="create_account">Создать аккаунт</string>
+    <string name="create_account">Регистрация</string>
     <string name="ageTitle">Возраст</string>
-    <string name="nameTitle">Имя</string>
+    <string name="registerTitle">Регистрация</string>
     <string name="nameHint">Введите имя</string>
     <string name="passwordHint">Введите пароль</string>
     <string name="next">Далее</string>
@@ -56,4 +56,14 @@
     <string name="medium">Средний</string>
     <string name="hard">Продвинутый</string>
     <string name="settings_level">Уровень сложности:</string>
+    <string name="landingText">Развивай свои внимание и концентрацию, следи за своими показателями</string>
+    <string name="email">Email</string>
+    <string name="pass">Пароль</string>
+    <string name="confirmPass">Повторите пароль</string>
+    <string name="emptyError">Пустое поле</string>
+    <string name="confirmPassError">Пароли не совпадают</string>
+    <string name="age">Возраст</string>
+    <string name="time">Время использования телефона</string>
+    <string name="tests">Тестирование</string>
+    <string name="profile">Профиль</string>
 </resources>

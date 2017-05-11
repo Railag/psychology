@@ -2,7 +2,7 @@ package com.firrael.psychology.presenter;
 
 import com.firrael.psychology.App;
 import com.firrael.psychology.model.User;
-import com.firrael.psychology.view.NameFragment;
+import com.firrael.psychology.view.register.RegisterFragment;
 
 import icepick.State;
 
@@ -10,7 +10,7 @@ import icepick.State;
  * Created by Railag on 07.11.2016.
  */
 
-public class NamePresenter extends BasePresenter<NameFragment> {
+public class RegisterPresenter extends BasePresenter<RegisterFragment> {
 
     @State
     String name;
@@ -21,8 +21,8 @@ public class NamePresenter extends BasePresenter<NameFragment> {
     @State
     String password;
 
-    public void save(String name, String email, String password) {
-        this.name = name;
+    public void save(String email, String password) {
+        this.name = email;
         this.email = email;
         this.password = password;
         User.get(App.getMainActivity()).setLogin(name);

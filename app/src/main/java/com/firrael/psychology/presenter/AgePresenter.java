@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.firrael.psychology.App;
 import com.firrael.psychology.RConnectorService;
 import com.firrael.psychology.model.User;
-import com.firrael.psychology.view.AgeFragment;
+import com.firrael.psychology.view.register.AgeFragment;
 
 import icepick.State;
 
@@ -28,8 +28,8 @@ public class AgePresenter extends BasePresenter<AgeFragment> {
                 () -> service.login(login, password)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread()),
-                LoginFragment::onSuccess,
-                LoginFragment::onError);*/
+                StartFragment::onSuccess,
+                StartFragment::onError);*/
     }
 
     public void save(String age) {

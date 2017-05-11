@@ -5,13 +5,10 @@ import android.os.Bundle;
 
 import com.firrael.psychology.App;
 import com.firrael.psychology.RConnectorService;
-import com.firrael.psychology.view.MainActivity;
+import com.firrael.psychology.MainActivity;
 
 import icepick.State;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
-import static com.firrael.psychology.Requests.REQUEST_PN_ADD_USER;
 import static com.firrael.psychology.Requests.REQUEST_SAVE_IMAGE;
 
 /**
@@ -52,11 +49,5 @@ public class MainPresenter extends BasePresenter<MainActivity> {
     public void saveImage(Bitmap image) {
         this.image = image;
         start(REQUEST_SAVE_IMAGE);
-    }
-
-    public void addToGroup(long userId, long groupId) {
-        this.userId = userId;
-        this.groupId = groupId;
-        start(REQUEST_PN_ADD_USER);
     }
 }

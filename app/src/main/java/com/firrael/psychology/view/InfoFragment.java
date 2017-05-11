@@ -135,7 +135,7 @@ public class InfoFragment extends BaseFragment<InfoPresenter> {
 
         User.save(result, getActivity());
 
-        getMainActivity().toLanding();
+        getMainActivity().toMenu();
     }
 
     public void onError(Throwable throwable) {

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.firrael.psychology.App;
-import com.firrael.psychology.view.MainActivity;
+import com.firrael.psychology.MainActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

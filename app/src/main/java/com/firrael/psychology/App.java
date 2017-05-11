@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.firrael.psychology.model.Difficulty;
-import com.firrael.psychology.view.MainActivity;
 import com.google.gson.Gson;
 
 import java.lang.ref.WeakReference;

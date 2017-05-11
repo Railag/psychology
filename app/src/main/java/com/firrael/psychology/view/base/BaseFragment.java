@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.firrael.psychology.App;
 import com.firrael.psychology.presenter.BasePresenter;
-import com.firrael.psychology.view.MainActivity;
+import com.firrael.psychology.MainActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -59,6 +59,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends NucleusFragm
     protected abstract int getViewId();
 
     protected void initView(View v) {
+        getMainActivity().setCurrentFragment(this);
         // initialization
     }
 

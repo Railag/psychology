@@ -1,6 +1,7 @@
 package com.firrael.psychology.view;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.firrael.psychology.R;
 import com.firrael.psychology.view.base.SimpleFragment;
@@ -23,7 +24,7 @@ public class TestsFragment extends SimpleFragment {
 
     @Override
     protected String getTitle() {
-        return getString(R.string.landingTitle);
+        return getString(R.string.tests);
     }
 
     @Override
@@ -31,18 +32,18 @@ public class TestsFragment extends SimpleFragment {
         return R.layout.fragment_tests;
     }
 
-    @OnClick(R.id.focusing)
-    public void toFocusing() {
-        getMainActivity().toInstructionFragment(InstructionFragment.Test.FOCUSING);
-    }
-
-    @OnClick(R.id.resistance)
-    public void toResistance() {
-        getMainActivity().toInstructionFragment(InstructionFragment.Test.STRESS_RESISTANCE);
-    }
-
-    @OnClick(R.id.stability)
-    public void toStability() {
-        getMainActivity().toInstructionFragment(InstructionFragment.Test.ATTENTION_STABILITY);
+    @OnClick({R.id.focusingButton, R.id.attentionStabilityButton, R.id.stressResistanceButton})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.focusingButton:
+                getMainActivity().toInstructionFragment(InstructionFragment.Test.FOCUSING);
+                break;
+            case R.id.attentionStabilityButton:
+                getMainActivity().toInstructionFragment(InstructionFragment.Test.ATTENTION_STABILITY);
+                break;
+            case R.id.stressResistanceButton:
+                getMainActivity().toInstructionFragment(InstructionFragment.Test.STRESS_RESISTANCE);
+                break;
+        }
     }
 }

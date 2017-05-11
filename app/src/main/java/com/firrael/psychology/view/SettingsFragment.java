@@ -91,6 +91,6 @@ public class SettingsFragment extends SimpleFragment {
         }
 
         App.setDiff(getActivity(), current);
-        getMainActivity().toLanding();
+        getMainActivity().toMenu();
     }
 }

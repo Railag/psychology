@@ -1,29 +1,35 @@
-package com.firrael.psychology.view;
+package com.firrael.psychology.view.register;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import com.firrael.psychology.R;
-import com.firrael.psychology.Utils;
 import com.firrael.psychology.model.User;
 import com.firrael.psychology.model.UserResult;
 import com.firrael.psychology.presenter.LoginPresenter;
 import com.firrael.psychology.view.base.BaseFragment;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import nucleus.factory.RequiresPresenter;
 
 /**
- * Created by Railag on 31.05.2016.
+ * Created by Railag on 11.05.2017.
  */
+
 @RequiresPresenter(LoginPresenter.class)
 public class LoginFragment extends BaseFragment<LoginPresenter> {
 
-    @BindView(R.id.loginField)
-    EditText loginField;
-    @BindView(R.id.passwordField)
-    EditText passwordField;
+    @BindView(R.id.emailEdit)
+    EditText emailEdit;
+    @BindView(R.id.emailLayout)
+    TextInputLayout emailLayout;
+    @BindView(R.id.passwordEdit)
+    EditText passwordEdit;
+    @BindView(R.id.passwordLayout)
+    TextInputLayout passwordLayout;
 
     public static LoginFragment newInstance() {
 
@@ -44,16 +50,20 @@ public class LoginFragment extends BaseFragment<LoginPresenter> {
         return R.layout.fragment_login;
     }
 
-    @OnClick(R.id.loginButton)
-    public void login() {
-        Utils.hideKeyboard(getActivity());
-        startLoading();
-        getPresenter().request(loginField.getText().toString(), passwordField.getText().toString());
-    }
 
-    @OnClick(R.id.createAccountButton)
-    public void createAccount() {
-        getMainActivity().toNameScreen();
+    @Override
+    protected void initView(View v) {
+        getMainActivity().blueTop();
+
+        passwordEdit.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                getPresenter().request(emailEdit.getText().toString(), passwordEdit.getText().toString());
+
+                return true;
+            } else {
+                return false;
+            }
+        });
     }
 
     public void onSuccess(UserResult result) {
@@ -68,8 +78,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> {
         }
         toast("success login");
         User.save(result, getActivity());
-    //    getMainActivity().updateNavigationMenu();
-        getMainActivity().toLanding();
+        getMainActivity().toMenu();
     }
 
     public void onError(Throwable error) {

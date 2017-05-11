@@ -29,7 +29,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/pass"
-            android:imeOptions="actionDone"
+            android:inputType="textPassword" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/passwordConfirmLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/passwordConfirmEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/confirmPass"
+            android:imeOptions="actionNext"
             android:inputType="textPassword" />
 
     </android.support.design.widget.TextInputLayout>

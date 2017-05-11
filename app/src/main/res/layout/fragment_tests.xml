@@ -3,47 +3,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="1">
+    android:background="@color/white">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/focusingButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:orientation="horizontal">
+        android:padding="16dp"
+        android:text="@string/focusingTestTitle"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
 
-        <ImageView
-            android:id="@+id/focusing"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_menu_camera" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorGrey" />
 
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/attentionStabilityButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:orientation="horizontal"
-        android:weightSum="1">
+        android:padding="16dp"
+        android:text="@string/attentionStabilityTitle"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
 
-        <ImageView
-            android:id="@+id/resistance"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_menu_manage" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorGrey" />
 
-        <ImageView
-            android:id="@+id/stability"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_menu_send" />
+    <TextView
+        android:id="@+id/stressResistanceButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/stressResistanceTestTitle"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
 
-    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorGrey" />
 
 </LinearLayout>

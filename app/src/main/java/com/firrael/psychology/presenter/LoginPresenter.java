@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.firrael.psychology.App;
 import com.firrael.psychology.RConnectorService;
-import com.firrael.psychology.view.LoginFragment;
+import com.firrael.psychology.view.register.LoginFragment;
 
 import icepick.State;
 import rx.android.schedulers.AndroidSchedulers;
@@ -21,7 +21,7 @@ public class LoginPresenter extends BasePresenter<LoginFragment> {
     String login;
 
     @State
-    String password; // TODO replace with Token
+    String password;
 
     @Override
     protected void onCreate(Bundle savedState) {
@@ -43,4 +43,3 @@ public class LoginPresenter extends BasePresenter<LoginFragment> {
         start(REQUEST_LOGIN);
     }
 }
-

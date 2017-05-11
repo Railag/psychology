@@ -1,17 +1,18 @@
-package com.firrael.psychology.view;
+package com.firrael.psychology.view.register;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import com.firrael.psychology.R;
-import com.firrael.psychology.Utils;
 import com.firrael.psychology.model.User;
 import com.firrael.psychology.model.UserResult;
 import com.firrael.psychology.presenter.TimePresenter;
 import com.firrael.psychology.view.base.BaseFragment;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import nucleus.factory.RequiresPresenter;
 
 /**
@@ -20,8 +21,11 @@ import nucleus.factory.RequiresPresenter;
 @RequiresPresenter(TimePresenter.class)
 public class TimeFragment extends BaseFragment<TimePresenter> {
 
-    @BindView(R.id.timeField)
-    EditText timeField;
+
+    @BindView(R.id.timeEdit)
+    EditText timeEdit;
+    @BindView(R.id.timeLayout)
+    TextInputLayout timeLayout;
 
     public static TimeFragment newInstance() {
 
@@ -42,14 +46,21 @@ public class TimeFragment extends BaseFragment<TimePresenter> {
         return R.layout.fragment_time;
     }
 
-    @OnClick(R.id.nextButton)
-    public void login() {
-        Utils.hideKeyboard(getActivity());
-        getPresenter().save(timeField.getText().toString());
+    @Override
+    protected void initView(View v) {
+        timeEdit.setOnEditorActionListener((textView, actionId, keyEvent) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                getPresenter().save(timeEdit.getText().toString());
 
-        startLoading();
-        User user = User.get(getActivity());
-        getPresenter().request(user.getLogin(), user.getPassword(), user.getEmail(), user.getAge(), user.getTime());
+                startLoading();
+                User user = User.get(getActivity());
+                getPresenter().request(user.getLogin(), user.getPassword(), user.getEmail(), user.getAge(), user.getTime());
+
+                return true;
+            } else {
+                return false;
+            }
+        });
     }
 
     public void onSuccess(UserResult result) {
@@ -64,8 +75,7 @@ public class TimeFragment extends BaseFragment<TimePresenter> {
         }
         toast("success account creation");
         User.save(result, getActivity());
-        //getMainActivity().updateNavigationMenu();
-        getMainActivity().toLanding();
+        getMainActivity().toMenu();
     }
 
     public void onError(Throwable error) {
