@@ -97,7 +97,7 @@ public class AttentionStabilityTestFragment extends BaseFragment<AttentionStabil
             } else if (i % 10 == 0) { // first square
                 progressTime += 800;
                 handler.postDelayed(this::showRedBackground, progressTime);
-            } else if (i == 99) {
+            } else if (i == 99 * diff.getLevel()) {
                 progressTime += 250;
                 handler.postDelayed(this::toNextTest, progressTime);
             } else if (i % 10 == 1) { // number between

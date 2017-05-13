@@ -1,16 +1,15 @@
 package com.firrael.psychology.view.register;
 
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
+import android.widget.NumberPicker;
 
 import com.firrael.psychology.R;
 import com.firrael.psychology.presenter.AgePresenter;
 import com.firrael.psychology.view.base.BaseFragment;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import nucleus.factory.RequiresPresenter;
 
 /**
@@ -19,10 +18,8 @@ import nucleus.factory.RequiresPresenter;
 @RequiresPresenter(AgePresenter.class)
 public class AgeFragment extends BaseFragment<AgePresenter> {
 
-    @BindView(R.id.ageEdit)
-    EditText ageEdit;
-    @BindView(R.id.ageLayout)
-    TextInputLayout ageLayout;
+    @BindView(R.id.agePicker)
+    NumberPicker picker;
 
     public static AgeFragment newInstance() {
 
@@ -45,16 +42,15 @@ public class AgeFragment extends BaseFragment<AgePresenter> {
 
     @Override
     protected void initView(View v) {
-        ageEdit.setOnEditorActionListener((textView, actionId, keyEvent) -> {
-            if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                getPresenter().save(ageEdit.getText().toString());
-                getMainActivity().toTimeScreen();
+        picker.setMinValue(1900);
+        picker.setMaxValue(2017);
+        picker.setValue(1990);
+    }
 
-                return true;
-            } else {
-                return false;
-            }
-        });
+    @OnClick(R.id.saveButton)
+    public void save() {
+        getPresenter().save(String.valueOf(picker.getValue()));
+        getMainActivity().toTimeScreen();
     }
 
 }

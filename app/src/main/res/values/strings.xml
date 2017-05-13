@@ -66,4 +66,6 @@
     <string name="time">Время использования телефона</string>
     <string name="tests">Тестирование</string>
     <string name="profile">Профиль</string>
+    <string name="timeInDay">Количество часов в день</string>
+    <string name="emptyStatisticsMessage">Статистика пока недоступна, сначала пройдите тесты</string>
 </resources>

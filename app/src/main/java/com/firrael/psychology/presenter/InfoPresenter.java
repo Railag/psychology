@@ -45,7 +45,7 @@ public class InfoPresenter extends BasePresenter<InfoFragment> {
                 InfoFragment::onError);
     }
 
-    public void save(long userId, String email, String time, String age) {
+    public void save(long userId, String login, String time, String age) {
         this.userId = userId;
 
         try {
@@ -53,7 +53,7 @@ public class InfoPresenter extends BasePresenter<InfoFragment> {
             this.age = ageNumber;
             int timeNumber = Integer.valueOf(time);
             this.time = timeNumber;
-            this.email = email;
+            this.email = login;
 
             User user = User.get(App.getMainActivity());
             user.setAge(ageNumber);

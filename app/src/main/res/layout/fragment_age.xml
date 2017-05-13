@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="20dp"
+    android:background="@color/instructionBackground"
     android:orientation="vertical">
 
     <android.support.design.widget.TextInputLayout
@@ -10,14 +10,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/ageEdit"
+        <NumberPicker
+            android:id="@+id/agePicker"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/age"
-            android:imeOptions="actionNext"
-            android:inputType="numberDecimal" />
+            android:layout_height="400dp" />
 
     </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/saveButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/round_button"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:text="@string/save2"
+        android:textColor="@color/light_blue"
+        android:textStyle="bold" />
 
 </LinearLayout>

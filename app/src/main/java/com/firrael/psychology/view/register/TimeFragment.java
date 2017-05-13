@@ -1,10 +1,8 @@
 package com.firrael.psychology.view.register;
 
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
+import android.widget.NumberPicker;
 
 import com.firrael.psychology.R;
 import com.firrael.psychology.model.User;
@@ -13,6 +11,7 @@ import com.firrael.psychology.presenter.TimePresenter;
 import com.firrael.psychology.view.base.BaseFragment;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import nucleus.factory.RequiresPresenter;
 
 /**
@@ -22,10 +21,8 @@ import nucleus.factory.RequiresPresenter;
 public class TimeFragment extends BaseFragment<TimePresenter> {
 
 
-    @BindView(R.id.timeEdit)
-    EditText timeEdit;
-    @BindView(R.id.timeLayout)
-    TextInputLayout timeLayout;
+    @BindView(R.id.timePicker)
+    NumberPicker picker;
 
     public static TimeFragment newInstance() {
 
@@ -48,19 +45,18 @@ public class TimeFragment extends BaseFragment<TimePresenter> {
 
     @Override
     protected void initView(View v) {
-        timeEdit.setOnEditorActionListener((textView, actionId, keyEvent) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                getPresenter().save(timeEdit.getText().toString());
+        picker.setMinValue(0);
+        picker.setMaxValue(24);
+        picker.setValue(2);
+    }
 
-                startLoading();
-                User user = User.get(getActivity());
-                getPresenter().request(user.getLogin(), user.getPassword(), user.getEmail(), user.getAge(), user.getTime());
+    @OnClick(R.id.saveButton)
+    public void save() {
+        getPresenter().save(String.valueOf(picker.getValue()));
 
-                return true;
-            } else {
-                return false;
-            }
-        });
+        startLoading();
+        User user = User.get(getActivity());
+        getPresenter().request(user.getLogin(), user.getPassword(), user.getEmail(), user.getAge(), user.getTime());
     }
 
     public void onSuccess(UserResult result) {

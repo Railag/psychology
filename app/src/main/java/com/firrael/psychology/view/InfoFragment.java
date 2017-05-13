@@ -25,36 +25,28 @@ import nucleus.factory.RequiresPresenter;
 @RequiresPresenter(InfoPresenter.class)
 public class InfoFragment extends BaseFragment<InfoPresenter> {
 
+    @BindView(R.id.login)
+    LinearLayout login;
+    @BindView(R.id.age)
+    LinearLayout age;
+    @BindView(R.id.time)
+    LinearLayout time;
     @BindView(R.id.displayLayout)
     LinearLayout displayLayout;
-
-    @BindView(R.id.editLayout)
-    LinearLayout editLayout;
-
-    @BindView(R.id.login)
-    TextView login;
-
-    @BindView(R.id.email)
-    TextView email;
-
-    @BindView(R.id.age)
-    TextView age;
-
-    @BindView(R.id.time)
-    TextView time;
-
     @BindView(R.id.loginEdit)
     TextView loginEdit;
-
-    @BindView(R.id.emailEdit)
-    EditText emailEdit;
-
     @BindView(R.id.ageEdit)
     EditText ageEdit;
-
     @BindView(R.id.timeEdit)
     EditText timeEdit;
-
+    @BindView(R.id.editLayout)
+    LinearLayout editLayout;
+    @BindView(R.id.loginText)
+    TextView loginText;
+    @BindView(R.id.ageText)
+    TextView ageText;
+    @BindView(R.id.timeText)
+    TextView timeText;
     @BindView(R.id.editButton)
     FloatingActionButton editButton;
 
@@ -79,15 +71,15 @@ public class InfoFragment extends BaseFragment<InfoPresenter> {
 
     @Override
     protected void initView(View v) {
+        getMainActivity().blueTop();
+
         User user = User.get(getActivity());
 
-        login.setText(user.getLogin());
-        email.setText(user.getEmail());
-        time.setText(String.valueOf(user.getTime()));
-        age.setText(String.valueOf(user.getAge()));
+        loginText.setText(user.getLogin());
+        timeText.setText(String.valueOf(user.getTime()));
+        ageText.setText(String.valueOf(user.getAge()));
 
         loginEdit.setText(user.getLogin());
-        emailEdit.setText(user.getEmail());
         timeEdit.setText(String.valueOf(user.getTime()));
         ageEdit.setText(String.valueOf(user.getAge()));
     }
@@ -100,25 +92,18 @@ public class InfoFragment extends BaseFragment<InfoPresenter> {
         editButton.setVisibility(View.GONE);
     }
 
-    @OnClick(R.id.backButton)
-    public void viewMode() {
-        displayLayout.setVisibility(View.VISIBLE);
-        editLayout.setVisibility(View.GONE);
-        editButton.setVisibility(View.VISIBLE);
-    }
-
     @OnClick(R.id.saveButton)
     public void save() {
-        String email = emailEdit.getText().toString();
         String time = timeEdit.getText().toString();
         String age = ageEdit.getText().toString();
+        String login = loginEdit.getText().toString();
 
         Utils.hideKeyboard(getActivity());
         startLoading();
 
         long userId = User.get(getActivity()).getId();
 
-        getPresenter().save(userId, email, time, age);
+        getPresenter().save(userId, login, time, age);
     }
 
     public void onSuccess(UserResult result) {
