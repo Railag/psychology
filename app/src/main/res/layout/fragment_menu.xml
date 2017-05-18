@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/instructionBackground"
     android:orientation="vertical"
     android:paddingBottom="16dp"
     android:paddingEnd="16dp"
@@ -28,10 +28,10 @@
 
             <ImageView
                 android:id="@+id/testsImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/circle" />
+                android:src="@drawable/test" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -55,10 +55,10 @@
 
             <ImageView
                 android:id="@+id/statisticsImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/circle" />
+                android:src="@drawable/statistic" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -91,10 +91,10 @@
 
             <ImageView
                 android:id="@+id/profileImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/circle" />
+                android:src="@drawable/profile" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -118,10 +118,10 @@
 
             <ImageView
                 android:id="@+id/settingsImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/circle" />
+                android:src="@drawable/setting" />
 
             <TextView
                 android:layout_width="wrap_content"
