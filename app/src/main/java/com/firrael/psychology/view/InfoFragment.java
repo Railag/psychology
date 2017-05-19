@@ -116,7 +116,6 @@ public class InfoFragment extends BaseFragment<InfoPresenter> {
             toast(result.error);
             return;
         }
-        toast("success update");
 
         User.save(result, getActivity());
 

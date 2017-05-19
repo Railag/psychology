@@ -248,7 +248,6 @@ public class FocusingTestFragment extends BaseFragment<FocusingTestPresenter> {
             toast(result.error);
             return;
         }
-        toast("success");
 
         Bundle args = new Bundle();
         args.putParcelableArrayList(FocusingResultsFragment.RESULTS, answers);

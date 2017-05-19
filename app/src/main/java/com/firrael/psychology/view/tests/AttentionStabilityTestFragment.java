@@ -218,7 +218,6 @@ public class AttentionStabilityTestFragment extends BaseFragment<AttentionStabil
             toast(result.error);
             return;
         }
-        toast("success");
 
         Bundle args = new Bundle();
         args.putParcelableArrayList(AttentionStabilityResultsFragment.RESULTS, answers);

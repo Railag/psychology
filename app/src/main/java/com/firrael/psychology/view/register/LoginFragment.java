@@ -76,7 +76,6 @@ public class LoginFragment extends BaseFragment<LoginPresenter> {
             toast(result.error);
             return;
         }
-        toast("success login");
         User.save(result, getActivity());
         getMainActivity().toMenu();
     }

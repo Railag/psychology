@@ -131,7 +131,7 @@ public class FocusingResultsFragment extends SimpleFragment implements ResultScr
 
         document.close();
 
-        Toast.makeText(getActivity(), "Results saved to " + name, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Результаты сохранены в  " + name, Toast.LENGTH_SHORT).show();
     }
 
     public static boolean canWriteOnExternalStorage() {
@@ -183,6 +183,9 @@ public class FocusingResultsFragment extends SimpleFragment implements ResultScr
                 chart1.setData(lineData);
                 chart1.invalidate();
 
+                chart1.getDescription().setEnabled(false);
+
+
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
@@ -194,6 +197,9 @@ public class FocusingResultsFragment extends SimpleFragment implements ResultScr
                 BarData barData = new BarData(barDataSet);
                 chart2.setData(barData);
                 chart2.invalidate();
+
+                chart2.getDescription().setEnabled(false);
+
             }
 
 

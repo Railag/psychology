@@ -55,6 +55,8 @@ public class StabilityResultsAdapter extends RecyclerView.Adapter<StabilityResul
         holder.chart1.setData(lineData);
         holder.chart1.invalidate();
 
+        holder.chart1.getDescription().setEnabled(false);
+
         holder.errorsCount.setText(String.valueOf(results.errorsValue));
         holder.missesCount.setText(String.valueOf(results.misses));
     }

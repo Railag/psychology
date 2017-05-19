@@ -251,7 +251,6 @@ public class StressResistanceTestFragment extends BaseFragment<StressResistanceT
             toast(result.error);
             return;
         }
-        toast("success");
 
         Bundle args = new Bundle();
         args.putParcelableArrayList(StressResistanceResultsFragment.RESULTS, answers);

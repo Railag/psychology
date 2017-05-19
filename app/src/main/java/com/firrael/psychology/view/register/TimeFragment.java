@@ -69,7 +69,6 @@ public class TimeFragment extends BaseFragment<TimePresenter> {
             toast(result.error);
             return;
         }
-        toast("success account creation");
         User.save(result, getActivity());
         getMainActivity().toMenu();
     }

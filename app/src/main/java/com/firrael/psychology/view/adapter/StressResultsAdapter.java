@@ -55,6 +55,8 @@ public class StressResultsAdapter extends RecyclerView.Adapter<StressResultsAdap
         holder.chart1.setData(lineData);
         holder.chart1.invalidate();
 
+        holder.chart1.getDescription().setEnabled(false);
+
         holder.missesCount.setText(String.valueOf(results.misses));
     }
 

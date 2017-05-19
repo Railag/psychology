@@ -62,6 +62,9 @@ public class FocusingResultsAdapter extends RecyclerView.Adapter<FocusingResults
         holder.chart1.setData(lineData);
         holder.chart1.invalidate();
 
+        holder.chart1.getDescription().setEnabled(false);
+
+
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -73,6 +76,9 @@ public class FocusingResultsAdapter extends RecyclerView.Adapter<FocusingResults
         BarData barData = new BarData(barDataSet);
         holder.chart2.setData(barData);
         holder.chart2.invalidate();
+
+        holder.chart2.getDescription().setEnabled(false);
+
     }
 
     @Override

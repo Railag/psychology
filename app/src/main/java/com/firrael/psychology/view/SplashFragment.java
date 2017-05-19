@@ -31,6 +31,8 @@ public class SplashFragment extends BaseFragment<SplashPresenter> {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         startLoading();
+        getMainActivity().transparentStatusBar();
+        getMainActivity().hideToolbar();
 
         if (savedInstanceState == null) {
             startLoading();
