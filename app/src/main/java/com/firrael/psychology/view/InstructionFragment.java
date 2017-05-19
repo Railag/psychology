@@ -69,17 +69,17 @@ public class InstructionFragment extends SimpleFragment {
                 case FOCUSING:
                     title = getString(R.string.focusingTestTitle);
                     instruction = getString(R.string.instruction_focusing);
-                    drawableId = R.drawable.circle;
+                    drawableId = R.drawable.test3;
                     break;
                 case ATTENTION_STABILITY:
                     title = getString(R.string.attentionStabilityTitle);
                     instruction = getString(R.string.instruction_attention_stability);
-                    drawableId = R.drawable.circle;
+                    drawableId = R.drawable.test2;
                     break;
                 case STRESS_RESISTANCE:
                     title = getString(R.string.stressResistanceTestTitle);
                     instruction = getString(R.string.instruction_stress_resistance);
-                    drawableId = R.drawable.circle;
+                    drawableId = R.drawable.test4;
                     break;
             }
 
