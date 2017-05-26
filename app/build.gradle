@@ -13,6 +13,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "dfddbf16b97e4769a3e460ef052a0912"]
+
+        def env = System.getenv()
+        versionName "1." + env['BUILD_NUMBER']
     }
     lintOptions {
         abortOnError false
