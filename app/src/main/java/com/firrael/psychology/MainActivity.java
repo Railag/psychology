@@ -35,6 +35,9 @@ import com.firrael.psychology.view.tests.StressResistanceTestFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import nucleus.factory.RequiresPresenter;
@@ -91,6 +94,39 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
         hideToolbar();
 
         toSplash();
+
+        checkForUpdates();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkForCrashes();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterManagers();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterManagers();
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this);
+    }
+
+    private void checkForUpdates() {
+        // Remove this for store builds!
+        UpdateManager.register(this);
+    }
+
+    private void unregisterManagers() {
+        UpdateManager.unregister();
     }
 
 
