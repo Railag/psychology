@@ -49,6 +49,8 @@ public class FocusingTestFragment extends BaseFragment<FocusingTestPresenter> {
     private int wins;
     private int fails;
 
+    private boolean locked = false;
+
     @BindView(R.id.circlesGrid)
     RecyclerView circlesGrid;
 
@@ -192,6 +194,15 @@ public class FocusingTestFragment extends BaseFragment<FocusingTestPresenter> {
 
     public void click(int count) {
 
+        if (locked) {
+            return;
+        }
+
+        if (currentLine == LINES_COUNT) {
+            toNextTest();
+            return;
+        }
+
         if (currentLine > LINES_COUNT) {
             return;
         }
@@ -224,6 +235,7 @@ public class FocusingTestFragment extends BaseFragment<FocusingTestPresenter> {
     }
 
     private void toNextTest() {
+        locked = true;
         ArrayList<Double> times = new ArrayList<>();
         ArrayList<Long> errors = new ArrayList<>();
 
@@ -259,6 +271,8 @@ public class FocusingTestFragment extends BaseFragment<FocusingTestPresenter> {
     public void onError(Throwable throwable) {
         stopLoading();
         throwable.printStackTrace();
+
+        locked = false;
     }
 
     @Override
