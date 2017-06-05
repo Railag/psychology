@@ -47,7 +47,7 @@ public class SplashFragment extends BaseFragment<SplashPresenter> {
                 handler.postDelayed(() -> {
                     stopLoading();
                     getMainActivity().toStart();
-                }, 3500);
+                }, 5500);
             }
         }
     }

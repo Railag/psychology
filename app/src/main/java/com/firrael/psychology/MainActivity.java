@@ -9,8 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.firrael.psychology.model.User;
 import com.firrael.psychology.presenter.MainPresenter;
 import com.firrael.psychology.view.InfoFragment;
@@ -52,7 +55,8 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
     Toolbar toolbar;
 
     @BindView(R.id.loading)
-    AVLoadingIndicatorView loading;
+    ImageView loading;
+    //AVLoadingIndicatorView loading;
 
     @BindView(R.id.toolbarTitle)
     TextView toolbarTitle;
@@ -80,6 +84,8 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         App.setMainActivity(this);
+
+        Glide.with(this).load(R.drawable.gif4188).into(new GlideDrawableImageViewTarget(loading));
 
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
