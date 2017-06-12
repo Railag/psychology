@@ -223,7 +223,7 @@ public class FocusingTestFragment extends BaseFragment<FocusingTestPresenter> {
         ans.setTime(Utils.calcTime(time));
         answers.add(ans);
 
-        Toast.makeText(getActivity(), "Wins = " + wins + ", Fails = " + fails, Toast.LENGTH_SHORT).show();
+    //    Toast.makeText(getActivity(), "Wins = " + wins + ", Fails = " + fails, Toast.LENGTH_SHORT).show();
 
         replaceCircleLine();
         time = System.nanoTime();

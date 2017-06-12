@@ -43,9 +43,9 @@ public class StressResistanceResultsFragment extends SimpleFragment implements R
 
     public final static String RESULTS = "results";
 
-    public static AttentionStabilityResultsFragment newInstance(Bundle args) {
+    public static StressResistanceResultsFragment newInstance(Bundle args) {
 
-        AttentionStabilityResultsFragment fragment = new AttentionStabilityResultsFragment();
+        StressResistanceResultsFragment fragment = new StressResistanceResultsFragment();
         fragment.setHasOptionsMenu(true);
         fragment.setArguments(args);
         return fragment;
@@ -54,11 +54,12 @@ public class StressResistanceResultsFragment extends SimpleFragment implements R
     @BindView(R.id.averageTime)
     TextView averageTime;
 
+    @BindView(R.id.missesCount)
+    TextView missesCount;
+
+
     @BindView(R.id.chart1)
     LineChart chart1;
-
-    @BindView(R.id.chart2)
-    BarChart chart2;
 
     @Override
     protected String getTitle() {
@@ -155,42 +156,29 @@ public class StressResistanceResultsFragment extends SimpleFragment implements R
                 ArrayList<Answer> results = args.getParcelableArrayList(RESULTS);
 
                 List<Entry> lineEntries = new ArrayList<>();
-                List<BarEntry> barEntries = new ArrayList<>();
 
                 double fullTime = 0;
 
+                double misses = 0;
+
                 for (Answer result : results) {
                     fullTime += result.getTime();
+                    misses += result.getErrorValue();
                     lineEntries.add(new Entry(result.getNumber(), (float) result.getTime()));
-                    barEntries.add(new BarEntry(result.getNumber(), result.getErrorValue()));
                 }
 
                 double average = fullTime / results.size();
                 averageTime.setText(String.valueOf(average));
 
+                missesCount.setText(String.valueOf(misses));
+
                 LineDataSet dataSet = new LineDataSet(lineEntries, "Время");
-                //dataSet.setColor(...);
-                //dataSet.setValueTextColor(...);
 
                 LineData lineData = new LineData(dataSet);
                 chart1.setData(lineData);
                 chart1.invalidate();
 
                 chart1.getDescription().setEnabled(false);
-
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                BarDataSet barDataSet = new BarDataSet(barEntries, "Динамика ошибок");
-
-                BarData barData = new BarData(barDataSet);
-                chart2.setData(barData);
-                chart2.invalidate();
-
-                chart2.getDescription().setEnabled(false);
             }
 
 

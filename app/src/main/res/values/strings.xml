@@ -68,4 +68,5 @@
     <string name="profile">Профиль</string>
     <string name="timeInDay">Количество часов в день</string>
     <string name="emptyStatisticsMessage">Статистика пока недоступна, сначала пройдите тесты</string>
+    <string name="misses">Количество промахов:</string>
 </resources>

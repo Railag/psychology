@@ -181,7 +181,7 @@ public class AttentionStabilityTestFragment extends BaseFragment<AttentionStabil
 
         active = false;
 
-        Toast.makeText(getActivity(), "Wins = " + wins + ", Fails = " + errors, Toast.LENGTH_SHORT).show();
+    //    Toast.makeText(getActivity(), "Wins = " + wins + ", Fails = " + errors, Toast.LENGTH_SHORT).show();
     }
 
     private int generateRandomNumber() {

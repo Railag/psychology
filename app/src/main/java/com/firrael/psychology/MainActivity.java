@@ -70,12 +70,6 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        // TODO check for google play services
-/*        int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
-        if (code != ConnectionResult.SUCCESS) {
-            GoogleApiAvailability.getInstance().showErrorDialogFragment(this, code, 1);
-        }*/
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
