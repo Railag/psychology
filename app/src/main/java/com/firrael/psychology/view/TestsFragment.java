@@ -32,7 +32,7 @@ public class TestsFragment extends SimpleFragment {
         return R.layout.fragment_tests;
     }
 
-    @OnClick({R.id.focusingButton, R.id.attentionStabilityButton, R.id.stressResistanceButton})
+    @OnClick({R.id.focusingButton, R.id.attentionStabilityButton, R.id.stressResistanceButton, R.id.englishButton})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.focusingButton:
@@ -43,6 +43,9 @@ public class TestsFragment extends SimpleFragment {
                 break;
             case R.id.stressResistanceButton:
                 getMainActivity().toInstructionFragment(InstructionFragment.Test.STRESS_RESISTANCE);
+                break;
+            case R.id.englishButton:
+                getMainActivity().toInstructionFragment(InstructionFragment.Test.ENGLISH);
                 break;
         }
     }

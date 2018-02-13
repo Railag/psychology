@@ -26,10 +26,12 @@ import com.firrael.psychology.view.register.LoginFragment;
 import com.firrael.psychology.view.register.RegisterFragment;
 import com.firrael.psychology.view.register.TimeFragment;
 import com.firrael.psychology.view.results.AttentionStabilityResultsFragment;
+import com.firrael.psychology.view.results.EnglishResultsFragment;
 import com.firrael.psychology.view.results.FocusingResultsFragment;
 import com.firrael.psychology.view.results.ResultScreen;
 import com.firrael.psychology.view.results.StressResistanceResultsFragment;
 import com.firrael.psychology.view.tests.AttentionStabilityTestFragment;
+import com.firrael.psychology.view.tests.EnglishTestFragment;
 import com.firrael.psychology.view.tests.FocusingTestFragment;
 import com.firrael.psychology.view.tests.StressResistanceTestFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -286,6 +288,10 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
         setFragment(StressResistanceTestFragment.newInstance());
     }
 
+    public void toEnglishTest() {
+        setFragment(EnglishTestFragment.newInstance());
+    }
+
     public void toFocusingResults(Bundle args) {
         setFragment(FocusingResultsFragment.newInstance(args));
     }
@@ -296,5 +302,9 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
 
     public void toStressResistanceResults(Bundle args) {
         setFragment(StressResistanceResultsFragment.newInstance(args));
+    }
+
+    public void toEnglishResults(Bundle args) {
+        setFragment(EnglishResultsFragment.newInstance(args));
     }
 }

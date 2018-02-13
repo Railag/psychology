@@ -29,6 +29,7 @@ public class InstructionFragment extends SimpleFragment {
         FOCUSING,
         ATTENTION_STABILITY,
         STRESS_RESISTANCE,
+        ENGLISH
     }
 
     public static InstructionFragment newInstance(Test test) {
@@ -81,6 +82,11 @@ public class InstructionFragment extends SimpleFragment {
                     instruction = getString(R.string.instruction_stress_resistance);
                     drawableId = R.drawable.test4;
                     break;
+                case ENGLISH:
+                    title = getString(R.string.englishTestTitle);
+                    instruction = getString(R.string.instruction_attention_stability);
+                    drawableId = R.drawable.test;
+                    break;
             }
 
             instructionTitle.setText(title);
@@ -100,6 +106,9 @@ public class InstructionFragment extends SimpleFragment {
                 break;
             case STRESS_RESISTANCE:
                 getMainActivity().toStressResistanceTest();
+                break;
+            case ENGLISH:
+                getMainActivity().toEnglishTest();
                 break;
         }
     }

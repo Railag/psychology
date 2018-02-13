@@ -52,6 +52,10 @@ public interface RConnectorService {
     Observable<Result> sendAttentionStabilityResults(@Field("user_id") long userId, @Field("times[]") ArrayList<Double> times, @Field("misses") long misses, @Field("errors_value") long errors);
 
     @FormUrlEncoded
+    @POST("/user/results_english")
+    Observable<Result> sendEnglishResults(@Field("user_id") long userId, @Field("times[]") ArrayList<Double> times, @Field("words[]") ArrayList<String> words, @Field("errors_value") long errors);
+
+    @FormUrlEncoded
     @POST("/user/statistics")
     Observable<StatisticsResult> fetchStatistics(@Field("user_id") long userId);
 }

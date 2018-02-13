@@ -1,5 +1,6 @@
 package com.firrael.psychology.view.tests;
 
+import android.hardware.SensorEventListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firrael.psychology.AccelerometerListener;
 import com.firrael.psychology.App;
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
@@ -31,7 +33,7 @@ import nucleus.factory.RequiresPresenter;
  */
 
 @RequiresPresenter(AttentionStabilityTestPresenter.class)
-public class AttentionStabilityTestFragment extends BaseFragment<AttentionStabilityTestPresenter> {
+public class AttentionStabilityTestFragment extends BaseFragment<AttentionStabilityTestPresenter> implements AccelerometerListener {
 
     private final static int MAX_NUMBER = 10;
 
@@ -58,6 +60,7 @@ public class AttentionStabilityTestFragment extends BaseFragment<AttentionStabil
     private long time;
 
     private ArrayList<Answer> answers = new ArrayList<>();
+    private SensorEventListener sensorListener;
 
     public static AttentionStabilityTestFragment newInstance() {
 
@@ -235,5 +238,27 @@ public class AttentionStabilityTestFragment extends BaseFragment<AttentionStabil
         if (handler != null) {
             handler.removeCallbacksAndMessages(null);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sensorListener = Utils.registerSensor(getActivity(), this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Utils.unregisterSensor(getActivity(), sensorListener);
+    }
+
+    @Override
+    public void onLeft() {
+        click(false);
+    }
+
+    @Override
+    public void onRight() {
+        click(true);
     }
 }

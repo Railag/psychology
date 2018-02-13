@@ -12,6 +12,7 @@ public class Answer implements Parcelable {
     private double time;
     private int errorValue;
 
+
     public Answer() {
     }
 

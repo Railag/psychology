@@ -20,6 +20,7 @@
     <string name="attentionStabilityTitle">Устойчивость внимания</string>
     <string name="focusingTestTitle">Концентрация внимания</string>
     <string name="stressResistanceTestTitle">Стрессоустойчивость</string>
+    <string name="englishTestTitle">Английские слова</string>
 
     <string name="one">1</string>
     <string name="two">2</string>
@@ -69,4 +70,5 @@
     <string name="timeInDay">Количество часов в день</string>
     <string name="emptyStatisticsMessage">Статистика пока недоступна, сначала пройдите тесты</string>
     <string name="misses">Количество промахов:</string>
+    <string name="words_json">wordsapi_sample.json</string>
 </resources>
