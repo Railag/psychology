@@ -43,6 +43,9 @@ public class AttentionStabilityTestFragment extends BaseFragment<AttentionStabil
     private long errors;
     private long misses;
 
+    @BindView(R.id.testBackground)
+    View testBackground;
+
     @BindView(R.id.number)
     TextView number;
 
@@ -243,7 +246,7 @@ public class AttentionStabilityTestFragment extends BaseFragment<AttentionStabil
     @Override
     public void onResume() {
         super.onResume();
-        sensorListener = Utils.registerSensor(getActivity(), this);
+        sensorListener = Utils.registerSensor(getActivity(), this, 1, 3);
     }
 
     @Override
@@ -254,11 +257,18 @@ public class AttentionStabilityTestFragment extends BaseFragment<AttentionStabil
 
     @Override
     public void onLeft() {
+        testBackground.setBackgroundColor(getResources().getColor(R.color.greyReaction));
         click(false);
     }
 
     @Override
     public void onRight() {
+        testBackground.setBackgroundColor(getResources().getColor(R.color.greyReaction));
         click(true);
+    }
+
+    @Override
+    public void onMinThreshold() {
+        testBackground.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
     }
 }

@@ -7,4 +7,5 @@ package com.firrael.psychology;
 public interface AccelerometerListener {
     void onLeft();
     void onRight();
+    void onMinThreshold();
 }

@@ -9,10 +9,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 /**
@@ -50,10 +50,23 @@ public class Utils {
         return context.getSharedPreferences(App.PREFS, Context.MODE_PRIVATE);
     }
 
-    public static void hideKeyboard(@Nullable Activity act) {
+    public static void hideKeyboard(Activity act) {
         if (act != null && act.getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) act.getSystemService(Activity.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(act.getCurrentFocus().getWindowToken(), 0);
+
+            if (inputMethodManager != null) {
+                inputMethodManager.hideSoftInputFromWindow(act.getCurrentFocus().getWindowToken(), 0);
+            }
+        }
+    }
+
+    public static void showKeyboard(Context context, View focus) {
+        if (context != null && focus != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+            if (inputMethodManager != null) {
+                inputMethodManager.showSoftInput(focus, InputMethodManager.SHOW_IMPLICIT);
+            }
         }
     }
 
@@ -71,15 +84,19 @@ public class Utils {
     }
 
     private final static String SENSOR_TAG = "Sensor";
-    private final static float THRESHOLD_MAX = 7.0f;
-    private final static float THRESHOLD_MIN = 1.0f;
-    public static SensorEventListener registerSensor(Context context, AccelerometerListener listener) {
+    private final static float THRESHOLD_ACCELEROMETER_MAX = 7.0f;
+    private final static float THRESHOLD_ACCELEROMETER_MIN = 1.0f;
+
+    public static SensorEventListener registerSensor(Context context, AccelerometerListener listener, int degreesMin, int degreesMax) {
         if (context == null || listener == null) {
             return null;
         }
 
         SensorManager sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        final double thresholdMin = calculateThreshold(degreesMin);
+        final double thresholdMax = calculateThreshold(degreesMax);
 
         SensorEventListener sensorEventListener = new SensorEventListener() {
             boolean sensorLock;
@@ -108,7 +125,8 @@ public class Utils {
 
                 float currentX = linear_acceleration[0];
 
-                if (currentX < THRESHOLD_MIN && currentX > -THRESHOLD_MIN) {
+                if (currentX < thresholdMin && currentX > -thresholdMin) {
+                    listener.onMinThreshold();
                     sensorLock = false;
                 }
 
@@ -116,11 +134,11 @@ public class Utils {
                     return;
                 }
 
-                if (currentX > THRESHOLD_MAX) {
+                if (currentX > thresholdMax) {
                     sensorLock = true;
                     Log.i(SENSOR_TAG, "onLeft");
                     listener.onLeft();
-                } else if (currentX < -THRESHOLD_MAX) {
+                } else if (currentX < -thresholdMax) {
                     sensorLock = true;
                     Log.i(SENSOR_TAG, "onRight");
                     listener.onRight();
@@ -139,6 +157,13 @@ public class Utils {
         sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_UI);
 
         return sensorEventListener;
+    }
+
+    private static double calculateThreshold(int degrees) { // 3 degrees - ?
+                                                         // 90 degrees - MAX_THRESHOLD (7.0)
+        double thresholdValue =  degrees * THRESHOLD_ACCELEROMETER_MAX / 90.0;
+        Log.i(SENSOR_TAG, "Threshold value: " + thresholdValue);
+        return thresholdValue;
     }
 
     public static void unregisterSensor(Context context, SensorEventListener listener) {

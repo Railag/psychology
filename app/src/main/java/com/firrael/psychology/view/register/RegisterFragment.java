@@ -8,6 +8,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import com.firrael.psychology.R;
+import com.firrael.psychology.Utils;
 import com.firrael.psychology.presenter.RegisterPresenter;
 import com.firrael.psychology.view.base.BaseFragment;
 
@@ -55,6 +56,8 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> {
     @Override
     protected void initView(View v) {
         getMainActivity().blueTop();
+
+        Utils.showKeyboard(getActivity(), emailEdit);
 
         passwordConfirmEdit.setOnEditorActionListener((textView, actionId, keyEvent) -> {
             if (actionId == EditorInfo.IME_ACTION_NEXT) {

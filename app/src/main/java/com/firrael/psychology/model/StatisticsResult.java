@@ -24,6 +24,8 @@ public class StatisticsResult extends Result {
     public List<StabilityResults> stabilityResults;
     @SerializedName("stress_results")
     public List<StressResults> stressResults;
+    @SerializedName("english_results")
+    public List<EnglishResults> englishResults;
 
     public static class ReactionResults implements Comparable<ReactionResults> {
         @SerializedName("id")
@@ -110,6 +112,22 @@ public class StatisticsResult extends Result {
         @Override
         public int compareTo(@NonNull StressResults stressResults) {
             return Integer.valueOf(id).compareTo(stressResults.id);
+        }
+    }
+
+    public static class EnglishResults implements Comparable<EnglishResults> {
+        @SerializedName("id")
+        public int id;
+        @SerializedName("errors_value")
+        public int errorsValue;
+        @SerializedName("times")
+        public List<Double> times;
+        @SerializedName("words")
+        public List<String> words;
+
+        @Override
+        public int compareTo(@NonNull EnglishResults englishResults) {
+            return Integer.valueOf(id).compareTo(englishResults.id);
         }
     }
 }

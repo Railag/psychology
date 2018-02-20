@@ -11,6 +11,7 @@ import com.firrael.psychology.R;
 import com.firrael.psychology.model.StatisticsResult;
 import com.firrael.psychology.model.User;
 import com.firrael.psychology.presenter.StatisticsPresenter;
+import com.firrael.psychology.view.adapter.EnglishResultsAdapter;
 import com.firrael.psychology.view.adapter.FocusingResultsAdapter;
 import com.firrael.psychology.view.adapter.StabilityResultsAdapter;
 import com.firrael.psychology.view.adapter.StressResultsAdapter;
@@ -33,12 +34,16 @@ public class StatisticsFragment extends BaseFragment<StatisticsPresenter> {
     RecyclerView stabilityResultsList;
     @BindView(R.id.stressResultsList)
     RecyclerView stressResultsList;
+    @BindView(R.id.englishResultsList)
+    RecyclerView englishResultsList;
     @BindView(R.id.focusingSection)
     LinearLayout focusingSection;
     @BindView(R.id.stabilitySection)
     LinearLayout stabilitySection;
     @BindView(R.id.stressSection)
     LinearLayout stressSection;
+    @BindView(R.id.englishSection)
+    LinearLayout englishSection;
     @BindView(R.id.emptyText)
     TextView emptyText;
     @BindView(R.id.contentSection)
@@ -76,6 +81,9 @@ public class StatisticsFragment extends BaseFragment<StatisticsPresenter> {
         LinearLayoutManager stressManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         stressResultsList.setLayoutManager(stressManager);
 
+        LinearLayoutManager englishManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        englishResultsList.setLayoutManager(englishManager);
+
         fetchData();
     }
 
@@ -88,6 +96,7 @@ public class StatisticsFragment extends BaseFragment<StatisticsPresenter> {
         Collections.sort(result.focusingResults);
         Collections.sort(result.stressResults);
         Collections.sort(result.stabilityResults);
+        Collections.sort(result.englishResults);
         return result;
     }
 
@@ -122,6 +131,16 @@ public class StatisticsFragment extends BaseFragment<StatisticsPresenter> {
             empty = false;
         } else {
             stabilitySection.setVisibility(View.GONE);
+        }
+
+        EnglishResultsAdapter englishAdapter = new EnglishResultsAdapter();
+        if (result.englishResults != null && result.englishResults.size() > 0) {
+            englishSection.setVisibility(View.VISIBLE);
+            englishAdapter.setAllResults(result.englishResults);
+            englishResultsList.setAdapter(englishAdapter);
+            empty = false;
+        } else {
+            englishSection.setVisibility(View.GONE);
         }
 
         if (empty) {

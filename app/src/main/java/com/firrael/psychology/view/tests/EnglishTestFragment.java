@@ -58,6 +58,9 @@ public class EnglishTestFragment extends BaseFragment<EnglishTestPresenter> impl
     private int wins;
     private long errors;
 
+    @BindView(R.id.testBackground)
+    View testBackground;
+
     @BindView(R.id.center_word)
     TextView centerWordView;
 
@@ -115,7 +118,7 @@ public class EnglishTestFragment extends BaseFragment<EnglishTestPresenter> impl
     @Override
     public void onResume() {
         super.onResume();
-        sensorListener = Utils.registerSensor(getActivity(), this);
+        sensorListener = Utils.registerSensor(getActivity(), this, 1, 3);
     }
 
     @Override
@@ -211,7 +214,6 @@ public class EnglishTestFragment extends BaseFragment<EnglishTestPresenter> impl
         answers.add(answer);
 
         replaceWords();
-        time = System.nanoTime();
 
         currentWord++;
 
@@ -276,6 +278,8 @@ public class EnglishTestFragment extends BaseFragment<EnglishTestPresenter> impl
         centerWordView.setText(centerWord);
         leftWordView.setText(leftWord);
         rightWordView.setText(rightWord);
+
+        time = System.nanoTime();
     }
 
     private Word getRandomWord() {
@@ -328,11 +332,19 @@ public class EnglishTestFragment extends BaseFragment<EnglishTestPresenter> impl
 
     @Override
     public void onLeft() {
+        testBackground.setBackgroundColor(getResources().getColor(R.color.greyReaction));
         leftClick();
     }
 
     @Override
     public void onRight() {
+        testBackground.setBackgroundColor(getResources().getColor(R.color.greyReaction));
         rightClick();
     }
+
+    @Override
+    public void onMinThreshold() {
+        testBackground.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+    }
+
 }
