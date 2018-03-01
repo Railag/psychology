@@ -1,9 +1,7 @@
 package com.firrael.psychology.view.tests;
 
 import android.content.res.AssetManager;
-import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -345,6 +343,10 @@ public class EnglishTestFragment extends BaseFragment<EnglishTestPresenter> impl
     @Override
     public void onMinThreshold() {
         testBackground.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+    }
+
+    @Override
+    public void onUpdate(double x, double y, double z) {
     }
 
 }

@@ -57,6 +57,11 @@ public interface RConnectorService {
     Observable<Result> sendEnglishResults(@Field("user_id") long userId, @Field("times[]") ArrayList<Double> times, @Field("words[]") ArrayList<String> words, @Field("errors_value") long errors);
 
     @FormUrlEncoded
+    @POST("/user/results_accelerometer")
+    Observable<Result> sendAccelerometerResults(@Field("user_id") long userId, @Field("x[]") ArrayList<Double> x,
+                                                @Field("y[]") ArrayList<Double> y);
+
+    @FormUrlEncoded
     @POST("/user/statistics")
     Observable<StatisticsResult> fetchStatistics(@Field("user_id") long userId);
 }

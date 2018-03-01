@@ -271,4 +271,8 @@ public class AttentionStabilityTestFragment extends BaseFragment<AttentionStabil
     public void onMinThreshold() {
         testBackground.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
     }
+
+    @Override
+    public void onUpdate(double x, double y, double z) {
+    }
 }

@@ -84,7 +84,7 @@ public class Utils {
     }
 
     private final static String SENSOR_TAG = "Sensor";
-    private final static float THRESHOLD_ACCELEROMETER_MAX = 7.0f;
+    public final static float THRESHOLD_ACCELEROMETER_MAX = 7.0f;
     private final static float THRESHOLD_ACCELEROMETER_MIN = 1.0f;
 
     public static SensorEventListener registerSensor(Context context, AccelerometerListener listener, int degreesMin, int degreesMax) {
@@ -123,6 +123,8 @@ public class Utils {
                 linear_acceleration[1] = event.values[1] - gravity[1];
                 linear_acceleration[2] = event.values[2] - gravity[2];
 
+                listener.onUpdate(linear_acceleration[0], linear_acceleration[1], linear_acceleration[2]);
+
                 float currentX = linear_acceleration[0];
 
                 if (currentX < thresholdMin && currentX > -thresholdMin) {
@@ -151,6 +153,7 @@ public class Utils {
 
             @Override
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
             }
         };
 

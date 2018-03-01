@@ -30,6 +30,7 @@ import com.firrael.psychology.view.results.EnglishResultsFragment;
 import com.firrael.psychology.view.results.FocusingResultsFragment;
 import com.firrael.psychology.view.results.ResultScreen;
 import com.firrael.psychology.view.results.StressResistanceResultsFragment;
+import com.firrael.psychology.view.tests.AccelerometerTestFragment;
 import com.firrael.psychology.view.tests.AttentionStabilityTestFragment;
 import com.firrael.psychology.view.tests.EnglishTestFragment;
 import com.firrael.psychology.view.tests.FocusingTestFragment;
@@ -289,7 +290,12 @@ public class MainActivity extends NucleusAppCompatActivity<MainPresenter> {
     }
 
     public void toEnglishTest() {
-        setFragment(EnglishTestFragment.newInstance());
+    //    setFragment(EnglishTestFragment.newInstance());
+        toAccelerometerTest();
+    }
+
+    public void toAccelerometerTest() {
+        setFragment(AccelerometerTestFragment.newInstance());
     }
 
     public void toFocusingResults(Bundle args) {
