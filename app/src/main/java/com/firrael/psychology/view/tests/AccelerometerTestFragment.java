@@ -1,5 +1,6 @@
 package com.firrael.psychology.view.tests;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -17,8 +18,12 @@ import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -51,7 +56,7 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
 
     private final static String TAG = AccelerometerTestFragment.class.getSimpleName();
 
-    private final static int PACKAGE_SIZE = 10;
+    private final static int PACKAGE_SIZE = 5;
 
     private final static int REQUEST_ENABLE_BT = 101;
 
@@ -68,13 +73,21 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
     ImageView accelerometerCircle;
 
     private SensorEventListener sensorListener;
+
+    private AcceptThread acceptThread;
     private ConnectedThread connectedThread;
+
+    private ValueAnimator yAnimator;
+    private ValueAnimator xAnimator;
+
+    private boolean connected = false;
 
     public static AccelerometerTestFragment newInstance() {
 
         Bundle args = new Bundle();
 
         AccelerometerTestFragment fragment = new AccelerometerTestFragment();
+        fragment.setHasOptionsMenu(true);
         fragment.setArguments(args);
         return fragment;
     }
@@ -89,6 +102,24 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
         return R.layout.fragment_test_accelerometer;
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.bluetooth, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.bluetooth:
+                initBluetooth();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -100,22 +131,24 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         getActivity().registerReceiver(receiver, filter);
 
-        initBluetooth();
-
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     private void initBluetooth() {
+        startLoading();
+
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
             // Device doesn't support Bluetooth
             Log.e(TAG, "Bluetooth is not supported!");
+            stopLoading();
             return;
         }
 
         if (!bluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+            stopLoading();
             return;
         }
 
@@ -131,7 +164,7 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
         }
 
         // start bluetooth host
-        AcceptThread acceptThread = new AcceptThread();
+        acceptThread = new AcceptThread();
         acceptThread.start();
     }
 
@@ -173,6 +206,7 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
                 DataOutputStream out = new DataOutputStream(baos);
                 for (Double element : tmp) {
                     out.writeDouble(element);
+                    Log.i(TAG, String.valueOf(element));
                 }
 
                 byte[] bytes = baos.toByteArray();
@@ -226,6 +260,16 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
         if (getActivity() != null) {
             getActivity().unregisterReceiver(receiver);
         }
+
+        if (xAnimator != null) {
+            xAnimator.cancel();
+        }
+
+        if (yAnimator != null) {
+            yAnimator.cancel();
+        }
+
+        stopBluetooth();
     }
 
     @Override
@@ -242,33 +286,62 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
 
     @Override
     public void onUpdate(double x, double y, double z) {
-        update(x, y, z);
+        if (connected) {
+            update(x, y);
+        }
     }
 
     private DecimalFormat df = new DecimalFormat("#.00");
 
-    private void update(double x, double y, double z) {
+    private void update(double x, double y) {
         if (counter >= PACKAGE_SIZE) {
-            upload();
-        } else {
-            this.x.add(Double.valueOf(df.format(x)));
-            this.y.add(Double.valueOf(df.format(y)));
-            //    this.z.add(Doublez);
-            counter++;
-
-            float adjustedX, adjustedY, adjustedZ;
-
             int realWidth = displayMetrics.widthPixels; // 1920
             int realHeight = displayMetrics.heightPixels; // 1080
 
-            adjustedX = adjust(x, realWidth, true);
-            adjustedY = adjust(y, realHeight, false);
-            //    adjustedZ = adjust(z, Utils.THRESHOLD_ACCELEROMETER_MAX, true);
+            float[] xValues = new float[this.x.size()];
+            for (int i = 0; i < this.x.size(); i++) {
+                xValues[i] = this.x.get(i).floatValue();
+            }
+
+            xAnimator = ValueAnimator.ofFloat(xValues);
+            xAnimator.setInterpolator(new LinearInterpolator());
+            xAnimator.setDuration(10);
+            xAnimator.addUpdateListener(animation -> {
+
+                float value = (float) animation.getAnimatedValue();
+
+                float adjustedX = adjust(value, realWidth, true);
+                accelerometerCircle.setX(adjustedX);
+            });
+
+            float[] yValues = new float[this.y.size()];
+            for (int i = 0; i < this.y.size(); i++) {
+                yValues[i] = this.y.get(i).floatValue();
+            }
+
+            yAnimator = ValueAnimator.ofFloat(yValues);
+            yAnimator.setInterpolator(new LinearInterpolator());
+            yAnimator.setDuration(10);
+            yAnimator.addUpdateListener(animation -> {
+                float value = (float) animation.getAnimatedValue();
+
+                float adjustedY = adjust(value, realHeight, false);
+                accelerometerCircle.setY(adjustedY);
+            });
+
+            xAnimator.start();
+            yAnimator.start();
+
+            upload();
+
+            //        accelerometerCircle.setX(adjustedX);
+            //        accelerometerCircle.setY(adjustedY);
+        } else {
+            this.x.add(Double.valueOf(df.format(x)));
+            this.y.add(Double.valueOf(df.format(y)));
+            counter++;
 
             //        Log.i(TAG, "X: " + adjustedX + " Y: " + adjustedY + "Z: " + adjustedZ);
-            accelerometerCircle.setX(adjustedX);
-            accelerometerCircle.setY(adjustedY);
-            //    accelerometerCircle.setZ(adjustedZ);
         }
     }
 
@@ -342,6 +415,12 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
     }
 
     private void manageMyConnectedSocket(BluetoothSocket socket) {
+        getActivity().runOnUiThread(() -> {
+            stopLoading();
+            connected = true;
+            accelerometerCircle.setVisibility(View.VISIBLE);
+        });
+
         connectedThread = new ConnectedThread(socket);
     }
 
@@ -429,6 +508,16 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
             } catch (IOException e) {
                 Log.e(TAG, "Could not close the connect socket", e);
             }
+        }
+    }
+
+    private void stopBluetooth() {
+        if (acceptThread != null) {
+            acceptThread.cancel();
+        }
+
+        if (connectedThread != null) {
+            connectedThread.cancel();
         }
     }
 }

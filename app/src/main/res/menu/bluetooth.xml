@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/save"
-        android:icon="@android:drawable/ic_menu_save"
-        android:title="@string/save"
-        app:showAsAction="always" />
+        android:id="@+id/bluetooth"
+        android:icon="@drawable/ic_bluetooth_black_48dp"
+        android:title="@string/bluetooth"
+        app:showAsAction="ifRoom" />
 </menu>

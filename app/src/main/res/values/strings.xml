@@ -37,7 +37,8 @@
     <string name="linesCount">Всего строк:</string>
     <string name="errorsCount">Количество ошибок:</string>
     <string name="missesCount">Количество пропущенных:</string>
-    <string name="save">Save</string>
+    <string name="save">Сохранить</string>
+    <string name="bluetooth">Bluetooth</string>
     <string name="AvgReactTime">Среднее время реакции:</string>
     <string name="instruction">Инструкция</string>
     <string name="start">Начать</string>
