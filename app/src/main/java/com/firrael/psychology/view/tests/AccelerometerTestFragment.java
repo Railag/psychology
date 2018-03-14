@@ -25,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.firrael.psychology.AccelerometerListener;
 import com.firrael.psychology.R;
@@ -79,6 +78,9 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
 
     private ValueAnimator yAnimator;
     private ValueAnimator xAnimator;
+
+    private float currentX = -1f;
+    private float currentY = -1f;
 
     private boolean connected = false;
 
@@ -231,8 +233,6 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
     }
 
     public void onSuccess(Result result) {
-        //    stopLoading();
-
         if (result == null) {
             onError(new IllegalArgumentException());
             return;
@@ -242,7 +242,7 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
             return;
         }
 
-        Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+        // TODO handle? log?
     }
 
     public void onError(Throwable throwable) {
@@ -305,13 +305,24 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
 
             xAnimator = ValueAnimator.ofFloat(xValues);
             xAnimator.setInterpolator(new LinearInterpolator());
-            xAnimator.setDuration(10);
+            xAnimator.setDuration(500);
             xAnimator.addUpdateListener(animation -> {
 
                 float value = (float) animation.getAnimatedValue();
 
                 float adjustedX = adjust(value, realWidth, true);
-                accelerometerCircle.setX(adjustedX);
+                if (currentX == -1f) {
+                    if (accelerometerCircle != null) {
+                        accelerometerCircle.setX(adjustedX);
+                    }
+                    currentX = adjustedX;
+                } else {
+                    float medianX = (currentX + adjustedX) / 2;
+                    if (accelerometerCircle != null) {
+                        accelerometerCircle.setX(medianX);
+                    }
+                    currentX = medianX;
+                }
             });
 
             float[] yValues = new float[this.y.size()];
@@ -321,27 +332,33 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
 
             yAnimator = ValueAnimator.ofFloat(yValues);
             yAnimator.setInterpolator(new LinearInterpolator());
-            yAnimator.setDuration(10);
+            yAnimator.setDuration(500);
             yAnimator.addUpdateListener(animation -> {
                 float value = (float) animation.getAnimatedValue();
 
                 float adjustedY = adjust(value, realHeight, false);
-                accelerometerCircle.setY(adjustedY);
+                if (currentY == -1f) {
+                    if (accelerometerCircle != null) {
+                        accelerometerCircle.setY(adjustedY);
+                    }
+                    currentY = adjustedY;
+                } else {
+                    float medianY = (currentY + adjustedY) / 2;
+                    if (accelerometerCircle != null) {
+                        accelerometerCircle.setY(medianY);
+                    }
+                    currentY = medianY;
+                }
             });
 
             xAnimator.start();
             yAnimator.start();
 
             upload();
-
-            //        accelerometerCircle.setX(adjustedX);
-            //        accelerometerCircle.setY(adjustedY);
         } else {
             this.x.add(Double.valueOf(df.format(x)));
             this.y.add(Double.valueOf(df.format(y)));
             counter++;
-
-            //        Log.i(TAG, "X: " + adjustedX + " Y: " + adjustedY + "Z: " + adjustedZ);
         }
     }
 
@@ -387,6 +404,7 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
                     socket = mmServerSocket.accept();
                 } catch (IOException e) {
                     Log.e(TAG, "Socket's accept() method failed", e);
+                    stopBluetooth();
                     break;
                 }
 
@@ -488,7 +506,7 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
                         MESSAGE_WRITE, -1, -1, mmBuffer);
                 writtenMsg.sendToTarget();
             } catch (IOException e) {
-                Log.e(TAG, "Error occurred when sending data", e);
+                Log.e(TAG, "Error occurred when sending data");
 
                 // Send a failure message back to the activity.
                 Message writeErrorMsg =
@@ -498,6 +516,8 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
                         "Couldn't send data to the other device");
                 writeErrorMsg.setData(bundle);
                 handler.sendMessage(writeErrorMsg);
+
+                stopBluetooth();
             }
         }
 
@@ -519,5 +539,13 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
         if (connectedThread != null) {
             connectedThread.cancel();
         }
+
+        connected = false;
+
+        if (accelerometerCircle != null) {
+            accelerometerCircle.setVisibility(View.GONE);
+        }
+
+        Log.i(TAG, "Bluetooth connection stopped");
     }
 }
