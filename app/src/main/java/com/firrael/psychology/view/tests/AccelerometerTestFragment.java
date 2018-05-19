@@ -4,17 +4,17 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.hardware.SensorEventListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,15 +26,14 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
-import com.firrael.psychology.AccelerometerListener;
 import com.firrael.psychology.R;
 import com.firrael.psychology.Utils;
 import com.firrael.psychology.model.Result;
 import com.firrael.psychology.presenter.AccelerometerTestPresenter;
+import com.firrael.psychology.view.adapter.BluetoothDeviceAdapter;
 import com.firrael.psychology.view.base.BaseFragment;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -51,7 +50,7 @@ import nucleus.factory.RequiresPresenter;
  */
 
 @RequiresPresenter(AccelerometerTestPresenter.class)
-public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPresenter> implements AccelerometerListener {
+public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPresenter> {
 
     private final static String TAG = AccelerometerTestFragment.class.getSimpleName();
 
@@ -60,6 +59,7 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
     private final static int REQUEST_ENABLE_BT = 101;
 
     private Handler handler;
+    private final static int INTERVAL = 10;
 
     private int counter = 0;
     private ArrayList<Double> x = new ArrayList<>(), y = new ArrayList<>();
@@ -71,8 +71,6 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
     @BindView(R.id.accelerometer_circle)
     ImageView accelerometerCircle;
 
-    private SensorEventListener sensorListener;
-
     private AcceptThread acceptThread;
     private ConnectedThread connectedThread;
 
@@ -82,7 +80,12 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
     private float currentX = -1f;
     private float currentY = -1f;
 
-    private boolean connected = false;
+    private boolean isX = true;
+
+    private BluetoothDeviceAdapter adapter;
+    @BindView(R.id.list)
+    RecyclerView list;
+    private boolean connected;
 
     public static AccelerometerTestFragment newInstance() {
 
@@ -137,7 +140,7 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
     }
 
     private void initBluetooth() {
-        startLoading();
+        //    startLoading();
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
@@ -165,9 +168,24 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
             }
         }
 
-        // start bluetooth host
-        acceptThread = new AcceptThread();
-        acceptThread.start();
+        BluetoothDeviceAdapter.OnDeviceClickListener listener = new BluetoothDeviceAdapter.OnDeviceClickListener() {
+            @Override
+            public void onSelected(BluetoothDevice device) {
+                // start bluetooth host
+                acceptThread = new AcceptThread(device);
+                acceptThread.start();
+            }
+        };
+
+        adapter = new BluetoothDeviceAdapter();
+        adapter.setDevices(new ArrayList<>(pairedDevices), listener);
+
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        list.setLayoutManager(manager);
+
+        list.setAdapter(adapter);
+
+
     }
 
     // Create a BroadcastReceiver for ACTION_FOUND.
@@ -185,51 +203,18 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
         }
     };
 
-    private void upload() {
-        //    startLoading();
-
-        ArrayList<Double> xTmp = new ArrayList<>(x), yTmp = new ArrayList<>(y);
-        getPresenter().save(xTmp, yTmp);
-
-        // write to bluetooth
-        writeToBluetooth(xTmp);
-        writeToBluetooth(yTmp);
-
+    private void clear() {
         x.clear();
         y.clear();
 
         counter = 0;
     }
 
-    private void writeToBluetooth(ArrayList<Double> tmp) {
-        if (connectedThread != null) { // if bluetooth socket is active
-            try {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                DataOutputStream out = new DataOutputStream(baos);
-                for (Double element : tmp) {
-                    out.writeDouble(element);
-                    Log.i(TAG, String.valueOf(element));
-                }
-
-                byte[] bytes = baos.toByteArray();
-                connectedThread.write(bytes);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    private void readFromBluetooth() {
+        if (connectedThread != null) {
+            connectedThread.read();
+            update();
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        sensorListener = Utils.registerSensor(getActivity(), this, 1, 3);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Utils.unregisterSensor(getActivity(), sensorListener);
     }
 
     public void onSuccess(Result result) {
@@ -272,29 +257,10 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
         stopBluetooth();
     }
 
-    @Override
-    public void onLeft() {
-    }
-
-    @Override
-    public void onRight() {
-    }
-
-    @Override
-    public void onMinThreshold() {
-    }
-
-    @Override
-    public void onUpdate(double x, double y, double z) {
-        if (connected) {
-            update(x, y);
-        }
-    }
-
     private DecimalFormat df = new DecimalFormat("#.00");
 
-    private void update(double x, double y) {
-        if (counter >= PACKAGE_SIZE) {
+    private void update() {
+        if (counter >= PACKAGE_SIZE * 2) {
             int realWidth = displayMetrics.widthPixels; // 1920
             int realHeight = displayMetrics.heightPixels; // 1080
 
@@ -354,12 +320,18 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
             xAnimator.start();
             yAnimator.start();
 
-            upload();
-        } else {
-            this.x.add(Double.valueOf(df.format(x)));
-            this.y.add(Double.valueOf(df.format(y)));
-            counter++;
+            clear();
         }
+    }
+
+    private void addValue(double value) {
+        if (isX) {
+            this.x.add(Double.valueOf(df.format(value)));
+        } else {
+            this.y.add(Double.valueOf(df.format(value)));
+        }
+
+        counter++;
     }
 
     private float adjust(double paramToAdjust, double maxValue, boolean inverse) { // 7 - xResolutionMax (e.g. 1920), 3 - y?
@@ -380,52 +352,42 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
     }
 
     private class AcceptThread extends Thread {
-        private final BluetoothServerSocket mmServerSocket;
+        private final BluetoothSocket mmSocket;
 
-        public AcceptThread() {
-            // Use a temporary object that is later assigned to mmServerSocket
-            // because mmServerSocket is final.
-            BluetoothServerSocket tmp = null;
+        public AcceptThread(BluetoothDevice device) {
+            // Use a temporary object that is later assigned to mmSocket
+            // because mmSocket is final.
+            BluetoothSocket tmp = null;
             try {
-                tmp = bluetoothAdapter.listenUsingRfcommWithServiceRecord("Accelerometer client",
-                        UUID.fromString("0cbb85aa-7951-41a6-b891-b2ee53960860"));
+                tmp = device.createRfcommSocketToServiceRecord(UUID.fromString("0cbb85aa-7951-41a6-b891-b2ee53960860"));
             } catch (IOException e) {
                 Log.e(TAG, "Socket's listen() method failed", e);
             }
 
-            mmServerSocket = tmp;
+            mmSocket = tmp;
         }
 
         public void run() {
-            BluetoothSocket socket;
-            // Keep listening until exception occurs or a socket is returned.
             while (true) {
                 try {
-                    socket = mmServerSocket.accept();
+                    mmSocket.connect();
                 } catch (IOException e) {
                     Log.e(TAG, "Socket's accept() method failed", e);
                     stopBluetooth();
                     break;
                 }
 
-                if (socket != null) {
-                    // A connection was accepted. Perform work associated with
-                    // the connection in a separate thread.
-                    manageMyConnectedSocket(socket);
-                    try {
-                        mmServerSocket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                }
+                // A connection was accepted. Perform work associated with
+                // the connection in a separate thread.
+                manageMyConnectedSocket(mmSocket);
+                break;
             }
         }
 
         // Closes the connect socket and causes the thread to finish.
         public void cancel() {
             try {
-                mmServerSocket.close();
+                mmSocket.close();
             } catch (IOException e) {
                 Log.e(TAG, "Could not close the connect socket", e);
             }
@@ -440,7 +402,22 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
         });
 
         connectedThread = new ConnectedThread(socket);
+        handler.post(updateRunnable);
     }
+
+    Runnable updateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!connected) {
+                return;
+            }
+
+            readFromBluetooth();
+            if (handler != null) {
+                handler.postDelayed(updateRunnable, INTERVAL);
+            }
+        }
+    };
 
 
     public static final int MESSAGE_READ = 0;
@@ -521,6 +498,38 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
             }
         }
 
+        public void read() {
+            try {
+                DataInputStream dataInputStream = new DataInputStream(mmInStream);
+                for (int i = 0; i < PACKAGE_SIZE * 2; i++) {
+                    double value = dataInputStream.readDouble();
+                    Log.i(TAG, isX ? "X: " : "Y: " + value);
+
+                    addValue(value);
+                    if (i == PACKAGE_SIZE) {
+                        isX = false;
+                    }
+                }
+
+                isX = true;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e(TAG, "Error occurred when sending data");
+
+                // Send a failure message back to the activity.
+                Message writeErrorMsg =
+                        handler.obtainMessage(MESSAGE_TOAST);
+                Bundle bundle = new Bundle();
+                bundle.putString("toast",
+                        "Couldn't send data to the other device");
+                writeErrorMsg.setData(bundle);
+                handler.sendMessage(writeErrorMsg);
+
+                stopBluetooth();
+            }
+        }
+
         // Call this method from the main activity to shut down the connection.
         public void cancel() {
             try {
@@ -544,6 +553,10 @@ public class AccelerometerTestFragment extends BaseFragment<AccelerometerTestPre
 
         if (accelerometerCircle != null) {
             accelerometerCircle.setVisibility(View.GONE);
+        }
+
+        if (handler != null) {
+            handler.removeCallbacks(updateRunnable);
         }
 
         Log.i(TAG, "Bluetooth connection stopped");
